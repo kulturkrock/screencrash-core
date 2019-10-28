@@ -2,7 +2,7 @@
 import logging
 
 from comm import client
-from .Opus import Opus
+from .opus import Opus
 
 
 class Core:
