@@ -1,25 +1,28 @@
 
-import websockets
+import zmq
+import zmq.asyncio
 
 from .client import Client
 from .connection import ConnectionBase
 from .message import Message
 
 
-class WebsocketConnection(ConnectionBase):
+class ZmqConnection(ConnectionBase):
 
-    def __init__(self, socket: websockets.WebSocketServerProtocol):
+    def __init__(self, socket):
         super().__init__()
         self.socket = socket
 
     def send_message(self, msg: Message):
-        self.socket.send(msg.to_bytes())
+        pass
 
 
-class WebsocketServer:
+class ZmqServer:
 
-    def __init__(self, host='localhost', port=8001):
-        self.server = websockets.serve(self._handler, host, port)
+    def __init__(self, host='localhost', port=8002, schema='tcp'):
+        self.context = zmq.asyncio.Context()
+        self.socket = self.context.socket(zmq.ROUTER)
+        self.socket.bind(f'{schema}://{host}:{port}')
         self.clients = set()
 
     def _register(self, client: Client):
@@ -28,8 +31,8 @@ class WebsocketServer:
     def _unregister(self, client: Client):
         self.clients.remove(client)
 
-    async def _handler(self, socket: websockets.WebSocketServerProtocol, path: str):
-        conn = WebsocketConnection(socket)
+    async def _handler(self, socket):
+        conn = ZmqConnection(socket)
         client = Client(conn)
         self._register(client)
         try:

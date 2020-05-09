@@ -17,9 +17,13 @@ class Message:
     def __init__(self, values: dict = None, sender: Client = None):
         self.values = values or dict()
         self.sender = sender
+        # Convert dict values into Message instances
+        for key, value in self.values.items():
+            if isinstance(value, dict):
+                self.values[key] = self.__class__(values=value, sender=sender)
 
     def __getattr__(self, item):
-        return self.values[item]
+        return self.values.get(item, None)
 
     def __setattr__(self, key, value):
         if key == 'channel' and not valid_channel(value):

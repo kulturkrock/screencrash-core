@@ -1,14 +1,13 @@
 
 import logging
 
-from .client import Client
 from .message import Message
 
 
 class ConnectionBase:
 
-    def __init__(self, client: Client = None):
-        self.client = client
+    def __init__(self):
+        self.client = None
         self._receive_buffer = bytearray()
 
     def on_message(self, msg: Message):

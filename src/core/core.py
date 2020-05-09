@@ -2,6 +2,7 @@
 import logging
 
 from comm import client
+from comm.message import Message
 from .opus import Opus
 
 
@@ -10,11 +11,11 @@ class Core:
     def __init__(self):
         self.opus = Opus()
 
-    def broadcast(self, msg: dict, exclude: client = None):
+    def broadcast(self, msg: Message, exclude: client = None):
         raise NotImplementedError()  # TODO: Handle broadcasting
 
-    def process_message(self, sender: client, msg: dict):
-        if not isinstance(msg, dict):
+    def process_message(self, sender: client, msg: Message):
+        if not isinstance(msg, Message):
             logging.error('Cannot process message of incorrect type: ' + repr(msg))
             return
         channel_number = msg['channel']

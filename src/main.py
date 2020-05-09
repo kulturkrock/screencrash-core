@@ -1,9 +1,11 @@
 
-import core
+import asyncio
+
+from core.core import Core
 
 
 def run():
-    pass
+    core = Core()
 
 
 if __name__ == '__main__':
