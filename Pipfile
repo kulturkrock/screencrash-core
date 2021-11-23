@@ -4,9 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+watchdog = "2.1.6"
+pyyaml = "6.0"
 
 [packages]
-flask = "*"
+websockets = "10.0"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

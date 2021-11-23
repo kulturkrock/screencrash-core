@@ -15,22 +15,26 @@ log out and in again.
 
 ## Setup and Commands
 
+Before starting, get a copy of `Apornas ö 2020-01-11.pdf` from the Drive and save it as
+`resources/script.pdf`.
+
 The following commands are available:
 
-| Command      | Effect      |
-|--------------|-------------|
-| `make`         | Run both `init` and `dev` |
-| <code>make&nbsp;init</code>  | Install dependencies |
-| <code>make&nbsp;dev</code> | Run Core in development mode, with automatic reload on file change |
+| Command                     | Effect                                                             |
+| --------------------------- | ------------------------------------------------------------------ |
+| `make`                      | Run both `init` and `dev`                                          |
+| <code>make&nbsp;init</code> | Install dependencies                                               |
+| <code>make&nbsp;dev</code>  | Run Core in development mode, with automatic reload on file change |
 
 ## Files and Folders
 
-| Path |   |
-|------|---|
-| `README.md` | This file. Hi!
-| `LICENSE` | License text.
-| `Makefile` | Makefile, containing the commands described above.
-| `Pipfile`  | Describes the dependencies
-| `Pipfile.lock` | Used by `pipenv` to specify the exact versions of dependencies. Don't edit this.
-| `src/` | Source code.
-| `src/app.py` | The main entry point of the project.
+| Path           |                                                                                  |
+| -------------- | -------------------------------------------------------------------------------- |
+| `README.md`    | This file. Hi!                                                                   |
+| `LICENSE`      | License text.                                                                    |
+| `Makefile`     | Makefile, containing the commands described above.                               |
+| `Pipfile`      | Describes the dependencies                                                       |
+| `Pipfile.lock` | Used by `pipenv` to specify the exact versions of dependencies. Don't edit this. |
+| `src/`         | Source code.                                                                     |
+| `src/main.py`  | The main entry point of the project.                                             |
+| `resources`    | The location to place resources for use in development                           |
