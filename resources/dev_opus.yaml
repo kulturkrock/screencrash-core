@@ -1,0 +1,18 @@
+scriptFile: "script.pdf"
+startNode: "1126"
+nodes:
+  "11":
+    next: "160"
+    prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
+    pdfPage: 2
+    pdfLocationOnPage: 0.6
+  "160":
+    next: "1126"
+    prompt: "Ja, då var vi av med honom!"
+    pdfPage: 8
+    pdfLocationOnPage: 0.4
+  "1126":
+    next: "11"
+    prompt: "Vad är tårtan till?"
+    pdfPage: 48
+    pdfLocationOnPage: 0.48
