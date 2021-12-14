@@ -6,6 +6,8 @@ from pathlib import Path
 import websockets
 
 from opus import load_opus
+from performance import Performance
+from peers.ui import UI
 
 
 class Core:
@@ -14,37 +16,15 @@ class Core:
     async def main(self):
         """The main loop."""
         self._opus = await load_opus(Path("resources") / "dev_opus.yaml")
-        self._history = [self._opus.start_node]
-        async with websockets.serve(self.socket_listener, "localhost", 8001):
-            await asyncio.Future()  # run forever
+        self._performance = Performance(self._opus)
+        self._ui = UI(self._opus, self._performance.history, 8001)
+        self._ui.add_event_listener("next-node", self.handle_next_node)
+        await self._ui.run()  # Blocks forever
 
-    async def socket_listener(self, websocket, path):
-        """This handles one websocket connection."""
-        # Handshake
-        await websocket.send(json.dumps({
-            "messageType": "nodes",
-            "data": {key: asdict(node) for key, node in self._opus.nodes.items()}
-        }))
-        await websocket.send(json.dumps({
-            "messageType": "history",
-            "data": self._history
-        }))
-        base64_script = base64.b64encode(
-            self._opus.script).decode("utf-8")
-        await websocket.send(json.dumps({
-            "messageType": "script",
-            "data": f"data:application/pdf;base64,{base64_script}"
-        }))
-        # Handle messages from the client
-        async for message in websocket:
-            message_dict = json.loads(message)
-            message_type = message_dict["messageType"]
-            if message_type == "next-node":
-                current_node = self._opus.nodes[self._history[-1]]
-                self._history.append(current_node.next)
-                await websocket.send(json.dumps({"messageType": "history", "data": self._history}))
-            else:
-                print(f"WARNING: Unknown message type {message_type}")
+    def handle_next_node(self):
+        """Handle the UI going to the next node."""
+        self._performance.next_node()
+        self._ui.change_history(self._performance.history)
 
 
 if __name__ == "__main__":
