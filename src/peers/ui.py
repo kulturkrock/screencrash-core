@@ -1,8 +1,7 @@
-import asyncio
 import base64
 from dataclasses import asdict
 import json
-from typing import Callable, Dict, List, Optional
+from typing import Callable, Dict, List
 import websockets
 from websockets.server import WebSocketServerProtocol
 
