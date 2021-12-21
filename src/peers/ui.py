@@ -6,12 +6,10 @@ import websockets
 from websockets.server import WebSocketServerProtocol
 
 from opus import Opus
-
-# Only next-node so far
-UIEventListener = Callable[[], None]
+from util.event_emitter import EventEmitter
 
 
-class UI:
+class UI(EventEmitter):
     """
     Handles communication with UIs.
 
@@ -26,37 +24,10 @@ class UI:
     """
 
     def __init__(self, opus: Opus, initial_history: List[str]):
+        super().__init__()
         self._opus = opus
         self._history = initial_history
-        self._listeners: Dict[str, List[UIEventListener]] = {}
         self._websockets: List[WebSocketServerProtocol] = []
-
-    def add_event_listener(self, event_name: str, listener: UIEventListener):
-        """
-        Add a listener to an event.
-
-        Parameters
-        ----------
-        event_name
-            The event to listen to
-        listener
-            A function to be executed when the event fires
-        """
-        if event_name not in self._listeners:
-            self._listeners[event_name] = []
-        self._listeners[event_name].append(listener)
-
-    def _emit(self, event_name: str):
-        """
-        Emit an event.
-
-        Parameters
-        ----------
-        event_name
-            The event to emit
-        """
-        for listener in self._listeners.get(event_name, []):
-            listener()
 
     def changed_history(self, history: List[str]):
         """Update the history and send to clients."""
@@ -89,7 +60,7 @@ class UI:
             message_dict = json.loads(message)
             message_type = message_dict["messageType"]
             if message_type == "next-node":
-                self._emit("next-node")
+                self.emit("next-node")
             else:
                 print(f"WARNING: Unknown message type {message_type}")
         # Websocket is closed
