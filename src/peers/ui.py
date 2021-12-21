@@ -7,6 +7,7 @@ from websockets.server import WebSocketServerProtocol
 
 from opus import Opus
 
+# Only next-node so far
 UIEventListener = Callable[[], None]
 
 
@@ -54,10 +55,10 @@ class UI:
         event_name
             The event to emit
         """
-        for listener in self._listeners[event_name]:
+        for listener in self._listeners.get(event_name, []):
             listener()
 
-    def change_history(self, history: List[str]):
+    def changed_history(self, history: List[str]):
         """Update the history and send to clients."""
         self._history = history
         websockets.broadcast(self._websockets, json.dumps({
