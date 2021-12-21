@@ -15,8 +15,8 @@ log out and in again.
 
 ## Setup and Commands
 
-Before starting, get a copy of `Apornas ö 2020-01-11.pdf` from the Drive and save it as
-`resources/script.pdf`.
+Before starting, download all files from `Kulturkrock/Projekt/Skärmkrock/Utvecklingsdata` on
+the Drive and put them under `resources`.
 
 The following commands are available:
 

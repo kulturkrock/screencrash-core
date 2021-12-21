@@ -11,8 +11,14 @@ nodes:
     prompt: "Ja, då var vi av med honom!"
     pdfPage: 8
     pdfLocationOnPage: 0.4
+    playEffects:
+      - "seagull.mp4"
   "1126":
     next: "11"
     prompt: "Vad är tårtan till?"
     pdfPage: 48
     pdfLocationOnPage: 0.48
+effects:
+  "seagull.mp4":
+    type: "video"
+    file: "seagull.mp4"

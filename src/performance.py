@@ -27,3 +27,6 @@ class Performance(EventEmitter):
         current_node = self._nodes[self.history[-1]]
         self.history.append(current_node.next)
         self.emit("history-changed", self.history)
+        new_node = self._nodes[current_node.next]
+        for effect in new_node.playEffects:
+            self.emit("play-effect", effect)
