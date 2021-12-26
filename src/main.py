@@ -53,6 +53,11 @@ class Core:
         if not handled:
             print("Warning: Action {} not handled by anyone ({})".format(action_id, action.target))
 
+    def _add_component(self, component):
+        """Add component and register events on it."""
+        print("Adding component")
+        self._components.append(component)
+
     async def socket_listener(self, websocket: WebSocketServerProtocol):
         """
         This function handles an incoming websocket connection.
@@ -69,10 +74,9 @@ class Core:
         if client_type == "ui":
             await self._ui.handle_socket(websocket)
         elif client_type == "screen":
-            print("Adding screen component")
-            new_peer = Screen()
-            self._components.append(new_peer)
-            await new_peer.handle_socket(websocket)
+            component = Screen()
+            self._add_component(component)
+            await component.handle_socket(websocket)
 
 
 if __name__ == "__main__":
