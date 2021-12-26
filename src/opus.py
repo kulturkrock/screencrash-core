@@ -25,7 +25,7 @@ class Opus:
 async def load_opus(opus_path: Path):
     """Load an opus from a file."""
     parent = opus_path.parent
-    async with aiofiles.open(opus_path, mode="r") as f:
+    async with aiofiles.open(opus_path, mode="r", encoding="utf-8") as f:
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
         nodes = {key: Node(**node) for key, node in opus_dict["nodes"].items()}
