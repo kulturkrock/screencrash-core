@@ -1,54 +1,59 @@
 import asyncio
-import base64
-from dataclasses import asdict
 import json
 from pathlib import Path
 import websockets
+from websockets.server import WebSocketServerProtocol
 
 from opus import load_opus
+from performance import Performance
+from peers.ui import UI
 
 
 class Core:
-    """This is the main class, keeping track of all state."""
+    """
+    This is the main class, keeping track of all state.
+
+    Parameters
+    ----------
+    port
+        The port to run a websocket server on
+    """
+
+    def __init__(self, port: int):
+        self._port = port
 
     async def main(self):
         """The main loop."""
         self._opus = await load_opus(Path("resources") / "dev_opus.yaml")
-        self._history = [self._opus.start_node]
-        async with websockets.serve(self.socket_listener, "localhost", 8001):
+        self._performance = Performance(self._opus)
+        self._ui = UI(self._opus, self._performance.history)
+
+        self._ui.add_event_listener("next-node", self._performance.next_node)
+        self._performance.add_event_listener(
+            "history-changed", self._ui.changed_history)
+
+        async with websockets.serve(self.socket_listener, "localhost", self._port):
             await asyncio.Future()  # run forever
 
-    async def socket_listener(self, websocket, path):
-        """This handles one websocket connection."""
-        # Handshake
-        await websocket.send(json.dumps({
-            "messageType": "nodes",
-            "data": {key: asdict(node) for key, node in self._opus.nodes.items()}
-        }))
-        await websocket.send(json.dumps({
-            "messageType": "history",
-            "data": self._history
-        }))
-        base64_script = base64.b64encode(
-            self._opus.script).decode("utf-8")
-        await websocket.send(json.dumps({
-            "messageType": "script",
-            "data": f"data:application/pdf;base64,{base64_script}"
-        }))
-        # Handle messages from the client
-        async for message in websocket:
-            message_dict = json.loads(message)
-            message_type = message_dict["messageType"]
-            if message_type == "next-node":
-                current_node = self._opus.nodes[self._history[-1]]
-                self._history.append(current_node.next)
-                await websocket.send(json.dumps({"messageType": "history", "data": self._history}))
-            else:
-                print(f"WARNING: Unknown message type {message_type}")
+    async def socket_listener(self, websocket: WebSocketServerProtocol):
+        """
+        This function handles an incoming websocket connection.
+
+        Parameters
+        ----------
+        websocket
+            The websocket
+        """
+        # Wait for a hello
+        message = await websocket.recv()
+        message_dict = json.loads(message)
+        client_type = message_dict["client"]
+        if client_type == "ui":
+            await self._ui.handle_socket(websocket)
 
 
 if __name__ == "__main__":
-    core = Core()
+    core = Core(8001)
     try:
         asyncio.run(core.main())
     except KeyboardInterrupt:
