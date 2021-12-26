@@ -37,6 +37,12 @@ class UI(EventEmitter):
             "data": self._history
         }))
 
+    def report_warning(self, error_msg: str):
+        websockets.broadcast(self._websockets, json.dumps({
+            "messageType": "warning",
+            "data": error_msg
+        }))
+
     async def handle_socket(self, websocket: WebSocketServerProtocol):
         """This handles one websocket connection."""
         self._websockets.append(websocket)

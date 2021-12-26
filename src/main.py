@@ -7,6 +7,7 @@ from websockets.server import WebSocketServerProtocol
 from opus import load_opus
 from performance import Performance
 from peers.ui import UI
+from actors.actor_factory import create_actor
 
 
 class Core:
@@ -25,12 +26,15 @@ class Core:
     async def main(self):
         """The main loop."""
         self._opus = await load_opus(Path("resources") / "dev_opus.yaml")
-        self._performance = Performance(self._opus)
+        self._actors = [create_actor(component) for component in self._opus.components]
+        self._performance = Performance(self._opus, self._actors)
         self._ui = UI(self._opus, self._performance.history)
 
         self._ui.add_event_listener("next-node", self._performance.next_node)
         self._performance.add_event_listener(
             "history-changed", self._ui.changed_history)
+        self._performance.add_event_listener(
+            "warning", self._ui.report_warning)
 
         async with websockets.serve(self.socket_listener, "localhost", self._port):
             await asyncio.Future()  # run forever
