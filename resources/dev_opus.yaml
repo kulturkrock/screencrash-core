@@ -19,22 +19,22 @@ nodes:
     pdfLocationOnPage: 0.48
     actions: [9]
 action_templates:
-  - id: 0
+  "0":
     target: "audio"
     cmd: "start"
     assets: ["someaudio"]
     params:
       autostart: false
-  - id: 1
+  "1":
     target: "internal"
     cmd: "print"
     params:
       text: "Woop woop, this wurks!"
-  - id: 7
+  "7":
     target: "audio"
     cmd: "start"
     assets: ["moreaudio"]
-  - id: 9
+  "9":
     target: "video"
     cmd: "start"
     assets: ["seagull"]
@@ -43,21 +43,9 @@ action_templates:
 assets:
   "script":
     path: "script.pdf"
-    checksum: "987fb13f868d08d605e94636f027aa55"
   "someaudio":
     path: "audio/someaudio.mp3"
-    checksum: afoubdo83432032b3iu2ba
   "moreaudio":
     path: "audio/moreaudio.mp3"
-    checksum: afbdb34873b32iug432g49
   "seagull":
     path: "video/seagull.mp4"
-    checksum: iohi340934hkh2424hio2b
-components:
-  - type: "internal"
-  - type: "video"
-    address: "localhost"
-    port: 8002
-  - type: "audio"
-    address: "localhost"
-    port: 8003

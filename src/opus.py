@@ -8,7 +8,6 @@ import yaml
 class Asset:
     """An asset describes a resource file"""
     path: str
-    checksum: str
 
 
 @dataclass
@@ -19,14 +18,6 @@ class ActionTemplate:
     cmd: str
     assets: List[str] = field(default_factory=lambda: [])
     params: Dict[str, str] = field(default_factory=lambda: {})
-
-
-@dataclass
-class Component:
-    """A Component carries out Actions"""
-    type: str
-    address: Optional[str] = ""
-    port: Optional[int] = 0
 
 
 @dataclass
@@ -45,7 +36,6 @@ class Opus:
     nodes: Dict[str, Node]
     action_templates: Dict[int, ActionTemplate]
     assets: Dict[str, Asset]
-    components: List[Component]
     start_node: str
     script: bytes
 
@@ -57,8 +47,7 @@ async def load_opus(opus_path: Path):
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
         assets = {key: Asset(**asset) for key, asset in opus_dict["assets"].items()}
-        action_templates = {action["id"]: ActionTemplate(**action) for action in opus_dict["action_templates"]}
-        components = [Component(**component) for component in opus_dict["components"]]
+        action_templates = {int(key): ActionTemplate(id=int(key), **action) for key, action in opus_dict["action_templates"].items()}
         nodes = {key: Node(**node) for key, node in opus_dict["nodes"].items()}
         start_node = opus_dict["startNode"]
 
@@ -67,4 +56,4 @@ async def load_opus(opus_path: Path):
     async with aiofiles.open(parent / assets["script"].path, mode="rb") as f:
         script = await f.read()
 
-    return Opus(nodes, action_templates, assets, components, start_node, script)
+    return Opus(nodes, action_templates, assets, start_node, script)
