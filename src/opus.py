@@ -16,8 +16,8 @@ class ActionTemplate:
     id: int
     target: str
     cmd: str
-    assets: List[str] = field(default_factory=lambda: [])
-    params: Dict[str, str] = field(default_factory=lambda: {})
+    assets: List[str] = field(default_factory=list)
+    params: Dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -27,14 +27,14 @@ class Node:
     prompt: str
     pdfPage: int
     pdfLocationOnPage: float
-    actions: List[int]
+    actions: List[str]
 
 
 @dataclass
 class Opus:
     """An Opus has all the information required for a performance."""
     nodes: Dict[str, Node]
-    action_templates: Dict[int, ActionTemplate]
+    action_templates: Dict[str, ActionTemplate]
     assets: Dict[str, Asset]
     start_node: str
     script: bytes
@@ -47,12 +47,12 @@ async def load_opus(opus_path: Path):
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
         assets = {key: Asset(**asset) for key, asset in opus_dict["assets"].items()}
-        action_templates = {int(key): ActionTemplate(id=int(key), **action) for key, action in opus_dict["action_templates"].items()}
+        action_templates = {key: ActionTemplate(id=key, **action) for key, action in opus_dict["action_templates"].items()}
         nodes = {key: Node(**node) for key, node in opus_dict["nodes"].items()}
         start_node = opus_dict["startNode"]
 
     if assets.get("script") is None:
-        print("Warning: Asset 'script' not found. This is required.")
+        raise Exception("Warning: Asset 'script' not found. This is required.")
     async with aiofiles.open(parent / assets["script"].path, mode="rb") as f:
         script = await f.read()
 
