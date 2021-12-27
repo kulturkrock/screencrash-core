@@ -1,4 +1,5 @@
 from typing import Callable, List, Dict
+from traceback import print_exception
 
 from opus import Opus
 from util.event_emitter import EventEmitter
@@ -27,3 +28,7 @@ class Performance(EventEmitter):
         current_node = self._nodes[self.history[-1]]
         self.history.append(current_node.next)
         self.emit("history-changed", self.history)
+
+        active_node = self._nodes[current_node.next]
+        for action_id in active_node.actions:
+            self.emit("run-action", action_id)
