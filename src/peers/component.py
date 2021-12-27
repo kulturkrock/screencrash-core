@@ -30,7 +30,7 @@ class ComponentPeer(EventEmitter):
             if message_type == "heartbeat":
                 pass  # Ignore heartbeats for now
             else:
-                print(f"WARNING: Unknown message type {message_type}")
+                self.handle_component_message(message_type, message)
         # Websocket is closed
         self._websockets.remove(websocket)
 
@@ -40,6 +40,9 @@ class ComponentPeer(EventEmitter):
     def handles_target(self, target_type: str):
         """Checks whether this instance can handle actions of the given type."""
         return target_type in self._target_types
+
+    def handle_component_message(self, message_type: str, message: object):
+        print(f"WARNING: Unknown message type {message_type}")
 
     def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, str]):
         """Process the given action."""

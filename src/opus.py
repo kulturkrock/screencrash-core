@@ -52,7 +52,7 @@ async def load_opus(opus_path: Path):
         start_node = opus_dict["startNode"]
 
     if assets.get("script") is None:
-        raise Exception("Warning: Asset 'script' not found. This is required.")
+        raise RuntimeError("Warning: Asset 'script' not found. This is required.")
     async with aiofiles.open(parent / assets["script"].path, mode="rb") as f:
         script = await f.read()
 
