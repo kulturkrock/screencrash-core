@@ -1,7 +1,5 @@
-import json
 from typing import List, Dict
 from opus import Asset
-import websockets
 
 from peers.component import ComponentPeer
 
@@ -28,18 +26,14 @@ class Screen(ComponentPeer):
             super().handle_action(target_type, cmd, assets, params)
 
     def play_effect(self, target_type: str, asset: Asset, autostart=True):
-        websockets.broadcast(self._websockets, json.dumps({
+        self.send_to_all({
             "command": "create",
             "entity_id": self._current_entity_id,
             "channel": 1,
             "type": target_type,
             "resource": asset.path
-        }))
-        websockets.broadcast(self._websockets, json.dumps(
-            {"command": "show", "entity_id": self._current_entity_id, "channel": 1}
-        ))
+        })
+        self.send_to_all({"command": "show", "entity_id": self._current_entity_id, "channel": 1})
         if autostart:
-            websockets.broadcast(self._websockets, json.dumps(
-                {"command": "play", "entity_id": self._current_entity_id, "channel": 1}
-            ))
+            self.send_to_all({"command": "play", "entity_id": self._current_entity_id, "channel": 1})
         self._current_entity_id += 1

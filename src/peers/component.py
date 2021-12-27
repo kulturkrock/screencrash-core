@@ -3,6 +3,7 @@ from typing import List, Dict
 from opus import Asset
 from util.event_emitter import EventEmitter
 
+import websockets
 from websockets.server import WebSocketServerProtocol
 
 
@@ -36,6 +37,9 @@ class ComponentPeer(EventEmitter):
 
     def nof_instances(self):
         return len(self._websockets)
+
+    def send_to_all(self, data):
+        websockets.broadcast(self._websockets, json.dumps(data))
 
     def handles_target(self, target_type: str):
         """Checks whether this instance can handle actions of the given type."""

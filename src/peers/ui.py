@@ -1,7 +1,7 @@
 import base64
 from dataclasses import asdict
 import json
-from typing import Callable, Dict, List
+from typing import List
 import websockets
 from websockets.server import WebSocketServerProtocol
 

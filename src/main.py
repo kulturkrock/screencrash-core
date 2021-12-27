@@ -1,11 +1,13 @@
 import asyncio
 import json
+import os
 from pathlib import Path
 import websockets
 from websockets.server import WebSocketServerProtocol
 
 from opus import load_opus
 from performance import Performance
+from peers.audio import Audio
 from peers.internal import InternalPeer
 from peers.screen import Screen
 from peers.ui import UI
@@ -26,12 +28,14 @@ class Core:
 
     async def main(self):
         """The main loop."""
-        self._opus = await load_opus(Path("resources") / "dev_opus.yaml")
+        opus_file = os.environ.get("OPUS", "dev_opus.yaml")
+        self._opus = await load_opus(Path("resources") / opus_file)
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
         self._components = {
             "internal": InternalPeer(),
-            "screen": Screen()
+            "screen": Screen(),
+            "audio": Audio()
         }
 
         self._ui.add_event_listener("next-node", self._performance.next_node)
@@ -53,8 +57,11 @@ class Core:
         handled = False
         for peer in self._components.values():
             if peer.handles_target(action.target) and peer.nof_instances() > 0:
-                peer.handle_action(action.target, action.cmd, assets, action.params)
-                handled = True
+                try:
+                    peer.handle_action(action.target, action.cmd, assets, action.params)
+                    handled = True
+                except Exception as e:
+                    print(f"Failed to run handle_action: {e}")
         if not handled:
             print(f"Warning: Action {action_id} not handled by anyone ({action.target})")
 
