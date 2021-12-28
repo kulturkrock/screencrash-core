@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Any, List, Dict
 from opus import Asset
 
 from peers.component import ComponentPeer
@@ -18,7 +18,7 @@ class Screen(ComponentPeer):
         super().__init__(["image", "video"])
         self._current_entity_id = 1
 
-    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, str]):
+    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
         if cmd == "start":
             self.play_effect(target_type, assets[0], params.get("autostart", True))

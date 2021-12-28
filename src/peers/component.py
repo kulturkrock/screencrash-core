@@ -1,5 +1,5 @@
 import json
-from typing import List, Dict
+from typing import Any, List, Dict
 from opus import Asset
 from util.event_emitter import EventEmitter
 
@@ -48,6 +48,6 @@ class ComponentPeer(EventEmitter):
     def handle_component_message(self, message_type: str, message: object):
         print(f"WARNING: Unknown message type {message_type}")
 
-    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, str]):
+    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
         print(f"Command not handled by subclass: {target_type}:{cmd}")

@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Any, List, Dict
 from opus import Asset
 from peers.component import ComponentPeer
 
@@ -20,7 +20,7 @@ class InternalPeer(ComponentPeer):
     def nof_instances(self):
         return 1    # Always available
 
-    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, str]):
+    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
         if cmd == "print":
             print(params.get("text", "[print command found no text to print]"))

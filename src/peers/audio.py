@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Any, List, Dict
 from opus import Asset
 
 from peers.component import ComponentPeer
@@ -17,7 +17,7 @@ class Audio(ComponentPeer):
 
     def __init__(self):
         super().__init__(["audio"])
-        self._entities = []
+        self._entities = set()
 
     def _generate_id(self):
         while True:
@@ -31,67 +31,20 @@ class Audio(ComponentPeer):
         else:
             super().handle_component_message(message_type, message)
 
-    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, str]):
+    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
-        if cmd == "start":
-            self._add_sound(assets[0], params)
-        elif cmd == "pause":
-            self._pause_sound(params)
-        elif cmd == "resume":
-            self._play_sound(params)
-        elif cmd == "stop":
-            self._stop_sound(params)
-        elif cmd == "set_volume":
-            self._set_sound_volume(params)
+        if cmd == "add":
+            entity_id = params.get("entity_id", self._generate_id())
+            self._entities.add(entity_id)
         else:
-            super().handle_action(target_type, cmd, assets, params)
+            entity_id = params.get("entity_id")
 
-    def _add_sound(self, asset: Asset, params: Dict[str, str]):
-        entity_id = params.get("entity_id", self._generate_id())
-        self.send_to_all({
-            "command": "add",
+        data = {
+            "command": cmd,
             "entity_id": entity_id,
             "channel": 1,
-            "path": asset.path,
-            "loops": int(params.get("loops", "0")),
-            "autostart": params.get("autostart", "true") == "true"
-        })
-        self._entities.append(entity_id)
+            "assets": [asset.path for asset in assets]
+        }
+        data.update(params)     # Add params to data
 
-    def _play_sound(self, params: Dict[str, str]):
-        self.send_to_all({
-            "command": "play",
-            "entity_id": params["entity_id"],
-            "channel": 1,
-        })
-
-    def _pause_sound(self, params: Dict[str, str]):
-        self.send_to_all({
-            "command": "pause",
-            "entity_id": params["entity_id"],
-            "channel": 1,
-        })
-
-    def _stop_sound(self, params: Dict[str, str]):
-        self.send_to_all({
-            "command": "stop",
-            "entity_id": params["entity_id"],
-            "channel": 1,
-        })
-
-    def _set_sound_volume(self, params: Dict[str, str]):
-        if not params.get("volume_left") is None or not params.get("volume_right") is None:
-            self.send_to_all({
-                "command": "stop",
-                "entity_id": params["entity_id"],
-                "channel": 1,
-                "volume_left": int(params.get("volume_left", "0")),
-                "volume_right": int(params.get("volume_right", "0")),
-            })
-        else:
-            self.send_to_all({
-                "command": "stop",
-                "entity_id": params["entity_id"],
-                "channel": 1,
-                "volume": int(params.get("volume", "0")),
-            })
+        self.send_to_all(data)

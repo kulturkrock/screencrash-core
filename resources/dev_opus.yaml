@@ -21,10 +21,11 @@ nodes:
 action_templates:
   "0":
     target: "audio"
-    cmd: "start"
+    cmd: "add"
     assets: ["audio_sample"]
     params:
-      autostart: "true"
+      autostart: true
+      loops: 1
       entity_id: "audio123"
   "1":
     target: "audio"
@@ -41,7 +42,7 @@ action_templates:
     cmd: "start"
     assets: ["seagull"]
     params:
-      autostart: "false"
+      autostart: false
 assets:
   "script":
     path: "script.pdf"

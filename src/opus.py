@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from pathlib import Path
 import aiofiles
 import yaml
@@ -17,7 +17,7 @@ class ActionTemplate:
     target: str
     cmd: str
     assets: List[str] = field(default_factory=list)
-    params: Dict[str, str] = field(default_factory=dict)
+    params: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
