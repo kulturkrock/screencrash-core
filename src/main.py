@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 from pathlib import Path
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -26,7 +27,7 @@ class Core:
 
     async def main(self):
         """The main loop."""
-        self._opus = await load_opus(Path("resources") / "dev_opus.yaml")
+        self._opus = await load_opus(Path(os.environ.get("SCREENCRASH_RESOURCES") or "resources") / "dev_opus.yaml")
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
         self._components = {
