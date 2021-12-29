@@ -1,7 +1,5 @@
-import json
-from typing import List, Dict
+from typing import Any, List, Dict
 from opus import Asset
-import websockets
 
 from peers.component import ComponentPeer
 
@@ -20,7 +18,7 @@ class Screen(ComponentPeer):
         super().__init__(["image", "video"])
         self._current_entity_id = 1
 
-    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, str]):
+    def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
         if cmd == "start":
             self.play_effect(target_type, assets[0], params.get("autostart", True))
@@ -28,18 +26,14 @@ class Screen(ComponentPeer):
             super().handle_action(target_type, cmd, assets, params)
 
     def play_effect(self, target_type: str, asset: Asset, autostart=True):
-        websockets.broadcast(self._websockets, json.dumps({
+        self.send_to_all({
             "command": "create",
             "entity_id": self._current_entity_id,
             "channel": 1,
             "type": target_type,
             "resource": asset.path
-        }))
-        websockets.broadcast(self._websockets, json.dumps(
-            {"command": "show", "entity_id": self._current_entity_id, "channel": 1}
-        ))
+        })
+        self.send_to_all({"command": "show", "entity_id": self._current_entity_id, "channel": 1})
         if autostart:
-            websockets.broadcast(self._websockets, json.dumps(
-                {"command": "play", "entity_id": self._current_entity_id, "channel": 1}
-            ))
+            self.send_to_all({"command": "play", "entity_id": self._current_entity_id, "channel": 1})
         self._current_entity_id += 1

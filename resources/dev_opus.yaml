@@ -11,29 +11,32 @@ nodes:
     prompt: "Ja, då var vi av med honom!"
     pdfPage: 8
     pdfLocationOnPage: 0.4
-    actions: ["1"]
+    actions: ["9"]
   "1126":
     next: "11"
     prompt: "Vad är tårtan till?"
     pdfPage: 48
     pdfLocationOnPage: 0.48
-    actions: ["9"]
+    actions: ["1"]
 action_templates:
   "0":
     target: "audio"
-    cmd: "start"
-    assets: ["someaudio"]
+    cmd: "add"
+    assets: ["audio_sample"]
     params:
-      autostart: false
+      autostart: true
+      loops: 1
+      entity_id: "audio123"
   "1":
+    target: "audio"
+    cmd: "stop"
+    params:
+      entity_id: "audio123"
+  "7":
     target: "internal"
     cmd: "print"
     params:
       text: "Woop woop, this wurks!"
-  "7":
-    target: "audio"
-    cmd: "start"
-    assets: ["moreaudio"]
   "9":
     target: "video"
     cmd: "start"
@@ -43,9 +46,7 @@ action_templates:
 assets:
   "script":
     path: "script.pdf"
-  "someaudio":
-    path: "audio/someaudio.mp3"
-  "moreaudio":
-    path: "audio/moreaudio.mp3"
+  "audio_sample":
+    path: "res/sample.mp3"
   "seagull":
     path: "video/seagull.mp4"
