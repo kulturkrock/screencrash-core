@@ -7,9 +7,9 @@ from util.utilities import get_random_string
 
 class Audio(ComponentPeer):
     """
-    Handles communication with screens.
+    Handles communication with audio component.
 
-    This has a websocket server that screens can connect to.
+    This has a websocket server that audio components can connect to.
 
     Parameters
     ----------
@@ -43,7 +43,7 @@ class Audio(ComponentPeer):
             "command": cmd,
             "entity_id": entity_id,
             "channel": 1,
-            "assets": [asset.path for asset in assets]
+            "asset": assets[0].path if assets else None,
         }
         data.update(params)     # Add params to data
 
