@@ -28,20 +28,31 @@ class Audio(ComponentPeer):
     def handle_component_message(self, message_type: str, message: object):
         if message_type == "cmd-error":
             print(f"Got an error from Audio Component: {message}")
+        elif message_type == "effect-added":
+            data = {key:value for key, value in message.items() if key != "messageType"}
+            data["effectType"] = "audio"
+            self.emit("effect-added", data)
+        elif message_type == "effect-changed":
+            data = {key:value for key, value in message.items() if key != "messageType"}
+            data["effectType"] = "audio"
+            self.emit("effect-changed", data)
+        elif message_type == "effect-removed":
+            entity_id = message["entityId"]
+            self.emit("effect-removed", {"entityId": entity_id})
         else:
             super().handle_component_message(message_type, message)
 
     def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
         if cmd == "add":
-            entity_id = params.get("entity_id", self._generate_id())
+            entity_id = params.get("entityId", self._generate_id())
             self._entities.add(entity_id)
         else:
-            entity_id = params.get("entity_id")
+            entity_id = params.get("entityId")
 
         data = {
             "command": cmd,
-            "entity_id": entity_id,
+            "entityId": entity_id,
             "channel": 1,
             "asset": assets[0].path if assets else None,
         }
