@@ -1,4 +1,5 @@
 import json
+import traceback
 from typing import Any, List, Dict
 from opus import Asset
 from util.event_emitter import EventEmitter
@@ -18,6 +19,7 @@ class ComponentPeer(EventEmitter):
     """
 
     def __init__(self, target_types: List[str]):
+        super().__init__()
         self._target_types = target_types
         self._websockets: List[WebSocketServerProtocol] = []
 
@@ -26,12 +28,16 @@ class ComponentPeer(EventEmitter):
         self._websockets.append(websocket)
         # Handle messages from the client
         async for message in websocket:
-            message_dict = json.loads(message)
-            message_type = message_dict["messageType"]
-            if message_type == "heartbeat":
-                pass  # Ignore heartbeats for now
-            else:
-                self.handle_component_message(message_type, message)
+            try:
+                message_dict = json.loads(message)
+                message_type = message_dict["messageType"]
+                if message_type == "heartbeat":
+                    pass  # Ignore heartbeats for now
+                else:
+                    self.handle_component_message(message_type, message_dict)
+            except Exception as e:
+                print(f"Failed to handle component message. Got error {e}")
+                traceback.print_exc()
         # Websocket is closed
         self._websockets.remove(websocket)
 

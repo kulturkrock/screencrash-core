@@ -5,7 +5,7 @@ nodes:
     prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
     pdfPage: 2
     pdfLocationOnPage: 0.6
-    actions: ["0", "7"]
+    actions: ["0", "7", "2"]
   "160":
     next: "1126"
     prompt: "Ja, då var vi av med honom!"
@@ -26,12 +26,18 @@ action_templates:
     params:
       autostart: true
       loops: 1
-      entity_id: "audio123"
+      entityId: "audio123"
   "1":
     target: "audio"
     cmd: "stop"
     params:
-      entity_id: "audio123"
+      entityId: "audio123"
+  "2":
+    target: "audio"
+    cmd: "set_volume"
+    params:
+      entityId: "audio123"
+      volume: 42
   "7":
     target: "internal"
     cmd: "print"

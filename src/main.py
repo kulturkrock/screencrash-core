@@ -5,7 +5,7 @@ from pathlib import Path
 import websockets
 from websockets.server import WebSocketServerProtocol
 
-from opus import load_opus
+from opus import ActionTemplate, load_opus
 from performance import Performance
 from peers.audio import Audio
 from peers.internal import InternalPeer
@@ -37,23 +37,37 @@ class Core:
             "screen": Screen(),
             "audio": Audio()
         }
-
-        self._ui.add_event_listener("next-node", self._performance.next_node)
-        self._performance.add_event_listener(
-            "history-changed", self._ui.changed_history)
-        self._performance.add_event_listener("run-action", self._run_action)
+        self._setup_events()
 
         async with websockets.serve(self.socket_listener, "localhost", self._port):
             await asyncio.Future()  # run forever
+
+    def _setup_events(self):
+        self._ui.add_event_listener("next-node", self._performance.next_node)
+        self._ui.add_event_listener("component-action", self._run_action_on_the_fly)
+        self._performance.add_event_listener("history-changed", self._ui.changed_history)
+        self._performance.add_event_listener("run-action", self._run_action_by_id)
+
+        for component in self._components.values():
+            component.add_event_listener("effect-added", self._ui.effect_added)
+            component.add_event_listener("effect-changed", self._ui.effect_changed)
+            component.add_event_listener("effect-removed", self._ui.effect_removed)
     
-    def _run_action(self, action_id):
+    def _run_action_by_id(self, action_id):
         try:
             action = self._opus.action_templates[action_id]
             assets = [self._opus.assets[key] for key in action.assets]
+            self._run_action(action, assets)
         except KeyError:
             print(f"Failed to find action or asset for action {action_id}. Skipping.")
             return
 
+    def _run_action_on_the_fly(self, target, cmd, asset_names, params):
+        action = ActionTemplate(1337, target, cmd, asset_names, params)
+        assets = [self._opus.assets[name] for name in asset_names]
+        self._run_action(action, assets)
+
+    def _run_action(self, action, assets):
         handled = False
         for peer in self._components.values():
             if peer.handles_target(action.target) and peer.nof_instances() > 0:
@@ -63,7 +77,7 @@ class Core:
                 except Exception as e:
                     print(f"Failed to run handle_action: {e}")
         if not handled:
-            print(f"Warning: Action {action_id} not handled by anyone ({action.target})")
+            print(f"Warning: Action {action.id} not handled by anyone ({action.target})")
 
     async def socket_listener(self, websocket: WebSocketServerProtocol):
         """
