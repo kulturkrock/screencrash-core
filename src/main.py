@@ -29,6 +29,7 @@ class Core:
     async def main(self):
         """The main loop."""
         opus_file = os.environ.get("OPUS", "dev_opus.yaml")
+        print("Loading opus...")
         self._opus = await load_opus(Path("resources") / opus_file)
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
@@ -39,6 +40,7 @@ class Core:
         }
         self._setup_events()
 
+        print("Started!")
         async with websockets.serve(self.socket_listener, "localhost", self._port):
             await asyncio.Future()  # run forever
 
