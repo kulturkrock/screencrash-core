@@ -1,11 +1,13 @@
 import asyncio
 import json
+from typing import Dict
 import os
 from pathlib import Path
 import websockets
 from websockets.server import WebSocketServerProtocol
 
 from opus import ActionTemplate, load_opus
+from peers.component import ComponentPeer
 from performance import Performance
 from peers.audio import Audio
 from peers.internal import InternalPeer
@@ -33,12 +35,13 @@ class Core:
         self._opus = await load_opus(Path("resources") / opus_file)
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
-        self._components = {
+        self._components: Dict[str,ComponentPeer] = {
             "internal": InternalPeer(),
             "screen": Screen(),
             "audio": Audio()
         }
         self._setup_events()
+        self._distribute_assets()
 
         print("Started!")
         async with websockets.serve(self.socket_listener, "localhost", self._port):
@@ -54,6 +57,12 @@ class Core:
             component.add_event_listener("effect-added", self._ui.effect_added)
             component.add_event_listener("effect-changed", self._ui.effect_changed)
             component.add_event_listener("effect-removed", self._ui.effect_removed)
+    
+    def _distribute_assets(self):
+        for asset in self._opus.assets.values():
+            for component in self._components.values():
+                if any([component.handles_target(target) for target in asset.targets]):
+                    component.add_asset(asset)
     
     def _run_action_by_id(self, action_id):
         try:

@@ -22,6 +22,10 @@ class ComponentPeer(EventEmitter):
         super().__init__()
         self._target_types = target_types
         self._websockets: List[WebSocketServerProtocol] = []
+        self._assets: List[Asset] = []
+    
+    def add_asset(self, asset: Asset):
+        self._assets.append(asset)
 
     async def handle_socket(self, websocket: WebSocketServerProtocol):
         """This handles one websocket connection."""
