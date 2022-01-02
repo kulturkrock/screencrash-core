@@ -39,7 +39,7 @@ class Core:
         }
         self._setup_events()
 
-        async with websockets.serve(self.socket_listener, "localhost", self._port):
+        async with websockets.serve(self.socket_listener, "0.0.0.0", self._port):
             await asyncio.Future()  # run forever
 
     def _setup_events(self):
