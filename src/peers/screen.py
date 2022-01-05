@@ -16,7 +16,7 @@ class Screen(ComponentPeer):
     """
 
     def __init__(self):
-        super().__init__(["image", "video"])
+        super().__init__(["image", "video", "web"])
         self._entities = set()
 
     def _generate_id(self):

@@ -28,7 +28,8 @@ class UI(EventEmitter):
         "unknown": 0,
         "audio": 1,
         "video": 2,
-        "image": 3
+        "image": 3,
+        "web": 4,
     }
 
     def __init__(self, opus: Opus, initial_history: List[str]):
@@ -63,6 +64,9 @@ class UI(EventEmitter):
         entity_id = event_data["entityId"]
         event_data["type"] = self.EFFECT_TYPES.get(event_data["effectType"], 0)
         del event_data["effectType"]
+        if not entity_id in self._effects:
+            print(f"Tried to update effect {entity_id} but it doesnt exist. Skipping")
+            return
         self._effects[entity_id].update(event_data)
         self._send_effects_update()
     
