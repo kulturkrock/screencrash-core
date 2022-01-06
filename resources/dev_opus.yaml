@@ -17,7 +17,7 @@ nodes:
     prompt: "Vad är tårtan till?"
     pdfPage: 48
     pdfLocationOnPage: 0.48
-    actions: ["1"]
+    actions: ["1", "10"]
 action_templates:
   "0":
     target: "audio"
@@ -46,13 +46,22 @@ action_templates:
   "9":
     target: "video"
     cmd: "start"
-    assets: ["seagull"]
+    assets: ["brand"]
     params:
-      autostart: false
+      entityId: "seagull1"
+      autostart: true
+      looping: 3
+  "10":
+    target: "video"
+    cmd: "hide"
+    params:
+      entityId: "seagull1"
 assets:
   "script":
     path: "script.pdf"
   "audio_sample":
     path: "audio/sample.mp3"
   "seagull":
-    path: "video/seagull.mp4"
+    path: "res/seagull.mp4"
+  "brand":
+    path: "res/brand.webm"

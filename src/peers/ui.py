@@ -63,7 +63,7 @@ class UI(EventEmitter):
         entity_id = event_data["entityId"]
         event_data["type"] = self.EFFECT_TYPES.get(event_data["effectType"], 0)
         del event_data["effectType"]
-        self._effects[entity_id] = event_data
+        self._effects[entity_id].update(event_data)
         self._send_effects_update()
     
     def effect_removed(self, event_data):

@@ -35,17 +35,21 @@ class ComponentPeer(EventEmitter):
             await websocket.send(json.dumps({"command": "file", "path": asset.path, 
             "data": base64.b64encode(asset.data).decode("utf-8")}))
         # Handle messages from the client
-        async for message in websocket:
-            try:
-                message_dict = json.loads(message)
-                message_type = message_dict["messageType"]
-                if message_type == "heartbeat":
-                    pass  # Ignore heartbeats for now
-                else:
-                    self.handle_component_message(message_type, message_dict)
-            except Exception as e:
-                print(f"Failed to handle component message. Got error {e}")
-                traceback.print_exc()
+        try:
+            async for message in websocket:
+                try:
+                    message_dict = json.loads(message)
+                    message_type = message_dict["messageType"]
+                    if message_type == "heartbeat":
+                        pass  # Ignore heartbeats for now
+                    else:
+                        self.handle_component_message(message_type, message_dict)
+                except Exception as e:
+                    print(f"Failed to handle component message. Got error {e}")
+                    traceback.print_exc()
+        except websockets.exceptions.ConnectionClosedError as cce:
+            print(f"Websocket to component closed abruptly: {cce}")
+
         # Websocket is closed
         self._websockets.remove(websocket)
 
