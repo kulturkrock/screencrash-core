@@ -32,8 +32,11 @@ class ComponentPeer(EventEmitter):
         """This handles one websocket connection."""
         self._websockets.append(websocket)
         for asset in self._assets:
-            await websocket.send(json.dumps({"command": "file", "path": asset.path, 
-            "data": base64.b64encode(asset.data).decode("utf-8")}))
+            if asset.data:
+                await websocket.send(json.dumps({"command": "file", "path": asset.path, 
+                "data": base64.b64encode(asset.data).decode("utf-8")}))
+            else:
+                print(f"Skipping sync of asset {asset.path} (no data)")
         # Handle messages from the client
         try:
             async for message in websocket:

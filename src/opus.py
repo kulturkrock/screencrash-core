@@ -86,7 +86,10 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
     A list of tuples (key, asset)
     """
     targets = set(action.target for action in action_templates.values() if key in action.assets)
-    async with aiofiles.open(opus_path.parent / path, mode="rb") as f:
-        data = await f.read()
-    checksum=hashlib.md5(data).hexdigest()
+    data = None
+    checksum = None
+    if not path.startswith("http://") and not path.startswith("https://"):
+        async with aiofiles.open(opus_path.parent / path, mode="rb") as f:
+            data = await f.read()
+        checksum=hashlib.md5(data).hexdigest()
     return (key, Asset(path=path, data=data, checksum=checksum, targets=targets))
