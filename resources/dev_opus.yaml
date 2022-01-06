@@ -60,7 +60,7 @@ assets:
   "script":
     path: "script.pdf"
   "audio_sample":
-    path: "res/sample.mp3"
+    path: "audio/sample.mp3"
   "seagull":
     path: "res/seagull.mp4"
   "brand":

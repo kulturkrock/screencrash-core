@@ -1,3 +1,4 @@
+import base64
 import json
 import traceback
 from typing import Any, List, Dict
@@ -22,11 +23,17 @@ class ComponentPeer(EventEmitter):
         super().__init__()
         self._target_types = target_types
         self._websockets: List[WebSocketServerProtocol] = []
+        self._assets: List[Asset] = []
+    
+    def add_asset(self, asset: Asset):
+        self._assets.append(asset)
 
     async def handle_socket(self, websocket: WebSocketServerProtocol):
         """This handles one websocket connection."""
         self._websockets.append(websocket)
-
+        for asset in self._assets:
+            await websocket.send(json.dumps({"command": "file", "path": asset.path, 
+            "data": base64.b64encode(asset.data).decode("utf-8")}))
         # Handle messages from the client
         try:
             async for message in websocket:
