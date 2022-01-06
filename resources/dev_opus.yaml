@@ -5,7 +5,7 @@ nodes:
     prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
     pdfPage: 2
     pdfLocationOnPage: 0.6
-    actions: ["0", "7", "2"]
+    actions: ["0", "7", "2", "example_web"]
   "160":
     next: "1126"
     prompt: "Ja, då var vi av med honom!"
@@ -56,6 +56,18 @@ action_templates:
     cmd: "hide"
     params:
       entityId: "seagull1"
+  "example_web":
+    target: "web"
+    cmd: "create"
+    assets: ["ex_web"]
+    params:
+      entityId: "webpage000"
+      x: 200
+      y: 300
+      width: 350
+      height: 350
+      layer: 10000
+      visible: true
 assets:
   "script":
     path: "script.pdf"
@@ -65,3 +77,5 @@ assets:
     path: "res/seagull.mp4"
   "brand":
     path: "res/brand.webm"
+  "ex_web":
+    path: "http://www.kulturkrock.se/forestallningar/"
