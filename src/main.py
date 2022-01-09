@@ -107,7 +107,7 @@ class Core:
             await self._ui.handle_socket(websocket)
         elif client_type in self._components:
             print(f"Accepted client of type {client_type}")
-            await self._components[client_type].handle_socket(websocket)
+            await self._components[client_type].handle_socket(websocket, message_dict)
         else:
             print(f"An unsupported client type tried to connect: {client_type}")
 
