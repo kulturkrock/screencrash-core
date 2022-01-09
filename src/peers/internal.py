@@ -13,7 +13,7 @@ class InternalPeer(ComponentPeer):
     def __init__(self):
         super().__init__(["internal"])
 
-    async def handle_socket(self, _):
+    async def handle_socket(self, *_):
         """This method will raise an exception if called."""
         raise Exception("An InternalPeer cannot get an external connection. Someone is messing with you.")
 

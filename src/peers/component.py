@@ -28,11 +28,15 @@ class ComponentPeer(EventEmitter):
     def add_asset(self, asset: Asset):
         self._assets.append(asset)
 
-    async def handle_socket(self, websocket: WebSocketServerProtocol):
+    async def handle_socket(self, websocket: WebSocketServerProtocol, initial_message: Any):
         """This handles one websocket connection."""
         self._websockets.append(websocket)
+        hashes = initial_message["files"]
         for asset in self._assets:
-            if asset.data:
+            if asset.data and hashes.get(asset.path) == asset.checksum:
+                print(f"Asset {asset.path} already up to date")
+            elif asset.data:
+                print(f"Syncing asset {asset.path}")
                 await websocket.send(json.dumps({"command": "file", "path": asset.path, 
                 "data": base64.b64encode(asset.data).decode("utf-8")}))
             else:

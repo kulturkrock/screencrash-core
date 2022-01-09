@@ -1,7 +1,7 @@
 import asyncio
 from dataclasses import dataclass, field
 import hashlib
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from pathlib import Path
 import aiofiles
 import yaml
@@ -10,8 +10,8 @@ import yaml
 class Asset:
     """An asset contains a resource"""
     path: str
-    data: bytes
-    checksum: str
+    data: Optional[bytes]
+    checksum: Optional[str]
     targets: List[str]
 
 
@@ -32,7 +32,7 @@ class Node:
     prompt: str
     pdfPage: int
     pdfLocationOnPage: float
-    actions: List[str]
+    actions: List[str] = field(default_factory=list)
 
 
 @dataclass
