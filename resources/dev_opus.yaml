@@ -1,7 +1,13 @@
 startNode: "1126"
 nodes:
   "11":
-    next: "160"
+    next:
+      - node: "160"
+        description: "Glad"
+      - node: "1663"
+        description: "Förvånad"
+      - node: "1396"
+        description: "Medkännande"
     prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
     pdfPage: 2
     pdfLocationOnPage: 0.6
@@ -12,6 +18,16 @@ nodes:
     pdfPage: 8
     pdfLocationOnPage: 0.4
     actions: ["9"]
+  "1663":
+    next: "1126"
+    prompt: "Jag är paff!"
+    pdfPage: 69
+    pdfLocationOnPage: 0.55
+  "1396":
+    next: "1126"
+    prompt: "Jag beklagar. Jag hör att du höll av honom."
+    pdfPage: 59
+    pdfLocationOnPage: 0.71
   "1126":
     next: "11"
     prompt: "Vad är tårtan till?"
