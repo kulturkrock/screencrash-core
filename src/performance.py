@@ -42,10 +42,11 @@ class Performance(EventEmitter):
         """Choose one of the next nodes."""
         current_node = self._nodes[self.history[-1]]
         if isinstance(current_node.next, str):
-            print(f"Tried to choose node {choice_index}, but there is no choice here")
+            print(f"Tried to choose node number {choice_index}, but there is no choice here")
         elif choice_index >= len(current_node.next):
-            print(f"Tried to choose node {choice_index}, but there are too few choices")
+            print(f"Tried to choose node number {choice_index}, but there are too few choices")
         else:
+            print(f"Choosing node number {choice_index}")
             next_node = current_node.next[choice_index].node
             self.history.append(next_node)
             self.emit("history-changed", self.history)
