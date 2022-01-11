@@ -42,26 +42,17 @@ class Screen(ComponentPeer):
 
     def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
-        if cmd == "create" or cmd == "start":
+        if cmd == "create":
             if "entityId" not in params:
                 params["entityId"] = self._generate_id()
             self._entities.add(params["entityId"])
 
-        if cmd == "start":
-            self._play_effect(target_type, assets[0], params)
-        else:
-            data = {
-                "command": cmd,
-                "entityId": params["entityId"],
-                "channel": 1,
-                "type": target_type,
-                "asset": assets[0].path if assets else None,
-            }
-            data.update(params)
-            self.send_to_all(data)
-
-    def _play_effect(self, target_type: str, asset: Asset, params: Dict[str, Any]):
-        # Combo of create, show and play.
-        self.handle_action(target_type, "create", [asset], params)
-        self.handle_action(target_type, "show", [], {"entityId": params["entityId"]})
-        self.handle_action(target_type, "play", [], {"entityId": params["entityId"]})
+        data = {
+            "command": cmd,
+            "entityId": params["entityId"],
+            "channel": 1,
+            "type": target_type,
+            "asset": assets[0].path if assets else None,
+        }
+        data.update(params)
+        self.send_to_all(data)
