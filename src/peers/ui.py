@@ -2,11 +2,12 @@ import base64
 from dataclasses import asdict
 import json
 import traceback
-from typing import List
+from typing import Dict, List
 import websockets
 from websockets.server import WebSocketServerProtocol
 
 from opus import Opus
+from peers.component_info import ComponentInfo
 from util.event_emitter import EventEmitter
 
 
@@ -36,6 +37,7 @@ class UI(EventEmitter):
         super().__init__()
         self._opus = opus
         self._history = initial_history
+        self._components: Dict[str, ComponentInfo] = {}
         self._effects = {}
         self._websockets: List[WebSocketServerProtocol] = []
 
@@ -51,6 +53,12 @@ class UI(EventEmitter):
         websockets.broadcast(self._websockets, json.dumps({
             "messageType": "effects",
             "data": list(self._effects.values())
+        }))
+
+    def _send_components_update(self):
+        websockets.broadcast(self._websockets, json.dumps({
+            "messageType": "components",
+            "data": [asdict(component) for component in self._components.values()]
         }))
 
     def effect_added(self, event_data):
@@ -78,6 +86,15 @@ class UI(EventEmitter):
         else:
             print(f"Tried to remove effect but couldnt find it")
 
+    def component_updated(self, component: ComponentInfo) -> None:
+        self._components[component.componentId] = component
+        self._send_components_update()
+
+    def component_removed(self, component_id: str) -> None:
+        if component_id in self._components:
+            del self._components[component_id]
+            self._send_components_update()
+
     async def handle_socket(self, websocket: WebSocketServerProtocol):
         """This handles one websocket connection."""
         self._websockets.append(websocket)
@@ -89,6 +106,10 @@ class UI(EventEmitter):
         await websocket.send(json.dumps({
             "messageType": "history",
             "data": self._history
+        }))
+        await websocket.send(json.dumps({
+            "messageType": "components",
+            "data": [asdict(component) for component in self._components.values()]
         }))
         await websocket.send(json.dumps({
             "messageType": "effects",
