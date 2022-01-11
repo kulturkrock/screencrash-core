@@ -5,77 +5,121 @@ nodes:
     prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
     pdfPage: 2
     pdfLocationOnPage: 0.6
-    actions: ["0", "7", "2", "example_web"]
+    actions: ["run_short_video"]
   "160":
     next: "1126"
     prompt: "Ja, då var vi av med honom!"
     pdfPage: 8
     pdfLocationOnPage: 0.4
-    actions: ["9"]
+    actions: ["stop_thorin_song", "add_example_image"]
   "1126":
-    next: "11"
+    next: "415"
     prompt: "Vad är tårtan till?"
     pdfPage: 48
     pdfLocationOnPage: 0.48
-    actions: ["1", "10"]
+    actions: []
+  "415":
+    next: "459"
+    prompt: "Ah, inte illa. Vad sa du att du hette?"
+    pdfPage: 21
+    pdfLocationOnPage: 0.3
+    actions: ["add_inventory", "play_thorin_song", "volume_thorin_song"]
+  "459":
+    next: "11"
+    prompt: "Carla..."
+    pdfPage: 22
+    pdfLocationOnPage: 0.5
+    actions: ["run_long_video", "print_test"]
 action_templates:
-  "0":
+  "play_thorin_song":
     target: "audio"
     cmd: "add"
-    assets: ["audio_sample"]
+    assets: ["thorin_song"]
     params:
       autostart: true
       loops: 1
-      entityId: "audio123"
-  "1":
+      entityId: "ID_thorin_song"
+  "stop_thorin_song":
     target: "audio"
     cmd: "stop"
     params:
-      entityId: "audio123"
-  "2":
+      entityId: "ID_thorin_song"
+  "volume_thorin_song":
     target: "audio"
     cmd: "set_volume"
     params:
-      entityId: "audio123"
+      entityId: "ID_thorin_song"
       volume: 42
-  "7":
+  "print_test":
     target: "internal"
     cmd: "print"
     params:
       text: "Woop woop, this wurks!"
-  "9":
+  "run_long_video":
     target: "video"
-    cmd: "start"
-    assets: ["brand"]
+    cmd: "create"
+    assets: ["bigbunny"]
     params:
-      entityId: "seagull1"
+      entityId: "ID_long_vid"
       autostart: true
-      looping: 3
-  "10":
+      visible: true
+      looping: 1
+      x: 0
+      y: 0
+      width: 100
+      height: 100
+      usePercentage: true
+  "run_short_video":
     target: "video"
-    cmd: "hide"
+    cmd: "create"
+    assets: ["league_clip"]
     params:
-      entityId: "seagull1"
-  "example_web":
+      entityId: "ID_looping_league_clip"
+      displayName: "Brand gets rekt"
+      visible: true
+      x: 100
+      y: 100
+      width: 500
+      height: 300
+      looping: 5
+      opacity: 0.8
+  "add_example_image":
+    target: "image"
+    cmd: "create"
+    assets: ["ex_image"]
+    params:
+      entityId: "ID_example_image"
+      x: 0
+      y: 0
+      width: 100
+      height: 100
+      layer: 1000
+      visible: true
+  "add_inventory":
     target: "web"
     cmd: "create"
-    assets: ["ex_web"]
+    assets: ["inventory"]
     params:
-      entityId: "webpage000"
-      x: 200
-      y: 300
-      width: 350
-      height: 350
-      layer: 10000
+      entityId: "ID_inventory"
+      displayName: "Inventory"
+      x: 260
+      y: 150
+      width: 1400
+      height: 720
       visible: true
+      layer: 10000
 assets:
   "script":
     path: "script.pdf"
-  "audio_sample":
-    path: "audio/sample.mp3"
-  "seagull":
-    path: "res/seagull.mp4"
-  "brand":
-    path: "res/brand.webm"
-  "ex_web":
-    path: "http://www.kulturkrock.se/forestallningar/"
+  "thorin_song":
+    path: "audio/thorin.mp3"
+  "wilhelm_scream":
+    path: "audio/wilhelm.wav"
+  "bigbunny":
+    path: "video/bigbunny_sample.webm"
+  "league_clip":
+    path: "video/brand.webm"
+  "ex_image":
+    path: "video/example.jpg"
+  "inventory":
+    path: "http://localhost:4218"
