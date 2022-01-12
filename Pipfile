@@ -10,6 +10,7 @@ watchdog = "2.1.6"
 websockets = "10.0"
 aiofiles = "0.8.0"
 pyyaml = "6.0"
+pymupdf = "*"
 
 [requires]
 python_version = "3.8"
