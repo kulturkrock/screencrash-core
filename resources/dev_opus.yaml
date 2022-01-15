@@ -9,42 +9,28 @@ nodes:
       - node: "1396"
         description: "Medkännande"
     prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
-    pdfPage: 2
-    pdfLocationOnPage: 0.6
     actions: ["run_short_video"]
   "160":
     next: "1126"
     prompt: "Ja, då var vi av med honom!"
-    pdfPage: 8
-    pdfLocationOnPage: 0.4
     actions: ["stop_thorin_song", "add_example_image"]
   "1663":
     next: "1126"
     prompt: "Jag är paff!"
-    pdfPage: 69
-    pdfLocationOnPage: 0.55
   "1396":
     next: "1126"
     prompt: "Jag beklagar. Jag hör att du höll av honom."
-    pdfPage: 59
-    pdfLocationOnPage: 0.71
   "1126":
     next: "415"
     prompt: "Vad är tårtan till?"
-    pdfPage: 48
-    pdfLocationOnPage: 0.48
     actions: []
   "415":
     next: "459"
     prompt: "Ah, inte illa. Vad sa du att du hette?"
-    pdfPage: 21
-    pdfLocationOnPage: 0.3
     actions: ["add_inventory", "play_thorin_song", "volume_thorin_song"]
   "459":
     next: "11"
     prompt: "Carla..."
-    pdfPage: 22
-    pdfLocationOnPage: 0.5
     actions: ["run_long_video", "print_test"]
 action_templates:
   "play_thorin_song":

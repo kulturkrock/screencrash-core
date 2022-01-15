@@ -37,13 +37,6 @@ class NodeChoice:
     description: str
 
 @dataclass
-class NodeChoice:
-    """One choice of node when the opus branches"""
-    node: str
-    description: str
-
-
-@dataclass
 class Node:
     """A Node is a single location in the script."""
     next: Optional[Union[str, List[NodeChoice]]]
@@ -142,40 +135,41 @@ async def load_nodes(nodes_dict: Dict[str, Any], script_path: Path) -> Dict[str,
         key for key, value in nodes_dict.items()
         if "pdfPage" not in value or "pdfLocationOnPage" not in value
     ]
-    try:
-        with_line_numbers = [(key, re.match(r"[0-9]+", key).group(0))
-                             for key in node_keys]
-    except AttributeError:
-        raise RuntimeError(
-            "Nodes without specified PDF locations must have IDs beginning with numbers. "
-            f"Offenders: {[key for key in node_keys if re.match(r'[0-9]+', key) is None]}"
-        )
-    sorted_keys_and_numbers = sorted(
-        with_line_numbers, key=lambda x: int(x[1]))
-    next_pair = sorted_keys_and_numbers.pop(0)
-    # Searching for e.g. "12" will find both "12" and "112". Since the wanted line numbers
-    # are sorted, the first occurrence we find is correct.
-    for page in doc:
-        while True:
-            key, line_number = next_pair
-            found = [
-                rect for rect in page.search_for(line_number)
-                if (LEFT_PAGE_LINE_NUMBER_END[0] < rect.x1 < LEFT_PAGE_LINE_NUMBER_END[1])
-                or (RIGHT_PAGE_LINE_NUMBER_END[0] < rect.x1 < RIGHT_PAGE_LINE_NUMBER_END[1])
-            ]
-            if len(found) == 0:
-                # We won't find anything more on this page, since the wanted line numbers are sorted
+    if len(node_keys) > 0:
+        try:
+            with_line_numbers = [(key, re.match(r"[0-9]+", key).group(0))
+                                for key in node_keys]
+        except AttributeError:
+            raise RuntimeError(
+                "Nodes without specified PDF locations must have IDs beginning with numbers. "
+                f"Offenders: {[key for key in node_keys if re.match(r'[0-9]+', key) is None]}"
+            )
+        sorted_keys_and_numbers = sorted(
+            with_line_numbers, key=lambda x: int(x[1]))
+        next_pair = sorted_keys_and_numbers.pop(0)
+        # Searching for e.g. "12" will find both "12" and "112". Since the wanted line numbers
+        # are sorted, the first occurrence we find is correct.
+        for page in doc:
+            while True:
+                key, line_number = next_pair
+                found = [
+                    rect for rect in page.search_for(line_number)
+                    if (LEFT_PAGE_LINE_NUMBER_END[0] < rect.x1 < LEFT_PAGE_LINE_NUMBER_END[1])
+                    or (RIGHT_PAGE_LINE_NUMBER_END[0] < rect.x1 < RIGHT_PAGE_LINE_NUMBER_END[1])
+                ]
+                if len(found) == 0:
+                    # We won't find anything more on this page, since the wanted line numbers are sorted
+                    break
+                nodes_dict[key]["pdfPage"] = page.number
+                y = (found[0].y0 + found[0].y1) / 2
+                nodes_dict[key]["pdfLocationOnPage"] = y / page.rect.y1
+                if len(sorted_keys_and_numbers) == 0:
+                    next_pair = None
+                    break
+                next_pair = sorted_keys_and_numbers.pop(0)
+            if next_pair is None:
                 break
-            nodes_dict[key]["pdfPage"] = page.number
-            y = (found[0].y0 + found[0].y1) / 2
-            nodes_dict[key]["pdfLocationOnPage"] = y / page.rect.y1
-            if len(sorted_keys_and_numbers) == 0:
-                next_pair = None
-                break
-            next_pair = sorted_keys_and_numbers.pop(0)
-        if next_pair is None:
-            break
-
+    
     nodes = {}
     for key, node in nodes_dict.items():
         typed_node = node.copy()
