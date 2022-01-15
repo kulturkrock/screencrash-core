@@ -107,6 +107,9 @@ class UI(EventEmitter):
                 message_type = message_dict["messageType"]
                 if message_type == "next-node":
                     self.emit("next-node")
+                elif message_type == "choose-path":
+                    choice_index = message_dict["choiceIndex"]
+                    self.emit("choose-path", choice_index)
                 elif message_type == "component-action":
                     target = message_dict["target_component"]
                     cmd = message_dict["cmd"]

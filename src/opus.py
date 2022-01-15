@@ -1,7 +1,7 @@
 import asyncio
 from dataclasses import dataclass, field
 import hashlib
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from pathlib import Path
 import aiofiles
 import yaml
@@ -24,11 +24,16 @@ class ActionTemplate:
     assets: List[str] = field(default_factory=list)
     params: Dict[str, Any] = field(default_factory=dict)
 
+@dataclass
+class NodeChoice:
+    """One choice of node when the opus branches"""
+    node: str
+    description: str
 
 @dataclass
 class Node:
     """A Node is a single location in the script."""
-    next: str
+    next: Optional[Union[str, List[NodeChoice]]]
     prompt: str
     pdfPage: int
     pdfLocationOnPage: float
@@ -56,7 +61,12 @@ async def load_opus(opus_path: Path):
             *[load_asset(key, asset["path"], action_templates, opus_path)
               for key, asset in opus_dict["assets"].items()]
         ))
-        nodes = {key: Node(**node) for key, node in opus_dict["nodes"].items()}
+        nodes = {}
+        for key, node in opus_dict["nodes"].items():
+            typed_node = node.copy()
+            if isinstance(typed_node.get("next"), list):
+                typed_node["next"] = [NodeChoice(**node_choice) for node_choice in node["next"]]
+            nodes[key] = Node(**typed_node)
         start_node = opus_dict["startNode"]
 
     if assets.get("script") is None:

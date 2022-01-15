@@ -49,6 +49,7 @@ class Core:
 
     def _setup_events(self):
         self._ui.add_event_listener("next-node", self._performance.next_node)
+        self._ui.add_event_listener("choose-path", self._performance.choose_path)
         self._ui.add_event_listener("component-action", self._run_action_on_the_fly)
         self._performance.add_event_listener("history-changed", self._ui.changed_history)
         self._performance.add_event_listener("run-action", self._run_action_by_id)
