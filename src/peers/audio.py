@@ -16,7 +16,7 @@ class Audio(ComponentPeer):
     """
 
     def __init__(self):
-        super().__init__(["audio"])
+        super().__init__(["audio", "video"])
         self._entities = set()
 
     def _generate_id(self):
