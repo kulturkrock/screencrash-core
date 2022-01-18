@@ -4,7 +4,7 @@ import traceback
 from typing import Any, List, Dict
 from opus import Asset
 from util.event_emitter import EventEmitter
-from peers.component_info import ComponentCommand, ComponentCommandParam, ComponentInfo
+from peers.component_info import ComponentInfo
 
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -82,20 +82,10 @@ class ComponentPeer(EventEmitter):
         websockets.broadcast(self._websockets, json.dumps(data))
 
     def handle_component_info(self, component_data):
-        component = ComponentInfo(component_data["componentId"], component_data["componentName"], {})
-        for component_type, cmds in component_data["commands"].items():
-            component.commands[component_type] = []
-            for cmd_data in cmds:
-                params = []
-                for params_data in cmd_data["params"]:
-                    params.append(ComponentCommandParam(**params_data))
-                cmd = ComponentCommand(cmd_data["cmd"], cmd_data["desc"], params)
-                component.commands[component_type].append(cmd)
-
-        componentId = component.componentId
-        self._infos[componentId] = component
-        self.emit("info-updated", self._infos[componentId])
-        return componentId
+        component = ComponentInfo(**{k: v for k, v in component_data.items() if k != "messageType"})
+        self._infos[component.componentId] = component
+        self.emit("info-updated", component)
+        return component.componentId
 
     def handles_target(self, target_type: str) -> bool:
         """Checks whether this instance can handle actions of the given type."""
