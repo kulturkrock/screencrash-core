@@ -1,0 +1,27 @@
+{
+    "$id": "https://kulturkrock.se/internalcommand.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Internal commands in Opus",
+    "description": "An internal command in an Opus to use for Screencrash",
+    "type": "object",
+    "oneOf": [
+        {
+            "properties": {
+                "target": { "enum": ["internal"] },
+                "cmd": { "enum": ["print"] },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["text"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        }
+    ]
+}

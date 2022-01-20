@@ -1,0 +1,42 @@
+{
+    "$id": "https://kulturkrock.se/opus.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Opus",
+    "description": "An Opus to use for Screencrash",
+    "type": "object",
+    "properties": {
+        "startNode": {
+            "type": "string"
+        },
+        "nodes": {
+            "type": "object",
+            "patternProperties": {
+                "^[0-9]+.*$": {
+                    "$ref": "node.schema.json#"
+                }
+            },
+            "additionalProperties": false
+        },
+        "action_templates": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "$ref": "action.schema.json#"
+                }
+            },
+            "additionalProperties": false
+        },
+        "assets": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "$ref": "asset.schema.json#"
+                }
+            },
+            "additionalProperties": false,
+            "required": ["script"]
+        }
+    },
+    "additionalProperties": false,
+    "required": ["startNode", "nodes", "action_templates", "assets"]
+}

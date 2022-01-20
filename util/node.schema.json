@@ -1,0 +1,69 @@
+{
+    "$id": "https://kulturkrock.se/node.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Node in Opus",
+    "description": "A node object in an Opus to use for Screencrash",
+    "type": "object",
+    "properties": {
+        "next": {
+            "title": "Next node(s)",
+            "description": "Select which nodes a user can reach from this node",
+            "oneOf": [
+                {
+                    "title": "Node ID",
+                    "type": "string"
+                },
+                {
+                    "title": "Multi-path options",
+                    "description": "Define list of all possible nodes to jump to",
+                    "type": "array",
+                    "items": {
+                        "title": "Multi-path option",
+                        "description": "Option to jump to",
+                        "type": "object",
+                        "properties": {
+                            "node": {
+                                "title": "Node ID",
+                                "type": "string"
+                            },
+                            "description": {
+                                "title": "Prompt",
+                                "description": "Prompt to show when choosing paths",
+                                "type": "string"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            ]
+        },
+        "prompt": {
+            "title": "Prompt",
+            "description": "Prompt to show when this node is active",
+            "type": "string"
+        },
+        "pdfPage": {
+            "title": "PDF page",
+            "description": "PDF page this node happens on",
+            "type": "number"
+        },
+        "pdfLocationOnPage": {
+            "title": "PDF page location",
+            "description": "Where to zoom PDF viewer when reaching node. Value is between 0.0 - 1.0",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "actions": {
+            "title": "Actions",
+            "description": "The actions which should run when entering this node",
+            "type": "array",
+            "items": {
+                "title": "Action ID",
+                "type": "string"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": ["next", "prompt"]
+}
