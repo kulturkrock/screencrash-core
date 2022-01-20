@@ -33,7 +33,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Display webpage",
+            "title": "Add webpage element",
             "description": "Adds a web iframe and loads given url/asset",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -118,7 +118,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Destroy",
+            "title": "Destroy webpage",
             "description": "Destroy web iframe element",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -140,7 +140,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Show",
+            "title": "Set webpage visible",
             "description": "Set clip visibility to be visible",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -162,7 +162,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Hide",
+            "title": "Set webpage hidden",
             "description": "Set clip visibility to be hidden",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -184,7 +184,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set opacity",
+            "title": "Set opacity on webpage",
             "description": "Set opacity of clip",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -213,7 +213,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set viewport",
+            "title": "Set viewport for webpage",
             "description": "Set clip viewport dimensions",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -267,7 +267,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set layer",
+            "title": "Set layer for webpage",
             "description": "Set clip layer",
             "properties": {
                 "target": { "enum": ["web"] },
@@ -295,7 +295,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Refresh",
+            "title": "Refresh webpage",
             "description": "Refresh web iframe (using same asset)",
             "properties": {
                 "target": { "enum": ["web"] },

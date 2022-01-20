@@ -78,7 +78,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Play/Resume playback",
+            "title": "Play/Resume playback of audio",
             "description": "Resume playback of audio clip",
             "properties": {
                 "target": { "enum": ["audio"] },
@@ -100,7 +100,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Pause playback",
+            "title": "Pause playback of audio",
             "description": "Pause playback of audio clip",
             "properties": {
                 "target": { "enum": ["audio"] },
@@ -122,7 +122,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Stop playback",
+            "title": "Stop playback of audio",
             "description": "Stop playback of audio clip",
             "properties": {
                 "target": { "enum": ["audio"] },
@@ -144,7 +144,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Toggle mute",
+            "title": "Toggle mute on audio",
             "description": "Toggle mute of audio clip. The previous volume will remember and reused on unmuting",
             "properties": {
                 "target": { "enum": ["audio"] },
@@ -166,7 +166,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set volume of clip",
+            "title": "Set volume of audio clip",
             "description": "Set volume of audio clip. Both mono and stereo settings are available",
             "properties": {
                 "target": { "enum": ["audio"] },

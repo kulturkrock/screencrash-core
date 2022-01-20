@@ -140,7 +140,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Show",
+            "title": "Set image visible",
             "description": "Set clip visibility to be visible",
             "properties": {
                 "target": { "enum": ["image"] },
@@ -162,7 +162,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Hide",
+            "title": "Set image hidden",
             "description": "Set clip visibility to be hidden",
             "properties": {
                 "target": { "enum": ["image"] },
@@ -184,7 +184,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set opacity",
+            "title": "Set opacity on image",
             "description": "Set opacity of clip",
             "properties": {
                 "target": { "enum": ["image"] },
@@ -213,7 +213,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set viewport",
+            "title": "Set viewport for image",
             "description": "Set clip viewport dimensions",
             "properties": {
                 "target": { "enum": ["image"] },
@@ -267,7 +267,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set layer",
+            "title": "Set layer for image",
             "description": "Set clip layer",
             "properties": {
                 "target": { "enum": ["image"] },

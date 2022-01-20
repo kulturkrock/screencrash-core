@@ -130,7 +130,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Stop playback",
+            "title": "Destroy video element",
             "description": "Stop playback of video clip and destroy its player",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -152,7 +152,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Show",
+            "title": "Set video visible",
             "description": "Set clip visibility to be visible",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -174,7 +174,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Hide",
+            "title": "Set video hidden",
             "description": "Set clip visibility to be hidden",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -196,7 +196,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set opacity",
+            "title": "Set opacity on video",
             "description": "Set opacity of clip",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -225,7 +225,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set viewport",
+            "title": "Set viewport for video",
             "description": "Set clip viewport dimensions",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -279,7 +279,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set layer",
+            "title": "Set layer for video",
             "description": "Set clip layer",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -307,7 +307,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Play/Resume playback",
+            "title": "Play/Resume playback of video",
             "description": "Resume playback of video clip",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -329,7 +329,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Pause playback",
+            "title": "Pause playback of video",
             "description": "Pause playback of video clip",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -351,7 +351,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Toggle mute",
+            "title": "Toggle mute on video",
             "description": "Toggle mute of video clip. The previous volume will remember and reused on unmuting",
             "properties": {
                 "target": { "enum": ["video"] },
@@ -373,7 +373,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set volume of clip",
+            "title": "Set volume of video clip",
             "description": "Set volume of video clip. Both mono and stereo settings are available",
             "properties": {
                 "target": { "enum": ["video"] },
