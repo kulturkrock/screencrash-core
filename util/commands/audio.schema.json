@@ -1,0 +1,230 @@
+{
+    "$id": "https://kulturkrock.se/audiocommand.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Audio commands in Opus",
+    "description": "An audio command in an Opus to use for Screencrash",
+    "type": "object",
+    "oneOf": [
+        {
+            "title": "Sync asset",
+            "description": "Sync asset to audio component resource folder. Don't do this in an Opus.",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "file" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "title": "Asset path",
+                            "description": "Destination path to asset relative to resource folder",
+                            "type": "string"
+                        },
+                        "data": {
+                            "title": "Data",
+                            "description": "Base64 encoded data",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["path", "data"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Add an audio clip",
+            "description": "Adds an audio clip and loads it into its own player",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "add" },
+                "assets": {
+                    "title": "Asset",
+                    "description": "Asset to play. This command expects exactly ONE asset",
+                    "type": "array",
+                    "items": {
+                        "title": "Asset ID",
+                        "type": "string"
+                    },
+                    "minLength": 1,
+                    "maxLength": 1
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID to use for this clip. Subsequent commands uses this ID to refer to this instance",
+                            "type": "string"
+                        },
+                        "loops": {
+                            "title": "Number of loops",
+                            "description": "Number of loops. 0 means infinitely many. Default 1",
+                            "type": "number",
+                            "default": 1
+                        },
+                        "autostart": {
+                            "title": "Autostart",
+                            "description": "True if clip should start immediately. Default true",
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "assets", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Play/Resume playback of audio",
+            "description": "Resume playback of audio clip",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "play" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Pause playback of audio",
+            "description": "Pause playback of audio clip",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "pause" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Stop playback of audio",
+            "description": "Stop playback of audio clip",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "stop" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Toggle mute on audio",
+            "description": "Toggle mute of audio clip. The previous volume will remember and reused on unmuting",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "toggle_mute" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["entityId"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Set volume of audio clip",
+            "description": "Set volume of audio clip. Both mono and stereo settings are available",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "set_volume" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        },
+                        "volume": {
+                            "title": "Volume",
+                            "description": "Volume for both left/right",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100
+                        },
+                        "volume_right": {
+                            "title": "Volume (right)",
+                            "description": "Volume for right speaker",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100
+                        },
+                        "volume_left": {
+                            "title": "Volume (left)",
+                            "description": "Volume for left speaker",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "required": ["entityId", "volume"],
+                            "not": {
+                                "anyOf": [
+                                    { "required": ["volume_left"] },
+                                    {"required": ["volume_right"] }
+                                ]
+                            }
+                        },
+                        {
+                            "required": ["entityId", "volume_right"],
+                            "not": { "required": ["volume"] }
+                        },
+                        {
+                            "required": ["entityId", "volume_left"],
+                            "not": { "required": ["volume"] }
+                        }
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        }
+    ]
+}
