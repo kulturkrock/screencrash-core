@@ -9,8 +9,8 @@
             "title": "Print debug text",
             "description": "Prints the given text in the console log",
             "properties": {
-                "target": { "enum": ["internal"] },
-                "cmd": { "enum": ["print"] },
+                "target": { "const": "internal" },
+                "cmd": { "const": "print" },
                 "params": {
                     "type": "object",
                     "properties": {

@@ -7,10 +7,10 @@
     "oneOf": [
         {
             "title": "Sync asset",
-            "description": "Sync asset to audio component resource folder. Don't do this manually.",
+            "description": "Sync asset to audio component resource folder. Don't do this in an Opus.",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["file"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "file" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -36,8 +36,8 @@
             "title": "Add an audio clip",
             "description": "Adds an audio clip and loads it into its own player",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["add"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "add" },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to play. This command expects exactly ONE asset",
@@ -81,8 +81,8 @@
             "title": "Play/Resume playback of audio",
             "description": "Resume playback of audio clip",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["play"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "play" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -103,8 +103,8 @@
             "title": "Pause playback of audio",
             "description": "Pause playback of audio clip",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["pause"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "pause" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -125,8 +125,8 @@
             "title": "Stop playback of audio",
             "description": "Stop playback of audio clip",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["stop"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "stop" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -147,8 +147,8 @@
             "title": "Toggle mute on audio",
             "description": "Toggle mute of audio clip. The previous volume will remember and reused on unmuting",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["toggle_mute"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "toggle_mute" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -169,8 +169,8 @@
             "title": "Set volume of audio clip",
             "description": "Set volume of audio clip. Both mono and stereo settings are available",
             "properties": {
-                "target": { "enum": ["audio"] },
-                "cmd": { "enum": ["set_volume"] },
+                "target": { "const": "audio" },
+                "cmd": { "const": "set_volume" },
                 "params": {
                     "type": "object",
                     "properties": {

@@ -7,10 +7,10 @@
     "oneOf": [
         {
             "title": "Sync asset",
-            "description": "Sync asset to screen component resource folder. Don't do this manually.",
+            "description": "Sync asset to screen component resource folder. Don't do this in an Opus.",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["file"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "file" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -36,8 +36,8 @@
             "title": "Add an image",
             "description": "Adds an image and loads it into its own viewer",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["create"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "create" },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to show. This command expects exactly ONE asset",
@@ -121,8 +121,8 @@
             "title": "Destroy image viewer",
             "description": "Destroy image viewer",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["destroy"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "destroy" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -143,8 +143,8 @@
             "title": "Set image visible",
             "description": "Set clip visibility to be visible",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["show"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "show" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -165,8 +165,8 @@
             "title": "Set image hidden",
             "description": "Set clip visibility to be hidden",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["hide"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "hide" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -187,8 +187,8 @@
             "title": "Set opacity on image",
             "description": "Set opacity of clip",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["opacity"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "opacity" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -216,8 +216,8 @@
             "title": "Set viewport for image",
             "description": "Set clip viewport dimensions",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["viewport"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "viewport" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -270,8 +270,8 @@
             "title": "Set layer for image",
             "description": "Set clip layer",
             "properties": {
-                "target": { "enum": ["image"] },
-                "cmd": { "enum": ["layer"] },
+                "target": { "const": "image" },
+                "cmd": { "const": "layer" },
                 "params": {
                     "type": "object",
                     "properties": {

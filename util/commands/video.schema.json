@@ -7,10 +7,10 @@
     "oneOf": [
         {
             "title": "Sync asset",
-            "description": "Sync asset to screen/audio component resource folder. Don't do this manually.",
+            "description": "Sync asset to screen/audio component resource folder. Don't do this in an Opus.",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["file"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "file" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -36,8 +36,8 @@
             "title": "Add a video clip",
             "description": "Adds a video clip and loads it into its own player",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["create"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "create" },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to play. This command expects exactly ONE asset",
@@ -133,8 +133,8 @@
             "title": "Destroy video element",
             "description": "Stop playback of video clip and destroy its player",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["destroy"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "destroy" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -155,8 +155,8 @@
             "title": "Set video visible",
             "description": "Set clip visibility to be visible",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["show"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "show" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -177,8 +177,8 @@
             "title": "Set video hidden",
             "description": "Set clip visibility to be hidden",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["hide"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "hide" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -199,8 +199,8 @@
             "title": "Set opacity on video",
             "description": "Set opacity of clip",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["opacity"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "opacity" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -228,8 +228,8 @@
             "title": "Set viewport for video",
             "description": "Set clip viewport dimensions",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["viewport"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "viewport" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -282,8 +282,8 @@
             "title": "Set layer for video",
             "description": "Set clip layer",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["layer"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "layer" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -310,8 +310,8 @@
             "title": "Play/Resume playback of video",
             "description": "Resume playback of video clip",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["play"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "play" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -332,8 +332,8 @@
             "title": "Pause playback of video",
             "description": "Pause playback of video clip",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["pause"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "pause" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -354,8 +354,8 @@
             "title": "Toggle mute on video",
             "description": "Toggle mute of video clip. The previous volume will remember and reused on unmuting",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["toggle_mute"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "toggle_mute" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -376,8 +376,8 @@
             "title": "Set volume of video clip",
             "description": "Set volume of video clip. Both mono and stereo settings are available",
             "properties": {
-                "target": { "enum": ["video"] },
-                "cmd": { "enum": ["set_volume"] },
+                "target": { "const": "video" },
+                "cmd": { "const": "set_volume" },
                 "params": {
                     "type": "object",
                     "properties": {

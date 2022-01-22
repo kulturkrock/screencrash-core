@@ -7,10 +7,10 @@
     "oneOf": [
         {
             "title": "Sync asset",
-            "description": "Sync asset to screen component resource folder. Don't do this manually.",
+            "description": "Sync asset to screen component resource folder. Don't do this in an Opus.",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["file"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "file" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -36,8 +36,8 @@
             "title": "Add webpage element",
             "description": "Adds a web iframe and loads given url/asset",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["create"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "create" },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to show. This command expects exactly ONE asset",
@@ -121,8 +121,8 @@
             "title": "Destroy webpage",
             "description": "Destroy web iframe element",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["destroy"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "destroy" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -143,8 +143,8 @@
             "title": "Set webpage visible",
             "description": "Set clip visibility to be visible",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["show"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "show" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -165,8 +165,8 @@
             "title": "Set webpage hidden",
             "description": "Set clip visibility to be hidden",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["hide"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "hide" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -187,8 +187,8 @@
             "title": "Set opacity on webpage",
             "description": "Set opacity of clip",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["opacity"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "opacity" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -216,8 +216,8 @@
             "title": "Set viewport for webpage",
             "description": "Set clip viewport dimensions",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["viewport"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "viewport" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -270,8 +270,8 @@
             "title": "Set layer for webpage",
             "description": "Set clip layer",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["layer"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "layer" },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -298,8 +298,8 @@
             "title": "Refresh webpage",
             "description": "Refresh web iframe (using same asset)",
             "properties": {
-                "target": { "enum": ["web"] },
-                "cmd": { "enum": ["refresh"] },
+                "target": { "const": "web" },
+                "cmd": { "const": "refresh" },
                 "params": {
                     "type": "object",
                     "properties": {

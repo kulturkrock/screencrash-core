@@ -10,30 +10,21 @@
         },
         "nodes": {
             "type": "object",
-            "patternProperties": {
-                "^[0-9]+.*$": {
-                    "$ref": "node.schema.json#"
-                }
-            },
-            "additionalProperties": false
+            "additionalProperties": {
+                "$ref": "node.schema.json#"
+            }
         },
         "action_templates": {
             "type": "object",
-            "patternProperties": {
-                "^.*$": {
-                    "$ref": "action.schema.json#"
-                }
-            },
-            "additionalProperties": false
+            "additionalProperties": {
+                "$ref": "action.schema.json#"
+            }
         },
         "assets": {
             "type": "object",
-            "patternProperties": {
-                "^.*$": {
-                    "$ref": "asset.schema.json#"
-                }
+            "additionalProperties": {
+                "$ref": "asset.schema.json#"
             },
-            "additionalProperties": false,
             "required": ["script"]
         }
     },

@@ -1,8 +1,8 @@
 {
     "$id": "https://kulturkrock.se/action.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Action in Opus",
-    "description": "An action object in an Opus to use for Screencrash",
+    "title": "Action",
+    "description": "An action such as starting or stopping an effect",
     "type": "object",
     "oneOf": [
         { "$ref": "commands/internal.schema.json"},

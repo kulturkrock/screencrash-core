@@ -1,8 +1,8 @@
 {
     "$id": "https://kulturkrock.se/node.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Node in Opus",
-    "description": "A node object in an Opus to use for Screencrash",
+    "title": "Node",
+    "description": "A node object",
     "type": "object",
     "properties": {
         "next": {

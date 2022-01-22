@@ -1,8 +1,8 @@
 {
     "$id": "https://kulturkrock.se/asset.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Asset in Opus",
-    "description": "An asset object in an Opus to use for Screencrash",
+    "title": "Asset",
+    "description": "An asset object (e.g. audio file or video file)",
     "type": "object",
     "properties": {
         "path": {
