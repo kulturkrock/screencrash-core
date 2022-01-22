@@ -8,6 +8,8 @@ import aiofiles
 import fitz
 import yaml
 
+# TODO: Autodiscover these instead of hard-coding them, in case
+# the script looks different in the future.
 LEFT_PAGE_LINE_NUMBER_END = (76, 77)
 RIGHT_PAGE_LINE_NUMBER_END = (62, 63)
 
