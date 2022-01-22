@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b32447424d352292ced488cd48833ee8797df4e9c96a4aa119fe658c45bed757"
+            "sha256": "f06b624fc98e80a03eb4fe826eba06246080f69f08f62f67edc6925746c74b85"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,6 +23,31 @@
             ],
             "index": "pypi",
             "version": "==0.8.0"
+        },
+        "pymupdf": {
+            "hashes": [
+                "sha256:03878ff8bb343516e9580930c233105e0a69bbeaebddcb3dcc281ffb8c0944ca",
+                "sha256:125783986da87fe1a5372d621e90fa49e454454af0b3d0f894858c146c712f81",
+                "sha256:17f1b8ff934d02ffc3dfb6af4ce0d1545a722eff180aa675e17ff7ac40b731f9",
+                "sha256:196cfb75eb17271b62f59eacc769710e55c5a4277c455520851db0db9c3b381b",
+                "sha256:42c9188e39ee33b207a810d1f9ff635a8247d9e64b8af432ef36b9696763f8eb",
+                "sha256:4e19dfb82d247027757fb75d5fb73d8ce430930a0c7d2f492913aefd1875345c",
+                "sha256:5046b479a44c55423df0c746cd4d858bd244c85cdfaf46e7fd4298ba7f586365",
+                "sha256:5b347655a948c6a9d2d66a0d1e651f9888ce6e2915ee6a2e60498a0c735b5330",
+                "sha256:65647d992bcc77b52d808c40a08b6b98a6012371ffef9c764a34bb0580b3abcf",
+                "sha256:656a7bec93bc89feabb4c34d3c7c8ef18335837870a2ae4b4bcb91eff9d6ce10",
+                "sha256:6ee61379f001f7bc892afefae886d07d49320d9641eeeb40dcc936903addeb4d",
+                "sha256:910d4159698adcd7783a5fcde17079bb295abc2d3d604ccb8ed257a24b4e7dbf",
+                "sha256:9abd78c614455d0695fbcff693a85cc906b8fcbaa24fb576182b20a87db2eddd",
+                "sha256:aca2f2f94bda157a0365230fe11dcf1b9f6ab592943cc7534d92389f1058cd86",
+                "sha256:b33c5a68a4bcfe8f948127aad61f25e172d6851993235f46cc395b2038c2eb84",
+                "sha256:c126efda315be900ecf194b3d04b93cc211db8fa6c3b31af482d6c5aac2c5b66",
+                "sha256:c9ee5f4f413ac3675835426ee182aa7c68774c11ce9f9f61f65f7f34d810ce38",
+                "sha256:eeccac87ab19127ef6f15caa3b12fdf02e944864816844b456b5856582056873",
+                "sha256:f140acdecdc3a6cbc6987eda3f1df9a5c8d85b0c1044f4132fde4813acbd905a"
+            ],
+            "index": "pypi",
+            "version": "==1.19.4"
         },
         "pyyaml": {
             "hashes": [
