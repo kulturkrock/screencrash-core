@@ -74,6 +74,12 @@
                             "type": "boolean",
                             "default": true
                         },
+                        "start_at": {
+                            "title": "Start position",
+                            "description": "Position in video file to start playback from, given in seconds. Float values are valid (up to 3 decimals)",
+                            "type": "number",
+                            "default": 0
+                        },
                         "x": {
                             "title": "Horizontal position",
                             "description": "Horizontal position along x-axis, given in either pixels or percent (see usePercentage param)",
@@ -427,6 +433,33 @@
                             "not": { "required": ["volume"] }
                         }
                     ],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Set video playback position",
+            "description": "Set video playback position",
+            "properties": {
+                "target": { "const": "video" },
+                "cmd": { "const": "seek" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        },
+                        "position": {
+                            "title": "Position",
+                            "description": "Position to play from, given in seconds. Float values are valid, up to 3 decimals",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["entityId"],
                     "additionalProperties": false
                 }
             },
