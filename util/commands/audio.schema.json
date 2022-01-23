@@ -68,6 +68,12 @@
                             "description": "True if clip should start immediately. Default true",
                             "type": "boolean",
                             "default": true
+                        },
+                        "start_at": {
+                            "title": "Start position",
+                            "description": "Position in audio file to start playback from, given in seconds. Float values are valid (up to 3 decimals)",
+                            "type": "number",
+                            "default": 0
                         }
                     },
                     "required": ["entityId"],
@@ -220,6 +226,33 @@
                             "not": { "required": ["volume"] }
                         }
                     ],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Set audio playback position",
+            "description": "Set audio playback position",
+            "properties": {
+                "target": { "const": "audio" },
+                "cmd": { "const": "seek" },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "entityId": {
+                            "title": "Entity ID",
+                            "description": "Entity ID of the clip",
+                            "type": "string"
+                        },
+                        "position": {
+                            "title": "Position",
+                            "description": "Position to play from, given in seconds. Float values are valid, up to 3 decimals",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["entityId"],
                     "additionalProperties": false
                 }
             },
