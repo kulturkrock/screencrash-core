@@ -30,11 +30,9 @@ class Audio(ComponentPeer):
             print(f"Got an error from Audio Component: {message}")
         elif message_type == "effect-added":
             data = {key:value for key, value in message.items() if key != "messageType"}
-            data["effectType"] = "audio"
             self.emit("effect-added", data)
         elif message_type == "effect-changed":
             data = {key:value for key, value in message.items() if key != "messageType"}
-            data["effectType"] = "audio"
             self.emit("effect-changed", data)
         elif message_type == "effect-removed":
             entity_id = message["entityId"]
@@ -54,6 +52,7 @@ class Audio(ComponentPeer):
             "command": cmd,
             "entityId": entity_id,
             "channel": 1,
+            "type": target_type,
             "asset": assets[0].path if assets else None,
         }
         data.update(params)     # Add params to data
