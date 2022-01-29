@@ -9,9 +9,8 @@ from websockets.server import WebSocketServerProtocol
 from opus import ActionTemplate, load_opus
 from peers.component import ComponentPeer
 from performance import Performance
-from peers.audio import Audio
 from peers.internal import InternalPeer
-from peers.screen import Screen
+from peers.media import MediaPeer
 from peers.ui import UI
 
 
@@ -37,8 +36,7 @@ class Core:
         self._ui = UI(self._opus, self._performance.history)
         self._components: Dict[str,ComponentPeer] = {
             "internal": InternalPeer(),
-            "screen": Screen(),
-            "audio": Audio()
+            "media": MediaPeer()
         }
         self._setup_events()
         self._distribute_assets()

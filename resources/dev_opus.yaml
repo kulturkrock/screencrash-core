@@ -35,7 +35,7 @@ nodes:
 action_templates:
   "play_thorin_song":
     target: "audio"
-    cmd: "add"
+    cmd: "create"
     assets: ["thorin_song"]
     params:
       autostart: true
@@ -43,7 +43,7 @@ action_templates:
       entityId: "ID_thorin_song"
   "stop_thorin_song":
     target: "audio"
-    cmd: "stop"
+    cmd: "destroy"
     params:
       entityId: "ID_thorin_song"
   "volume_thorin_song":
