@@ -37,7 +37,7 @@
             "description": "Adds an audio clip and loads it into its own player",
             "properties": {
                 "target": { "const": "audio" },
-                "cmd": { "const": "add" },
+                "cmd": { "const": "create" },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to play. This command expects exactly ONE asset",
@@ -165,7 +165,7 @@
             "description": "Stop playback of audio clip",
             "properties": {
                 "target": { "const": "audio" },
-                "cmd": { "const": "stop" },
+                "cmd": { "const": "destroy" },
                 "params": {
                     "type": "object",
                     "properties": {

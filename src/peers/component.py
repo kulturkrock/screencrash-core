@@ -78,7 +78,7 @@ class ComponentPeer(EventEmitter):
     def get_connected_clients(self) -> List[ComponentInfo]:
         return list(self._infos.values())
 
-    def send_to_all(self, data) -> None:
+    def send_command(self, data) -> None:
         websockets.broadcast(self._websockets, json.dumps(data))
 
     def handle_component_info(self, component_data):
