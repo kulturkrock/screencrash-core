@@ -1,0 +1,337 @@
+startNode: "1"
+nodes:
+  "1":
+    prompt: "[Inne på hamnsyltan]"
+    next: "2"
+  "2":
+    prompt: "[Mystisk musik börjar]"
+    # TODO: Effekt, spela musik
+    next: "5"
+  "5":
+    prompt: "[Skärmen visar hamnsyltans interiör]"
+    # TODO: Effekt, visa interiör
+    next: "32"
+  "32":
+    prompt: "GUYBRUSHS PIRATSÅNG"
+    # TODO: Effekt, spela sång
+    next: "160"
+  # Här pratar Guybrush med Stan och piraterna, och kan köpa grejer från Stan
+  "160":
+    # TODO: Effekt i den mystiska välgörarens hydda?
+    prompt: "Ja, då var vi av med honom!"
+    next: "165"
+  "165":
+    # TODO: Effekt, knackar på dörren
+    prompt: "Schh, nu är han strax här!"
+    next: "184"
+  "184":
+    prompt: "Självklart!"
+    next:
+      - node: "284_fäktningen"
+        description: "Guybrush väljer fäktning"
+      - node: "473_kyrkogården"
+        description: "Guybrush väljer skatten"
+  # Vi fortsätter i hyddan lite här, MVG kan ge Guybrush saker
+  "217_sekvens_12":
+    # TODO: Annan scen?
+    prompt: "[Sekvens 12]"
+    next:
+      - node: "284_fäktningen"
+        description: "Nästa prövning är fäktning"
+      - node: "473_kyrkogården"
+        description: "Nästa prövning är skatten"
+  "250_sekvens_14":
+    # TODO: Annan scen?
+    prompt: "[Sekvens 14]"
+    next: "813_lechucks_begravning"
+  "284_fäktningen":
+    # TODO: Bakgrundsbyte
+    prompt: "[På stranden, innan Carlas kobbe]"
+    next: "367"
+  "367":
+    prompt: "En gummikyckling med en talja mitt på. Perfekt!"
+    next:
+      - node: "647_sekvens_44"
+        description: "Fäktningen är den första prövningen"
+      - node: "734_sekvens_51"
+        description: "Fäktningen är den andra prövningen"
+  # Här kan Guybrush få grejer från Stan och en bandit
+  "373":
+    # TODO: Åka linbana till kobben
+    prompt: "Okej, alla med. Fäktmästare Carla, här kommer jaaaaaaag!"
+    next: "382"
+  "382":
+    # TODO: Musik
+    prompt: "[Fäktningsduellen]"
+    next:
+      # TODO: Använd state här
+      - node: "217_sekvens_12"
+        description: "Det här var första prövningen"
+      - node: "250_sekvens_14"
+        description: "Det här var andra prövningen"
+  "473_kyrkogården":
+    # TODO: Visa kyrkogård
+    prompt: "[På kyrkogården]"
+    next: "574"
+  # Här kan Guybrush få en blomma eller köpa saker från Stan
+  "567_sekvens_42":
+    prompt: "[Sekvens 42]"
+    next: "571"
+  "574":
+    # TODO: Spela musik
+    prompt: "[Skattjakten]"
+    next:
+      # TODO: Använd state
+      - node: "567_sekvens_42"
+        description: "Detta var Guybrushs första prövning"
+      - node: "250_sekvens_14"
+        description: "Detta var Guybrushs andra prövning"
+  "571":
+    # TODO: Effekt, muller
+    prompt: "Hoppas det här funkar nu, annars kommer han döda mig..."
+    next:
+      - node: "217_sekvens_12"
+        description: "Guybrush har redan hittat skatten"
+      - node: "473_kyrkogården"
+        description: "Guybrush har inte hittat skatten"
+  "647_sekvens_44":
+    prompt: "[Sekvens 44]"
+    next:
+      # TODO: Använd state
+      - node: "373"
+        description: "Guybrush är på väg till fäktmästaren"
+      - node: "574"
+        description: "Guybrush håller på med skattjakten"
+  "734_sekvens_51":
+    prompt: "[Sekvens 51]"
+    next: "812"
+  "812":
+    prompt: "Var var jag?"
+    next:
+      # TODO: Använd state
+      - node: "574"
+        description: "De är på kyrkogården"
+      - node: "373"
+        description: "De är på klippan"
+  "813_lechucks_begravning":
+    # TODO: Visa LeChucks fartyg
+    prompt: "[LeChucks begravning]"
+    next: "814"
+  "814":
+    # TODO: Spela musik
+    prompt: "[LeChucks havsbegravning och återkomst]"
+    next: "940"
+  "940":
+    prompt: "[Aktpaus]"
+    next: "941"
+  # Akt 2
+  "941":
+    prompt: "[I Elaines hus]"
+    next: "953"
+    # TODO: Visa hus
+  "953":
+    prompt: "Guybrush?"
+    next: "1050"
+    # TODO: Spela musik
+  "1050":
+    prompt: "J-jaså du, spöke? Så du bor där i förrådet?"
+    next: "1095"
+    # TODO: Klockan slår ett
+  "1095":
+    prompt: "Vi ses!"
+    next: "1180"
+    # TODO: Visa briggen
+    # Här kan Elaine byta grejer mot en tårta
+  "1181":
+    prompt: "[MVGs hydda]"
+    next: "1212"
+    # TODO: MVGs hydda?
+  "1212":
+    prompt: "[LeChucks hytt]"
+    next: "1232"
+  "1232":
+    prompt: "Han är redan död."
+    next: "1241"
+    # TODO: Mystisk musik
+  "1241":
+    prompt: "När du säger det så..."
+    next: "1276"
+    # TODO: Spela musik
+  "1276":
+    prompt: "Men jag är inte pirat än! Vänta nu... du är kär i mig?"
+    next: "1321"
+    # TODO: Spela musik
+  "1321":
+    prompt: "[LeChucks skepp]"
+    next: "1373"
+    # TODO: LeChucks skepp?
+  "1373":
+    prompt: "Se så yngel, du hörde kapten. Hehe."
+    next: "1377"
+    # TODO: Plums
+  "1377":
+    prompt: "Jag heter Guybrush! Elaine-"
+    next: "1379"
+    # TODO: Plask
+  "1379":
+    prompt: "[Öde ö]"
+    next: "1443"
+    # TODO: Öde ö
+  "1443":
+    prompt: "Ja! Jag går och kollar!"
+    next: "1462"
+    # TODO: Måsen attackerar
+    # TODO: Obligatoriskt?
+  "1462":
+    prompt: "A-ha! Hej där, din hönshjärna - hur mås?"
+    next: "1464"
+    # TODO: Måsen skriar
+  "1464":
+    prompt: "En sandkrabba hade varit en mer avskräckande väktare!"
+    next: "1475"
+    # TODO: Måsen skriar
+  "1475":
+    prompt: "Du är lite klipsk du!"
+    next: "1487"
+    # TODO: Måsen skriar
+  "1487":
+    prompt: "Min guvernörsstolthet dragen i smutsen sådär, va!"
+    next: "1562"
+    # TODO: Måsen skriar
+  "1562":
+    prompt: "Kolla här, King Kong! Finfin mat!"
+    next: "1591"
+    # TODO: Ordning?
+    # TODO: Obligatorisk?
+    # TODO: Surströmming öppnas
+  "1591":
+    prompt: "Jag kan berätta sen. Fläkta på!"
+    next: "1609"
+    # TODO: Eld tänds
+  "1609":
+    prompt: "Välkomna till Stans Bitar av Båtar!"
+    next: "1624"
+    # TODO: Visa piratskeppet
+  "1624":
+    prompt: "Och vem är du då, pojkvasker?"
+    next: "1712"
+    # TODO: Guybrush piratsång repris
+  "1712":
+    prompt: "Hämta en gryta!"
+    next: "1740"
+    # TODO: Spela musik
+  "1740":
+    prompt: "Äsch! Börja om från början!"
+    next: "1741"
+    # TODO: Spela musik
+  "1741":
+    prompt: "[Spelar musik]"
+    next: "1747"
+  "1747":
+    prompt: "En färsk djävulsrot som har hela skalet kvar"
+    next:
+      # TODO: Använd state
+      - node: "1762"
+        description: "Här första gången"
+      - node: "1748"
+        description: "Varit här förut"
+  "1748":
+    prompt: "Nånting som förvillar, som du hellre sluppit se"
+    next:
+      # TODO: Använd state
+      - node: "1773"
+        description: "Här första gången"
+      - node: "1749"
+        description: "Varit här förut"
+  "1749":
+    prompt: "Nåt som är så starkt att du inte mäktar med"
+    next:
+      # TODO: Använd state
+      - node: "1789"
+        description: "Här första gången"
+      - node: "1751"
+        description: "Varit här förut"
+  "1751":
+    prompt: "Nåt som är ett rent förräderi"
+    next:
+      # TODO: Använd state
+      - node: "1791"
+        description: "Här första gången"
+      - node: "1752"
+        description: "Varit här förut"
+  "1752":
+    prompt: "Nånting du fick tag på allde's nyss"
+    next:
+      # TODO: Använd state
+      - node: "1801"
+        description: "Här första gången"
+      - node: "1753"
+        description: "Varit här förut"
+  "1753":
+    prompt: "Och det älskande parets första kyss"
+    next: "1818"
+    # TODO: Fade out
+  "1762":
+    prompt: "Vad kommer sen?" # TODO: Eller om de kommer på något annat
+    next: "1741"
+  "1773":
+    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack!"
+    next: "1741"
+  "1789":
+    prompt: "Jag såg till att ställa ner den väldigt försiktigt!"
+    next: "1741"
+  "1791":
+    prompt: "Ett förräderi? Hur tusan lägger man det i en gryta?"
+    next: "1800"
+    # TODO: Kanoneld hörs
+  "1800":
+    prompt: "Jaha, den ja!"
+    next: "1741"
+  "1801":
+    prompt: "[Läge för kanoneld]"
+    next:
+      - node: "1741"
+        description: "De kommer på något annat än hatten"
+      - node: "1806"
+        description: "De kommer inte på något annat än hatten"
+    # TODO: Kanoneld
+  "1806":
+    prompt: "[Läge för en kanon]"
+    next: "1807"
+    # TODO: Kanoneld
+  "1807":
+    prompt: "Se upp!"
+    next: "1811"
+    # TODO: Kanonkula viner förbi
+  "1811":
+    prompt: "Hatten!"
+    next: "1741"
+  "1818":
+    prompt: "Då är det ju inte vår första kyss!"
+    next: "1826"
+    # Spela musik
+  "1826":
+    prompt: "Vågar du kalla dig havets fasa med det ansiktet?"
+    next: "1829"
+    # TODO: Svärdsfäktning
+  "1829":
+    prompt: "Spökpiraten LeChuck, ha, du är inte mer spöke än jag är din far."
+    next: "1832"
+    # TODO: Svärdsfäktning
+  "1832":
+    prompt: "En garde, din fäktning är värre än blasé!"
+    next: "1848"
+    # TODO: Svärdsfäktning
+  "1848":
+    prompt: "Och det älskande parets första kyss"
+    next: "1858"
+    # TODO: LeChuck förintas, karibisk stjärnhimmel
+  "1858":
+    prompt: "[Slut]"
+    next: "1"
+  # TODO: Placera in alla effekter
+  # TODO: Anteckna var och hur inventariet kan ändras
+action_templates: {}
+assets:
+  "script":
+    path: "Apornas ö 2021-11-22.pdf"
