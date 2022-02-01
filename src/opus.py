@@ -37,6 +37,7 @@ class NodeChoice:
     """One choice of node when the opus branches"""
     node: str
     description: str
+    actions: List[str] = field(default_factory=list)
 
 @dataclass
 class Node:
