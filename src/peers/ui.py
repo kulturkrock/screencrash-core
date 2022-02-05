@@ -2,11 +2,11 @@ import base64
 from dataclasses import asdict
 import json
 import traceback
-from typing import Dict, List
+from typing import Any, Dict, List
 import websockets
 from websockets.server import WebSocketServerProtocol
 
-from opus import Opus
+from opus import Opus, Node, ActionTemplate
 from peers.component_info import ComponentInfo
 from util.event_emitter import EventEmitter
 
@@ -95,13 +95,21 @@ class UI(EventEmitter):
             del self._components[component_id]
             self._send_components_update()
 
+    def _prepare_node_for_send(self, node: Node) -> Dict[str, Any]:
+        data = asdict(node)
+        data["actions"] = [asdict(self._opus.action_templates.get(action)) for action in node.actions]
+        if type(node.next) == list:
+            for nextChoice in data["next"]:
+                nextChoice["actions"] = [asdict(self._opus.action_templates.get(action)) for action in nextChoice["actions"]]
+        return data
+
     async def handle_socket(self, websocket: WebSocketServerProtocol):
         """This handles one websocket connection."""
         self._websockets.append(websocket)
         # Handshake
         await websocket.send(json.dumps({
             "messageType": "nodes",
-            "data": {key: asdict(node) for key, node in self._opus.nodes.items()}
+            "data": {key: self._prepare_node_for_send(node) for key, node in self._opus.nodes.items()}
         }))
         await websocket.send(json.dumps({
             "messageType": "history",

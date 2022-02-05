@@ -11,6 +11,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "file" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -38,6 +43,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "create" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to show. This command expects exactly ONE asset",
@@ -151,6 +161,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "destroy" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -173,6 +188,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "show" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -195,6 +215,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "hide" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -217,6 +242,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "opacity" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -246,6 +276,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "viewport" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -300,6 +335,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "layer" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -328,6 +368,11 @@
             "properties": {
                 "target": { "const": "image" },
                 "cmd": { "const": "fade" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {

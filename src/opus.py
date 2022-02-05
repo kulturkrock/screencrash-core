@@ -29,6 +29,7 @@ class ActionTemplate:
     id: int
     target: str
     cmd: str
+    desc: Optional[str] = None
     assets: List[str] = field(default_factory=list)
     params: Dict[str, Any] = field(default_factory=dict)
 

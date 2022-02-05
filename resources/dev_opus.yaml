@@ -30,7 +30,7 @@ nodes:
   "415":
     next: "459"
     prompt: "Ah, inte illa. Vad sa du att du hette?"
-    actions: ["add_inventory", "play_thorin_song", "volume_thorin_song"]
+    actions: ["add_inventory", "play_thorin_song"]
   "459":
     next: "11"
     prompt: "Carla..."
@@ -39,6 +39,7 @@ action_templates:
   "play_thorin_song":
     target: "audio"
     cmd: "create"
+    desc: "Play that good old thorin song"
     assets: ["thorin_song"]
     params:
       autostart: true
