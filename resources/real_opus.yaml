@@ -1,129 +1,641 @@
 startNode: "1"
 nodes:
   "1":
-    prompt: "[Inne på hamnsyltan]"
+    prompt: "[Redo att visa stjärnhimmel]"
     next: "2"
   "2":
-    prompt: "[Mystisk musik börjar]"
-    # TODO: Effekt, spela musik
+    prompt: "[Redo att spela mystisk musik]"
+    # Effekt: Spela musik
     next: "5"
   "5":
-    prompt: "[Skärmen visar hamnsyltans interiör]"
-    # TODO: Effekt, visa interiör
+    prompt: "Mörk magi är lite av min egen specialitet, förstår ni."
+    # Effekt: Visa interiör
     next: "32"
   "32":
-    prompt: "GUYBRUSHS PIRATSÅNG"
-    # TODO: Effekt, spela sång
+    prompt: "Ge honom lite förslag!"
+    # Effekt: Spela sång
+    next: "81"
+  "81":
+    prompt: "Det här är er chans. Vad tycker du han ska göra?"
+    next:
+      - node: "82_sekvens_3"
+        description: "Prata med Stan"
+      - node: "106_sekvens_6"
+        description: "Prata med pirater"
+  "82_sekvens_3":
+    prompt: "[Sekvens 3]"
+    next: "90"
+  "90":
+    prompt: "Vad sägs till exempel om den här utmärkt praktiska saken, äkta läder, bara tre dubloner?"
+    next:
+      # TODO: Använd state
+      - node: "97_sekvens_5"
+        description: "Guybrush har pratat med kaptenerna"
+      - node: "91"
+        description: "Guybrush har inte pratat med kaptenerna"
+  "91":
+    prompt: "Hmm. Tre dubloner - jag har bara fem. Behöver jag en väska?"
+    next:
+      - node: "92_sekvens_4"
+        description: "Guybrush köper inte väskan"
+      - node: "97_sekvens_5"
+        description: "Guybrush köper väskan"
+  "92_sekvens_4":
+    prompt: "[Sekvens 4]"
+    next: "95"
+  "95":
+    prompt: "Om du ångrar dig är det bara att komma tillbaka. Stans Väskor och Vätskor, till er tjänst."
+    next:
+      - node: "97_sekvens_5"
+        description: "Guybrush ångrar sig och köper väskan"
+      - node: "106_sekvens_6"
+        description: "Guybrush pratar med piraterna"
+  "97_sekvens_5":
+    prompt: "[Sekvens 5]"
+    next: "103"
+  "103":
+    prompt: "Ha! Jag är bra på det här."
+    next:
+      # TODO: Använd state
+      - node: "149_sekvens_7"
+        description: "Guybrush har redan pratat med piraterna"
+      - node: "104"
+        description: "Guybrush har inte pratat med piraterna"
+  "104":
+    prompt: "Välkommen åter! Tack för att du handlar hos Stans Väskor och Vätskor."
+    next:
+      # Bara ett val som har effekt
+      - node: "106_sekvens_6"
+        description: "Guybrush pratar med piraterna"
+  "106_sekvens_6":
+    prompt: "[Sekvens 6]"
+    next: "133"
+  "133":
+    prompt: "En särskild kompass, som inte pekar åt norr?"
+    # Effekt: Ljud av krossat glas
+    next: "146"
+  "146":
+    prompt: "Då utropar vi dig till pirat, på min kaptensheder."
+    next:
+      # TODO: Använd state
+      - node: "149_sekvens_7"
+        description: "Guybrush har köpt väskan"
+      - node: "82_sekvens_3"
+        description: "Guybrush har inte pratat med Stan"
+      - node: "97_sekvens_5"
+        description: "Guybrush har pratat med Stan men inte köpt väskan"
+  "149_sekvens_7":
+    prompt: "[Sekvens 7]"
+    next: "155"
+  "155":
+    prompt: "\"Möt mig uppe på kullen vid midnatt.\" Signerat \"en hemlig välgörare\"..."
+    # Effekt: Olycksbådande vind
     next: "160"
-  # Här pratar Guybrush med Stan och piraterna, och kan köpa grejer från Stan
   "160":
-    # TODO: Effekt i den mystiska välgörarens hydda?
     prompt: "Ja, då var vi av med honom!"
+    # TODO: Effekt i den mystiska välgörarens hydda?
     next: "165"
   "165":
-    # TODO: Effekt, knackar på dörren
     prompt: "Schh, nu är han strax här!"
+    # Effekt: Knackar på dörren
     next: "184"
   "184":
     prompt: "Självklart!"
     next:
-      - node: "284_fäktningen"
+      - node: "185_sekvens_9"
         description: "Guybrush väljer fäktning"
-      - node: "473_kyrkogården"
+      - node: "193_sekvens_10"
         description: "Guybrush väljer skatten"
-  # Vi fortsätter i hyddan lite här, MVG kan ge Guybrush saker
+  "185_sekvens_9":
+    prompt: "[Sekvens 9]"
+    next: "192"
+  "192":
+    prompt: "Ja"
+    next:
+      # TODO: Använd state
+      - node: "202_sekvens_11"
+        description: "Detta är Guybrushs första prövning"
+      - node: "242_sekvens_13"
+        description: "Detta är Guybrushs andra prövning"
+  "193_sekvens_10":
+    prompt: "[Sekvens 10]"
+    next: "196"
+  "196":
+    prompt: "Ja, här."
+    # Effekt: Kartan pyser
+    next: "201"
+  "201":
+    prompt: "Och ett visdomsord: ett väl utfört arbete är sin egen belöning! Det var allt."
+    next:
+      # TODO: Använd state
+      - node: "202_sekvens_11"
+        description: "Detta är Guybrushs första prövning"
+      - node: "242_sekvens_13"
+        description: "Detta är Guybrushs andra prövning"
+  "202_sekvens_11":
+    prompt: "[Sekvens 11]"
+    next: "216"
+  "216":
+    prompt: "Ooh boy."
+    next:
+      # TODO: Använd state
+      - node: "285a_sekvens_15"
+        description: "Guybrush valde att fäktas först"
+      - node: "474a_sekvens_29"
+        description: "Guybrush valde att leta efter skatten först"
   "217_sekvens_12":
     # TODO: Annan scen?
     prompt: "[Sekvens 12]"
+    next: "240"
+  "240":
+    prompt: "Jag ska nog kunna ge dig lite hjälp på traven."
     next:
-      - node: "284_fäktningen"
-        description: "Nästa prövning är fäktning"
-      - node: "473_kyrkogården"
-        description: "Nästa prövning är skatten"
+      # TODO: Använd state
+      - node: "185_sekvens_9"
+        description: "Dags att besegra fäktmästaren"
+      - node: "193_sekvens_10"
+        description: "Dags att hitta skatten"
+  "242_sekvens_13":
+    prompt: "[Sekvens 13]"
+    next: "249"
+  "249":
+    prompt: "Jag är inte så säker på att vi sett det sista av LeChuck..."
+    next:
+      # TODO: Använd state
+      - node: "567_sekvens_42"
+        description: "Guybrush ska till skatten"
+      - node: "285a_sekvens_15"
+        description: "Guybrush ska till fäktningen"
   "250_sekvens_14":
     # TODO: Annan scen?
     prompt: "[Sekvens 14]"
-    next: "813_lechucks_begravning"
-  "284_fäktningen":
-    # TODO: Bakgrundsbyte
-    prompt: "[På stranden, innan Carlas kobbe]"
-    next: "367"
-  "367":
+    next: "283"
+  "283":
+    prompt: "Precis. Inte den skarpaste kniven, minsann."
+    next: "814a_sekvens_59"
+  "285a_sekvens_15":
+    prompt: "[Sekvens 15]"
+    next: "285b"
+  "285b":
+    prompt: "[Redo att visa klippan]"
+    # Effekt: Visa klippan
+    next: "286"
+  "286":
+    prompt: "Och var kan jag hitta ett svärd?"
+    next:
+      - node: "288_sekvens_16"
+        description: "Guybrush pratar med Stan"
+      - node: "309_sekvens_21"
+        description: "Guybrush pratar med banditen"
+  "288_sekvens_16":
+    prompt: "[Sekvens 16]"
+    next: "296"
+  "296":
+    prompt: "Jag har också den här utsökta värjan. Den har tillhört en äkta pirat!"
+    next:
+      - node: "296"
+        # TODO: Köp linan
+        description: "Guybrush köper linan"
+      - node: "298_sekvens_20"
+        description: "Guybrush frågar om svärdet"
+      - node: "309_sekvens_21"
+        description: "Guybrush pratar med banditen"
+      - node: "367a_sekvens_26"
+        description: "Guybrush försöker använda gummikycklingen"
+  "298_sekvens_20":
+    prompt: "[Sekvens 20]"
+    next: "301"
+  "301":
+    prompt: "Tre dubloner"
+    next:
+      # TODO: Använd state
+      - node: "307"
+        description: "Guybrush har inte råd med svärdet"
+      - node: "307"
+        # TODO: Köp svärd
+        description: "Guybrush har råd med svärdet"
+  "307":
+    prompt: "Varsågod. Vassa änden bortåt, så ja." # TODO: Inte alltid, kan höftas!
+    next:
+      # TODO: Använd state
+      - node: "307"
+        # TODO: Köp linan
+        description: "Guybrush köper linan"
+      - node: "373a_sekvens_28"
+        description: "Guybrush är redo att åka linbana"
+      - node: "309_sekvens_21"
+        description: "Guybrush pratar med banditen"
+      - node: "367a_sekvens_26"
+        description: "Guybrush försöker använda gummikycklingen"
+  "309_sekvens_21":
+    prompt: "[Sekvens 21]"
+    next:
+      # TODO: Använd state
+      - node: "324_sekvens_22"
+        description: "Guybrush har redan pratat med banditen en gång"
+      - node: "322"
+        description: "Guybrush har inte pratat med banditen förut"
+  "322":
+    prompt: "Jag har ett byte här som ska till en bättre behövande."
+    next:
+      # TODO: Använd state
+      - node: "296"
+        # TODO: Köp linan
+        description: "Guybrush köper linan"
+      - node: "288_sekvens_16"
+        description: "Guybrush pratar med Stan (första gången)"
+      - node: "298_sekvens_20"
+        description: "Guybrush går för att köpa värjan"
+      - node: "324_sekvens_22"
+        description: "Guybrush intresserar sig för bågen"
+  "324_sekvens_22":
+    prompt: "[Sekvens 22]"
+    next: "333"
+  "333":
+    prompt: "Ja, det här vill du inte missa!"
+    next:
+      # TODO: Använd state
+      - node: "334_sekvens_23"
+        description: "Guybrush har inte linan"
+      - node: "341_sekvens_24"
+        description: "Guybrush har linan"
+  "334_sekvens_23":
+    prompt: "[Sekvens 23]"
+    next: "339"
+  "339":
+    prompt: "Varsågod!"
+    # TODO: Köp linan
+    next: "341_sekvens_24"
+  "341_sekvens_24":
+    prompt: "[Sekvens 24]"
+    next: "352"
+  "352":
+    prompt: "...oj, det var mitt sista mynt."
+    # TODO: Bli av med ett mynt
+    next: "358"
+  "358":
+    prompt: "Här, bygg dig ett nytt liv."
+    # TODO: Få 5 pengar
+    next: "360"
+  "360":
+    prompt: "Ingen orsak!"
+    next:
+      # TODO: Använd state
+      - node: "365_sekvens_25"
+        description: "Stan har inte presenterat sin affär"
+      - node: "362"
+        description: "Stan har redan presenterat sin affär"
+  "362":
+    prompt: "Men det verkar fasligt långt att klättra. Kommer jag aldrig orka."
+    next:
+      - node: "298_sekvens_20"
+        description: "Guybrush köper värjan"
+      - node: "367a_sekvens_26"
+        description: "Guybrush försöker använda gummikycklingen"
+  "365_sekvens_25":
+    prompt: "[Sekvens 25]"
+    next: "296"
+  "367a_sekvens_26":
+    prompt: "[Sekvens 26]"
+    next: "367b"
+  "367b":
     prompt: "En gummikyckling med en talja mitt på. Perfekt!"
     next:
+      # TODO: Använd state
       - node: "647_sekvens_44"
         description: "Fäktningen är den första prövningen"
       - node: "734_sekvens_51"
         description: "Fäktningen är den andra prövningen"
-  # Här kan Guybrush få grejer från Stan och en bandit
-  "373":
-    # TODO: Åka linbana till kobben
-    prompt: "Okej, alla med. Fäktmästare Carla, här kommer jaaaaaaag!"
-    next: "382"
-  "382":
-    # TODO: Musik
-    prompt: "[Fäktningsduellen]"
+  "369_sekvens_27":
+    prompt: "[Sekvens 27]"
+    next: "371"
+  "371":
+    prompt: "Såja! Hmm, är allt klart nu?"
     next:
-      # TODO: Använd state här
+      - node: "298_sekvens_20"
+        description: "Guybrush köper värjan"
+      # TODO: Guybrush kan plocka upp LeChucks värja också
+      - node: "373a_sekvens_28"
+        description: "Guybrush åker linbana"
+  "373a_sekvens_28":
+    prompt: "[Sekvens 28]"
+    next: "373b"
+  "373b":
+    prompt: "Okej, alla med. Fäktmästare Carla, här kommer jaaaaaaag!"
+    # Effekt: Åka linbana till kobben
+    next: "381"
+  "381":
+    prompt: "Okej. Låt oss få det här överstökat."
+    # Effekt: Musik
+    next: "465"
+  "465":
+    prompt: "...så blir alla utmanare mitt problem istället."
+    # TODO: Få medalj
+    next: "470"
+  "470":
+    prompt: "Ha! Lycka till med resten av inträdesproven, Guybrush!"
+    next:
+      # TODO: Använd state
       - node: "217_sekvens_12"
-        description: "Det här var första prövningen"
+        description: "Detta var Guybrushs första prövning"
       - node: "250_sekvens_14"
-        description: "Det här var andra prövningen"
-  "473_kyrkogården":
-    # TODO: Visa kyrkogård
-    prompt: "[På kyrkogården]"
-    next: "574"
-  # Här kan Guybrush få en blomma eller köpa saker från Stan
+        description: "Detta var Guybrushs andra prövning"
+  "474a_sekvens_29":
+    prompt: "[Sekvens 29]"
+    next: "474b"
+  "474b":
+    prompt: "[Redo att visa kyrkogården]"
+    # Effekt: Visa kyrkogården
+    next: "488"
+  "488":
+    prompt: "Gör du det."
+    next:
+      - node: "488"
+        # TODO: Köp blomman
+        description: "Guybrush köper blomman"
+      - node: "490_sekvens_30"
+        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+      - node: "509_sekvens_32"
+        description: "Guybrush plockar fram en blomma"
+      - node: "495_sekvens_31"
+        description: "Guybrush pratar med dödgrävaren"
+      # TODO: Guybrush kan prata med Stan när som helst, fixa!
+      - node: "523_sekvens_35"
+        description: "Guybrush pratar med Stan"
+  "490_sekvens_30":
+    prompt: "[Sekvens 30]"
+    next: "493"
+  "493":
+    prompt: "Gamla mamsen blir nog inge glad om du kommer utan en blomma. Sjas."
+    next:
+      - node: "493"
+        # TODO: Köp blomman
+        description: "Guybrush köper blomman"
+      - node: "495_sekvens_31"
+        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+      - node: "509_sekvens_32"
+        description: "Guybrush plockar fram en blomma"
+      - node: "523_sekvens_35"
+        description: "Guybrush pratar med Stan"
+  "495_sekvens_31":
+    prompt: "[Sekvens 31]"
+    next: "502"
+  "502":
+    prompt: "Det vore snällt. Den ska dit bort."
+    # TODO: Plocka upp en skiffernyckel
+    next: "506"
+  "506":
+    prompt: "Du ska ha en slant för besväret."
+    # TODO: Få 5 dubloner
+    next: "507"
+  "507":
+    prompt: "Oj, 5 dubloner, tack så mycket."
+    next:
+      - node: "507"
+        # TODO: Köp blomman
+        description: "Guybrush köper blomman"
+      - node: "490_sekvens_30"
+        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+      - node: "509_sekvens_32"
+        description: "Guybrush plockar fram en blomma"
+      - node: "515_sekvens_33"
+        description: "Guybrush undersöker mausoleet (har redan visat blomman)"
+      - node: "523_sekvens_35"
+        description: "Guybrush pratar med Stan"
+  "509_sekvens_32":
+    prompt: "[Sekvens_32]"
+    next: "513"
+  "513":
+    prompt: "Tack, jag tittar på egen hand."
+    next:
+      - node: "495_sekvens_31"
+        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+      - node: "515_sekvens_33"
+        description: "Guybrush undersöker mausoleet"
+      - node: "523_sekvens_35"
+        description: "Guybrush pratar med Stan"
+  "515_sekvens_33":
+    prompt: "[Sekvens 33]"
+    next: "518"
+  "518":
+    prompt: "Nej, såklart."
+    next:
+      # TODO: Använd state
+      - node: "519_sekvens_34"
+        description: "Guybrush har nyckeln"
+      - node: "495_sekvens_31"
+        description: "Guybrush har inte nyckeln"
+  "519_sekvens_34":
+    prompt: "[Sekvens 34]"
+    next: "521"
+  "521":
+    prompt: "Usch, vad dammigt! Få se, vad har vi här..."
+    # Effekt: Guybrush kämpar med det tunga locket på en sarkofag
+    next: "522"
+  "522":
+    prompt: "[Guybrush kämpar med locket]"
+    next:
+      # TODO: Använd state
+      - node: "647_sekvens_44"
+        description: "Skattjakten är den första prövningen"
+      - node: "734_sekvens_51"
+        description: "Skattjakten är den andra prövningen"
+  "523_sekvens_35":
+    prompt: "[Sekvens 35]"
+    next:
+      # TODO: Använd state
+      - node: "532_sekvens_39"
+        description: "Guybrush har redan pratat med Stan på kyrkogården"
+      - node: "530"
+        description: "Guybrush har inte pratat med Stan på kyrkogården"
+  "530":
+    prompt: "Vad får det lov att vara?"
+    next:
+      - node: "530"
+        # TODO: Köp blomman
+        description: "Guybrush köper blomman"
+      - node: "532_sekvens_39"
+        description: "Guybrush frågar om spaden"
+      - node: "490_sekvens_30"
+        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+      - node: "509_sekvens_32"
+        description: "Guybrush plockar fram en blomma"
+      - node: "495_sekvens_31"
+        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+      - node: "515_sekvens_33"
+        description: "Guybrush undersöker mausoleet (har redan visat blomman)"
+  "532_sekvens_39":
+    prompt: "[Sekvens 39]"
+    next:
+      - node: "540"
+        # TODO: Köp spaden
+        description: "Guybrush har råd med spaden"
+      - node: "540"
+        description: "Guybrush har inte råd med spaden"
+  "540":
+    prompt: "Okej, du är hård, men jag kan respektera det. Tre dubloner." # TODO: Inte alltid, kan höftas!
+    next:
+      # TODO: Dear lord använd state
+      - node: "540"
+        # TODO: Köp blomman
+        description: "Guybrush köper blomman"
+      - node: "490_sekvens_30"
+        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+      - node: "509_sekvens_32"
+        description: "Guybrush plockar fram en blomma"
+      - node: "495_sekvens_31"
+        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+      - node: "515_sekvens_33"
+        description: "Guybrush undersöker mausoleet (har redan visat blomman)"
+      - node: "574_sekvens_43"
+        description: "Guybrush håller på att följa kartan"
+  "541_sekvens_40":
+    prompt: "[Sekvens 40]"
+    next: "544"
+  "544":
+    prompt: "\"Graven. Fram. Baka - ost? Fram, vänster, bak...\""
+    next:
+      - node: "546_sekvens_41"
+        description: "Guybrush försöker kombinera kartdelarna"
+  "546_sekvens_41":
+    prompt: "[Sekvens 41]"
+    next: "564"
+  "564":
+    prompt: "Inga problem! Det låter riktigt roligt. Få se här..."
+    next:
+      # TODO: Använd state
+      - node: "574_sekvens_43"
+        description: "Guybrush har spaden"
+      - node: "532_sekvens_39"
+        description: "Guybrush har inte spaden"
   "567_sekvens_42":
     prompt: "[Sekvens 42]"
     next: "571"
-  "574":
-    # TODO: Spela musik
-    prompt: "[Skattjakten]"
+  "571":
+    prompt: "Hoppas det här funkar nu, annars kommer han döda mig..."
+    # Effekt: Muller som övergår i mystiska trummor
+    next:
+      - node: "217_sekvens_12"
+        description: "Guybrush har redan hittat skatten"
+      - node: "474a_sekvens_29"
+        description: "Guybrush har inte hittat skatten"
+  "574_sekvens_43":
+    prompt: "[Sekvens 43]"
+    # Effekt: Spela musik
+    next: "615"
+  "615":
+    prompt: "[Guybrush håller upp T-shirten]"
     next:
       # TODO: Använd state
       - node: "567_sekvens_42"
         description: "Detta var Guybrushs första prövning"
       - node: "250_sekvens_14"
         description: "Detta var Guybrushs andra prövning"
-  "571":
-    # TODO: Effekt, muller
-    prompt: "Hoppas det här funkar nu, annars kommer han döda mig..."
-    next:
-      - node: "217_sekvens_12"
-        description: "Guybrush har redan hittat skatten"
-      - node: "473_kyrkogården"
-        description: "Guybrush har inte hittat skatten"
   "647_sekvens_44":
     prompt: "[Sekvens 44]"
+    next: "651"
+  "651":
+    prompt: "Fast det kanske var på grund av brännjärnet, hehe..."
     next:
       # TODO: Använd state
-      - node: "373"
-        description: "Guybrush är på väg till fäktmästaren"
-      - node: "574"
+      - node: "652_sekvens_45"
+        description: "De är på kyrkogården"
+      - node: "665_sekvens_46"
+        description: "De är på klippan"
+  "652_sekvens_45":
+    prompt: "[Sekvens 45]"
+    next: "656"
+  "656":
+    prompt: "Jag är här för att hämta en sak i en av dina gravar. Du gör bäst i att hålla dig undan, om du inte vill tänka på vad \"en av dina gravar\" skulle kunna betyda."
+    next:
+      # TODO: Använd state
+      - node: "756_sekvens_55"
+        description: "Skattjakten är Guybrushs andra prövning"
+      - node: "659"
+        description: "Skattjakten är Guybrushs första prövning"
+  "659":
+    prompt: "Här ska det vara!"
+    # Effekt: Guybrush får av stenblocket från sarkofagen
+    next: "663"
+  "663":
+    prompt: "Ta hit honom, och hämta dolken!"
+    next: "673_sekvens_47"
+  "665_sekvens_46":
+    prompt: "[Sekvens 46]"
+    next: "671"
+  "671":
+    prompt: "Aj aj, kapten!"
+    next: "673_sekvens_47"
+  "673_sekvens_47":
+    prompt: "[Sekvens 47]"
+    next: "695"
+  "695":
+    prompt: "Jag borde hjälpa till! Vad ska jag göra?"
+    next:
+      - node: "699"
+        description: "Guybrush får LeChucks uppmärksamhet"
+  "699":
+    prompt: "Tror du det hjälper att sticka mig med en dolk? Jag är den fruktade spökpiraten LeChuck!"
+    # Effekt: Det fräser
+    next: "711"
+  "711":
+    prompt: "Äckel-krusen, domino, fugitte party advarsel!"
+    # Effekt: Åskknall
+    next: "733"
+  "733":
+    prompt: "Var var jag?"
+    next:
+      # TODO: Använd state
+      - node: "541_sekvens_40"
         description: "Guybrush håller på med skattjakten"
+      - node: "369_sekvens_27"
+        description: "Guybrush är på väg till fäktmästaren"
   "734_sekvens_51":
     prompt: "[Sekvens 51]"
+    next: "754"
+  "754":
+    prompt: "Bakom dig!"
+    next:
+      # TODO: Använd state
+      - node: "652_sekvens_45"
+        description: "De är på kyrkogården" # TODO: Verkar konstigt, stämmer det här verkligen?
+      - node: "756_sekvens_55"
+        description: "De är på klippan"
+  "756_sekvens_55":
+    prompt: "[Sekvens 55]"
+    next: "761"
+  "761":
+    prompt: "Elaine, min kära... Jag kan inte tro att du skulle vilja ha en vekling som den där?"
+    # Effekt: Elaine skjuter LeChuck i bröstet
+    next: "789"
+  "789":
+    prompt: "Bra."
+    # Effekt: Elaine skjuter LeChuck i huvudet
     next: "812"
   "812":
     prompt: "Var var jag?"
     next:
       # TODO: Använd state
-      - node: "574"
+      - node: "541_sekvens_40"
         description: "De är på kyrkogården"
-      - node: "373"
+      - node: "369_sekvens_27"
         description: "De är på klippan"
-  "813_lechucks_begravning":
-    # TODO: Visa LeChucks fartyg
-    prompt: "[LeChucks begravning]"
-    next: "814"
-  "814":
-    # TODO: Spela musik
-    prompt: "[LeChucks havsbegravning och återkomst]"
-    next: "940"
-  "940":
+  "814a_sekvens_59":
+    prompt: "[Sekvens 59]"
+    # Effekt: Visa LeChucks fartyg
+    next: "814b"
+  "814b":
+    prompt: "[Redo att spela musik]"
+    # Effekt: Spela musik
+    next: "933"
+  "933":
+    prompt: "[Sången är slut]"
+    # Effekt: Visa "Sätt i diskett 2"
+    next: "940_aktpaus"
+  "940_aktpaus":
     prompt: "[Aktpaus]"
     next: "941"
+  # TODO: Utveckla akt 2
   # Akt 2
   "941":
     prompt: "[I Elaines hus]"
