@@ -4,10 +4,13 @@ nodes:
     next:
       - node: "160"
         description: "Glad"
+        actions: ["play_happy"]
       - node: "1663"
         description: "Förvånad"
+        actions: ["play_surprised"]
       - node: "1396"
         description: "Medkännande"
+        actions: ["play_compassion"]
     prompt: "Jag har hört att han är dömd att segla de sju haven för alltid i en fruktlös jakt på sin älskade!"
     actions: ["run_short_video"]
   "160":
@@ -110,6 +113,24 @@ action_templates:
       height: 720
       visible: true
       layer: 10000
+  "play_happy":
+    target: audio
+    cmd: create
+    assets: ["audio_happy"]
+    params:
+      entityId: "play_happy"
+  "play_compassion":
+    target: audio
+    cmd: create
+    assets: ["audio_compassion"]
+    params:
+      entityId: "play_compassion"
+  "play_surprised":
+    target: audio
+    cmd: create
+    assets: ["audio_surprised"]
+    params:
+      entityId: "play_surprised"
 assets:
   "script":
     path: "script.pdf"
@@ -125,3 +146,9 @@ assets:
     path: "video/example.jpg"
   "inventory":
     path: "http://localhost:4218"
+  "audio_happy":
+    path: "audio/yay.mp3"
+  "audio_compassion":
+    path: "audio/aww.mp3"
+  "audio_surprised":
+    path: "audio/surprised.mp3"
