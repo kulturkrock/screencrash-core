@@ -11,6 +11,11 @@
             "properties": {
                 "target": { "const": "internal" },
                 "cmd": { "const": "print" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
