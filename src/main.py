@@ -77,7 +77,7 @@ class Core:
             return
 
     def _run_action_on_the_fly(self, target, cmd, asset_names, params):
-        action = ActionTemplate(1337, target, cmd, asset_names, params)
+        action = ActionTemplate("on_the_fly_action", target, cmd, asset_names, params)
         assets = [self._opus.assets[name] for name in asset_names]
         self._run_action(action, assets)
 
