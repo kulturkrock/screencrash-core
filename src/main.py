@@ -47,6 +47,8 @@ class Core:
 
     def _setup_events(self):
         self._ui.add_event_listener("next-node", self._performance.next_node)
+        self._ui.add_event_listener("prev-node", self._performance.prev_node)
+        self._ui.add_event_listener("run-actions", self._performance.run_actions)
         self._ui.add_event_listener("choose-path", self._performance.choose_path)
         self._ui.add_event_listener("component-action", self._run_action_on_the_fly)
         self._performance.add_event_listener("history-changed", self._ui.changed_history)
@@ -75,7 +77,7 @@ class Core:
             return
 
     def _run_action_on_the_fly(self, target, cmd, asset_names, params):
-        action = ActionTemplate(1337, target, cmd, asset_names, params)
+        action = ActionTemplate("on_the_fly_action", target, cmd, asset_names, params)
         assets = [self._opus.assets[name] for name in asset_names]
         self._run_action(action, assets)
 

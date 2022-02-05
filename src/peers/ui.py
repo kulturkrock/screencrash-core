@@ -127,10 +127,16 @@ class UI(EventEmitter):
                 message_dict = json.loads(message)
                 message_type = message_dict["messageType"]
                 if message_type == "next-node":
-                    self.emit("next-node")
+                    run_actions = message_dict.get("runActions", True)
+                    self.emit("next-node", run_actions)
                 elif message_type == "choose-path":
                     choice_index = message_dict["choiceIndex"]
-                    self.emit("choose-path", choice_index)
+                    run_actions = message_dict.get("runActions", True)
+                    self.emit("choose-path", choice_index, run_actions)
+                elif message_type == "prev-node":
+                    self.emit("prev-node")
+                elif message_type == "run-actions":
+                    self.emit("run-actions")
                 elif message_type == "component-action":
                     target = message_dict["target_component"]
                     cmd = message_dict["cmd"]

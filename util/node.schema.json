@@ -30,6 +30,20 @@
                                 "title": "Prompt",
                                 "description": "Prompt to show when choosing paths",
                                 "type": "string"
+                            },
+                            "actions": {
+                                "title": "Actions",
+                                "description": "The actions which should run when performing this choice",
+                                "type": "array",
+                                "items": {
+                                    "oneOf": [
+                                        {
+                                            "title": "Action ID",
+                                            "type": "string"
+                                        },
+                                        {"$ref": "action.schema.json#"}
+                                    ]
+                                }
                             }
                         },
                         "additionalProperties": false
@@ -56,11 +70,16 @@
         },
         "actions": {
             "title": "Actions",
-            "description": "The actions which should run when entering this node",
+            "description": "The actions on this node",
             "type": "array",
             "items": {
-                "title": "Action ID",
-                "type": "string"
+                "oneOf": [
+                    {
+                        "title": "Action ID",
+                        "type": "string"
+                    },
+                    {"$ref": "action.schema.json#"}
+                ]
             }
         }
     },

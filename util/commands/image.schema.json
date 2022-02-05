@@ -1,5 +1,5 @@
 {
-    "$id": "https://kulturkrock.se/imagecommand.schema.json",
+    "$id": "https://kulturkrock.se/commands/image.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Image commands in Opus",
     "description": "An image command in an Opus to use for Screencrash",
@@ -43,8 +43,13 @@
                     "description": "Asset to show. This command expects exactly ONE asset",
                     "type": "array",
                     "items": {
-                        "title": "Asset ID",
-                        "type": "string"
+                        "oneOf":[
+                            {
+                                "title": "Asset ID",
+                                "type": "string"
+                            },
+                            {"$ref": "../asset.schema.json#"}
+                        ]
                     },
                     "minLength": 1,
                     "maxLength": 1
