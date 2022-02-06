@@ -100,6 +100,12 @@ class ComponentPeer(EventEmitter):
             "channel": 1,
         })
 
+    def restart_component(self, component_id: str):
+        self.send_command_to(component_id, {
+            "command": "restart",
+            "channel": 1,
+        })
+
     def handle_component_info(self, data, socket):
         component_info = ComponentInfo(**{k: v for k, v in data.items() if k != "messageType"})
         self._infos[component_info.componentId] = ComponentData(component_info, socket)

@@ -146,6 +146,9 @@ class UI(EventEmitter):
                 elif message_type == "component-reset":
                     component_id = message_dict["componentId"]
                     self.emit("component-reset", component_id)
+                elif message_type == "component-restart":
+                    component_id = message_dict["componentId"]
+                    self.emit("component-restart", component_id)
                 else:
                     print(f"WARNING: Unknown message type {message_type}")
             except Exception as e:
