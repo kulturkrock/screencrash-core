@@ -164,6 +164,18 @@ nodes:
         cmd: "destroy"
         params:
           entityId: "hamnsyltan"
+  "163_sekvens_8":
+    prompt: "[Sekvens 8]"
+    next: "165"
+    actions:
+      # TODO: Do the same in other places
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen_mvg"
+          stopOnDone: true
+          target: 0
+          time: 3
   "165":
     prompt: "Schh, nu är han strax här!"
     next: "184"
