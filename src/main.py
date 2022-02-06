@@ -59,6 +59,7 @@ class Core:
             component.add_event_listener("effect-changed", self._ui.effect_changed)
             component.add_event_listener("effect-removed", self._ui.effect_removed)
             component.add_event_listener("info-updated", self._ui.component_updated)
+            component.add_event_listener("log-message", self._ui.log_message)
             component.add_event_listener("disconnected", self._ui.component_removed)
     
     def _distribute_assets(self):

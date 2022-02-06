@@ -1,6 +1,7 @@
 import base64
 from dataclasses import asdict
 import json
+import time
 import traceback
 from typing import Any, Dict, List
 import websockets
@@ -40,6 +41,7 @@ class UI(EventEmitter):
         self._components: Dict[str, ComponentInfo] = {}
         self._effects = {}
         self._websockets: List[WebSocketServerProtocol] = []
+        self._logs = []
 
     def changed_history(self, history: List[str]):
         """Update the history and send to clients."""
@@ -59,6 +61,12 @@ class UI(EventEmitter):
         websockets.broadcast(self._websockets, json.dumps({
             "messageType": "components",
             "data": [asdict(component) for component in self._components.values()]
+        }))
+
+    def _send_logs_update(self):
+        websockets.broadcast(self._websockets, json.dumps({
+            "messageType": "logs",
+            "data": self._logs
         }))
 
     def effect_added(self, event_data):
@@ -85,6 +93,19 @@ class UI(EventEmitter):
             self._send_effects_update()
         else:
             print(f"Tried to remove effect but couldnt find it")
+
+    def log_message(self, level: str, timestamp: float, origin: str, message: str):
+        self._logs.append({
+            "level": level,
+            "timestamp": timestamp,
+            "origin": origin,
+            "message": message,
+        })
+        self._send_logs_update()
+
+    def clear_logs(self):
+        self._logs = []
+        self._send_logs_update()
 
     def component_updated(self, component: ComponentInfo) -> None:
         self._components[component.componentId] = component
@@ -123,6 +144,10 @@ class UI(EventEmitter):
             "messageType": "effects",
             "data": list(self._effects.values())
         }))
+        await websocket.send(json.dumps({
+            "messageType": "logs",
+            "data": self._logs
+        }))
         base64_script = base64.b64encode(
             self._opus.script).decode("utf-8")
         await websocket.send(json.dumps({
@@ -151,10 +176,14 @@ class UI(EventEmitter):
                     asset_names = message_dict["assets"]
                     params = message_dict["params"]
                     self.emit("component-action", target, cmd, asset_names, params)
+                elif message_type == "clear-logs":
+                    self.clear_logs()
                 else:
                     print(f"WARNING: Unknown message type {message_type}")
+                    self.log_message("warning", time.time(), "core", f"Unknown message type from UI {message_type}")
             except Exception as e:
                 print(f"Failed to handle UI message. Got error {e}")
+                self.log_message("error", time.time(), "core", f"Failed to handle UI message. Got error {e}")
                 traceback.print_exc()
         # Websocket is closed
         self._websockets.remove(websocket)

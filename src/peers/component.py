@@ -59,7 +59,7 @@ class ComponentPeer(EventEmitter):
                     elif message_type == "component_info":
                         component_id = self.handle_component_info(message_dict)
                     else:
-                        self.handle_component_message(message_type, message_dict)
+                        self.handle_component_message(component_id, message_type, message_dict)
                 except Exception as e:
                     print(f"Failed to handle component message. Got error {e}")
                     traceback.print_exc()
