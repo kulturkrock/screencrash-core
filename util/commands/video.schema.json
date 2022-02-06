@@ -11,6 +11,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "file" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -38,6 +43,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "create" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to play. This command expects exactly ONE asset",
@@ -179,6 +189,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "destroy" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -201,6 +216,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "show" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -223,6 +243,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "hide" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -245,6 +270,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "opacity" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -274,6 +304,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "viewport" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -328,6 +363,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "layer" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -356,6 +396,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "play" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -378,6 +423,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "pause" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -400,6 +450,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "toggle_mute" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -422,6 +477,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "set_volume" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -483,6 +543,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "seek" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -510,6 +575,11 @@
             "properties": {
                 "target": { "const": "video" },
                 "cmd": { "const": "fade" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {

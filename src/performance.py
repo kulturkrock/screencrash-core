@@ -61,6 +61,8 @@ class Performance(EventEmitter):
         else:
             print(f"Choosing node number {choice_index}")
             if run_actions:
+                for action_id in current_node.actions:
+                    self.emit("run-action", action_id)
                 for action_id in current_node.next[choice_index].actions:
                     self.emit("run-action", action_id)
 
