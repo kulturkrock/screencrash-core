@@ -32,12 +32,14 @@ class ActionTemplate:
     assets: List[str] = field(default_factory=list)
     params: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class NodeChoice:
     """One choice of node when the opus branches"""
     node: str
     description: str
     actions: List[str] = field(default_factory=list)
+
 
 @dataclass
 class Node:
@@ -66,7 +68,8 @@ async def load_opus(opus_path: Path):
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
         nodes, inlined_action_dicts = await load_nodes(opus_dict["nodes"], parent / opus_dict["assets"]["script"]["path"])
-        action_templates, inlined_asset_dicts = load_actions({**opus_dict["action_templates"], **inlined_action_dicts})
+        action_templates, inlined_asset_dicts = load_actions(
+            {**opus_dict["action_templates"], **inlined_action_dicts})
         assets = dict(await asyncio.gather(
             *[load_asset(key, asset["path"], action_templates, opus_path)
               for key, asset in [*opus_dict["assets"].items(), *inlined_asset_dicts.items()]]
@@ -111,6 +114,7 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
         checksum = hashlib.md5(data).hexdigest()
     return (key, Asset(path=path, data=data, checksum=checksum, targets=targets))
 
+
 def load_actions(action_dicts: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplate], Dict[str, dict]]:
     """
     Load actions, and pick out inlined assets.
@@ -119,7 +123,7 @@ def load_actions(action_dicts: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
     ----------
     action_dicts
         Dict of actions, as found in the opus
-    
+
     Returns
     -------
     Dict of actions, converted to ActionTemplates, and a dict of inlined assets
@@ -128,14 +132,15 @@ def load_actions(action_dicts: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
     assets = {}
     for key, action_dict in action_dicts.items():
         typed_action_dict = action_dict.copy()
-        for i, asset in enumerate(typed_action_dict["assets"]):
-            if isinstance(asset, dict):
-                asset_id = f"{key}_asset_{i}"
-                assets[asset_id] = asset
-                typed_action_dict["assets"][i] = asset_id
+        if "assets" in typed_action_dict:
+            for i, asset in enumerate(typed_action_dict["assets"]):
+                if isinstance(asset, dict):
+                    asset_id = f"{key}_asset_{i}"
+                    assets[asset_id] = asset
+                    typed_action_dict["assets"][i] = asset_id
         actions[key] = ActionTemplate(id=key, **typed_action_dict)
     return actions, assets
-    
+
 
 async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Dict[str, Node], Dict[str, dict]]:
     """
@@ -165,7 +170,7 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     if len(node_keys) > 0:
         try:
             with_line_numbers = [(key, re.match(r"[0-9]+", key).group(0))
-                                for key in node_keys]
+                                 for key in node_keys]
         except AttributeError:
             raise RuntimeError(
                 "Nodes without specified PDF locations must have IDs beginning with numbers. "
@@ -196,7 +201,7 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
                 next_pair = sorted_keys_and_numbers.pop(0)
             if next_pair is None:
                 break
-    
+
     # Convert nodes from dicts to Node objects, and pick out all inlined actions.
     # We make up action IDs.
     nodes = {}

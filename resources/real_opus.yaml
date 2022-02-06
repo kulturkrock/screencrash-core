@@ -1,20 +1,65 @@
+# TODO: Loopa alla loading screens?
+# TODO: Ta bort bakgrunder vid loading screens?
 startNode: "1"
 nodes:
   "1":
     prompt: "[Redo att visa stjärnhimmel]"
     next: "2"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1. Night sky.png"
+        params:
+          entityId: "stjärnhimmel"
+          visible: true
   "2":
     prompt: "[Redo att spela mystisk musik]"
-    # Effekt: Spela musik
     next: "5"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "2. Mystisk_musik_hamnsyltan_sorl.wav"
+        params:
+          entityId: "mystisk_musik_hamnsyltan"
   "5":
     prompt: "Mörk magi är lite av min egen specialitet, förstår ni."
-    # Effekt: Visa interiör
-    next: "32"
-  "32":
+    next: "30a"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "5. Hamnsyltan.png"
+        params:
+          entityId: "hamnsyltan"
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "stjärnhimmel"
+  "30a":
+    # TODO: Justera fade-tid eller stickreplik så att vi fadear ut lagom till sången
+    prompt: "Men han kommer nog behöva lite hjälp på traven!"
+    next: "30b"
+    actions:
+      - target: "audio"
+        cmd: "fade"
+        params:
+          entityId: "mystisk_musik_hamnsyltan"
+          target: 0
+          time: 5
+          stopOnDone: true
+  "30b":
     prompt: "Ge honom lite förslag!"
-    # Effekt: Spela sång
     next: "81"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "32. Guybrushs piratsang.wav"
+        params:
+          entityId: "guybrushs_piratsång"
   "81":
     prompt: "Det här är er chans. Vad tycker du han ska göra?"
     next:
@@ -72,8 +117,14 @@ nodes:
     next: "133"
   "133":
     prompt: "En särskild kompass, som inte pekar åt norr?"
-    # Effekt: Ljud av krossat glas
     next: "146"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "134. kompass_trasig.wav"
+        params:
+          entityId: "kompassen_krossas"
   "146":
     prompt: "Då utropar vi dig till pirat, på min kaptensheder."
     next:
@@ -89,16 +140,40 @@ nodes:
     next: "155"
   "155":
     prompt: "\"Möt mig uppe på kullen vid midnatt.\" Signerat \"en hemlig välgörare\"..."
-    # Effekt: Olycksbådande vind
     next: "160"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "156. wind_thunder.wav"
+        params:
+          entityId: "olycksbådande_vind"
   "160":
     prompt: "Ja, då var vi av med honom!"
-    # TODO: Effekt i den mystiska välgörarens hydda?
     next: "165"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "161. Loading screen 0.mp4"
+        params:
+          entityId: "loading_screen_mvg"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "hamnsyltan"
   "165":
     prompt: "Schh, nu är han strax här!"
-    # Effekt: Knackar på dörren
     next: "184"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "166. knackning.wav"
+        params:
+          entityId: "knackning"
   "184":
     prompt: "Självklart!"
     next:
@@ -122,8 +197,14 @@ nodes:
     next: "196"
   "196":
     prompt: "Ja, här."
-    # Effekt: Kartan pyser
     next: "201"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "197. map_sizzle.wav"
+        params:
+          entityId: "kartan_fräser"
   "201":
     prompt: "Och ett visdomsord: ett väl utfört arbete är sin egen belöning! Det var allt."
     next:
@@ -143,8 +224,16 @@ nodes:
         description: "Guybrush valde att fäktas först"
       - node: "474a_sekvens_29"
         description: "Guybrush valde att leta efter skatten först"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "216. Loading screen 1.mp4"
+        params:
+          entityId: "loading_screen_utmaning_1"
+          layer: 1
+          visible: true
   "217_sekvens_12":
-    # TODO: Annan scen?
     prompt: "[Sekvens 12]"
     next: "240"
   "240":
@@ -166,20 +255,44 @@ nodes:
         description: "Guybrush ska till skatten"
       - node: "285a_sekvens_15"
         description: "Guybrush ska till fäktningen"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "249. Loading screen 3.mp4"
+        params:
+          entityId: "loading_screen_utmaning_2"
+          layer: 1
+          visible: true
   "250_sekvens_14":
-    # TODO: Annan scen?
     prompt: "[Sekvens 14]"
     next: "283"
   "283":
     prompt: "Precis. Inte den skarpaste kniven, minsann."
     next: "814a_sekvens_59"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "283. Loading screen 1.mp4"
+        params:
+          entityId: "loading_screen_utmaning_3"
+          layer: 1
+          visible: true    
   "285a_sekvens_15":
     prompt: "[Sekvens 15]"
     next: "285b"
   "285b":
     prompt: "[Redo att visa klippan]"
-    # Effekt: Visa klippan
     next: "286"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "285. Klippan utan lina.png"
+        params:
+          entityId: "klippan_utan_lina"
+          visible: true
   "286":
     prompt: "Och var kan jag hitta ett svärd?"
     next:
@@ -268,7 +381,30 @@ nodes:
     next: "341_sekvens_24"
   "341_sekvens_24":
     prompt: "[Sekvens 24]"
+    next: "348"
+  "348":
+    prompt: "Säg adjö till dina dubloner!"
     next: "352"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "349-1. Pilen.mp4"
+        params:
+          entityId: "pilen_flyger"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "klippan_utan_lina"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "349-2. Klippan med lina.png"
+        params:
+          entityId: "klippan_med_lina"
+          visible: true
   "352":
     prompt: "...oj, det var mitt sista mynt."
     # TODO: Bli av med ett mynt
@@ -322,12 +458,37 @@ nodes:
     next: "373b"
   "373b":
     prompt: "Okej, alla med. Fäktmästare Carla, här kommer jaaaaaaag!"
-    # Effekt: Åka linbana till kobben
     next: "381"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "375-1. Linbanan_into_loading_screen.mp4"
+        params:
+          entityId: "linbana"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "klippan_med_lina"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "375-2. Carlas kobbe.png"
+        params:
+          entityId: "kobbe"
+          visible: true
   "381":
     prompt: "Okej. Låt oss få det här överstökat."
-    # Effekt: Musik
     next: "465"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "382. Duellen.mp3"
+        params:
+          entityId: "duellen"
   "465":
     prompt: "...så blir alla utmanare mitt problem istället."
     # TODO: Få medalj
@@ -340,13 +501,33 @@ nodes:
         description: "Detta var Guybrushs första prövning"
       - node: "250_sekvens_14"
         description: "Detta var Guybrushs andra prövning"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "472. Loading screen 2.mp4"
+        params:
+          entityId: "loading_screen_efter_fäktning"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kobbe"
   "474a_sekvens_29":
     prompt: "[Sekvens 29]"
     next: "474b"
   "474b":
     prompt: "[Redo att visa kyrkogården]"
-    # Effekt: Visa kyrkogården
     next: "488"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "474. Kyrkogarden.png"
+        params:
+          entityId: "kyrkogården"
+          visible: true
   "488":
     prompt: "Gör du det."
     next:
@@ -359,7 +540,6 @@ nodes:
         description: "Guybrush plockar fram en blomma"
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren"
-      # TODO: Guybrush kan prata med Stan när som helst, fixa!
       - node: "523_sekvens_35"
         description: "Guybrush pratar med Stan"
   "490_sekvens_30":
@@ -427,11 +607,27 @@ nodes:
         description: "Guybrush har inte nyckeln"
   "519_sekvens_34":
     prompt: "[Sekvens 34]"
+    next: "520"
+  "520":
+    prompt: "Jaha. Det är en skiffer-nyckel."
     next: "521"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "521. mausoleum_door.wav"
+        params:
+          entityId: "mausoleum_dörr"
   "521":
     prompt: "Usch, vad dammigt! Få se, vad har vi här..."
-    # Effekt: Guybrush kämpar med det tunga locket på en sarkofag
     next: "522"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "522. sarkofag1_guybrush_kampar.wav"
+        params:
+          entityId: "sarkofag"
   "522":
     prompt: "[Guybrush kämpar med locket]"
     next:
@@ -513,16 +709,45 @@ nodes:
     next: "571"
   "571":
     prompt: "Hoppas det här funkar nu, annars kommer han döda mig..."
-    # Effekt: Muller som övergår i mystiska trummor
+    next: "573"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "572. Muller_mystiska_trummor_kyrkogard.wav"
+        params:
+          entityId: "muller_mystiska_trummor"
+  "573":
+    prompt: "[LeChuck skrattar]"
     next:
+      # TODO: Använd state
       - node: "217_sekvens_12"
         description: "Guybrush har redan hittat skatten"
-      - node: "474a_sekvens_29"
+        actions:
+        - target: "video"
+          cmd: "create"
+          assets:
+            - path: "573. Loading screen 2.mp4"
+          params:
+            entityId: "loading_screen_efter_kyrkogård"
+            layer: 1
+            visible: true
+        - target: "image"
+          cmd: "destroy"
+          params:
+            entityId: "kyrkogården"
+      - node: "474a_sekvens_29" # TODO: Stämmer detta verkligen?
         description: "Guybrush har inte hittat skatten"
   "574_sekvens_43":
     prompt: "[Sekvens 43]"
-    # Effekt: Spela musik
     next: "615"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "574. Skattjakten.mp3"
+        params:
+          entityId: "skattjakten"
   "615":
     prompt: "[Guybrush håller upp T-shirten]"
     next:
@@ -531,6 +756,19 @@ nodes:
         description: "Detta var Guybrushs första prövning"
       - node: "250_sekvens_14"
         description: "Detta var Guybrushs andra prövning"
+        actions:
+          - target: "video"
+            cmd: "create"
+            assets:
+              - path: "616. Loading screen 2.mp4"
+            params:
+              entityId: "loading_screen_efter_kyrkogård_alt"
+              layer: 1
+              visible: true
+          - target: "image"
+            cmd: "destroy"
+            params:
+              entityId: "kyrkogården"
   "647_sekvens_44":
     prompt: "[Sekvens 44]"
     next: "651"
@@ -555,8 +793,14 @@ nodes:
         description: "Skattjakten är Guybrushs första prövning"
   "659":
     prompt: "Här ska det vara!"
-    # Effekt: Guybrush får av stenblocket från sarkofagen
     next: "663"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "660. sarkofag2_locket_dunsar.wav"
+        params:
+          entityId: "sarkofag2"
   "663":
     prompt: "Ta hit honom, och hämta dolken!"
     next: "673_sekvens_47"
@@ -576,12 +820,41 @@ nodes:
         description: "Guybrush får LeChucks uppmärksamhet"
   "699":
     prompt: "Tror du det hjälper att sticka mig med en dolk? Jag är den fruktade spökpiraten LeChuck!"
-    # Effekt: Det fräser
     next: "711"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "700. vigvatten_sizzle.wav"
+        params:
+          entityId: "vigvatten_sizzle"
   "711":
     prompt: "Äckel-krusen, domino, fugitte party advarsel!"
-    # Effekt: Åskknall
-    next: "733"
+    next: 
+      # TODO: Använd state
+      - node: "733"
+        description: "Vi är på klippan"
+        actions:
+          - target: "video"
+            cmd: "create"
+            assets:
+              - path: "712-1A. Exorcism klippan.mp4"
+            params:
+              entityId: "exorcism_klippan"
+              layer: 1
+              visible: true
+      - node: "733"
+        description: "Vi är på kyrkogården"
+        actions:
+          - target: "video"
+            cmd: "create"
+            assets:
+              - path: "712-1B. Exorcism kyrkogarden.mp4"
+            params:
+              entityId: "exorcism_kyrkogården"
+              layer: 1
+              visible: true
+    # TODO: Behöver vi få tillbaka bakgrunden här?
   "733":
     prompt: "Var var jag?"
     next:
@@ -592,7 +865,21 @@ nodes:
         description: "Guybrush är på väg till fäktmästaren"
   "734_sekvens_51":
     prompt: "[Sekvens 51]"
-    next: "754"
+    next: "736"
+  "736":
+    prompt: "[Redo att eventuellt spela sarkofagljud]"
+    next:
+      - node: "754"
+        description: "Vi är på kyrkogården"
+        actions:
+          - target: "audio"
+            cmd: "create"
+            assets:
+              - path: "736. sarkofag2_locket_dunsar.wav"
+            params:
+              entityId: "sarkofag2_alt"
+      - node: "754"
+        description: "Vi är på klippan"
   "754":
     prompt: "Bakom dig!"
     next:
@@ -606,12 +893,24 @@ nodes:
     next: "761"
   "761":
     prompt: "Elaine, min kära... Jag kan inte tro att du skulle vilja ha en vekling som den där?"
-    # Effekt: Elaine skjuter LeChuck i bröstet
     next: "789"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "762. pistol1 chest hit.wav"
+        params:
+          entityId: "skjuten_i_bröstet"    
   "789":
     prompt: "Bra."
-    # Effekt: Elaine skjuter LeChuck i huvudet
     next: "812"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "790. pistol2 headshot.wav"
+        params:
+          entityId: "headshot" 
   "812":
     prompt: "Var var jag?"
     next:
@@ -622,15 +921,34 @@ nodes:
         description: "De är på klippan"
   "814a_sekvens_59":
     prompt: "[Sekvens 59]"
-    # Effekt: Visa LeChucks fartyg
     next: "814b"
+    actions: # TODO: Ska det här läggas till bakom videon i nästa nod i stället?
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "814-1. LeChucks skepp.png"
+        params:
+          entityId: "lechucks_skepp"
+          visible: true
   "814b":
     prompt: "[Redo att spela musik]"
-    # Effekt: Spela musik
     next: "933"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "814-2. LeChucks begravning.mp4"
+        params:
+          entityId: "lechucks_begravning"
+          layer: 1
+          visible: true
+      - target: "image" # TODO: Ska den här förstöras senare i stället?
+        cmd: "destroy"
+        params:
+          entityId: "lechucks_skepp"
   "933":
     prompt: "[Sången är slut]"
-    # Effekt: Visa "Sätt i diskett 2"
+    # Effekt: Visa "Sätt i diskett 2"? Eller del av filmen?
     next: "940_aktpaus"
   "940_aktpaus":
     prompt: "[Aktpaus]"
