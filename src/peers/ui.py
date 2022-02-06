@@ -34,6 +34,8 @@ class UI(EventEmitter):
         "web": 4,
     }
 
+    MAX_NOF_LOGS = 1000
+
     def __init__(self, opus: Opus, initial_history: List[str]):
         super().__init__()
         self._opus = opus
@@ -101,7 +103,12 @@ class UI(EventEmitter):
             "origin": origin,
             "message": message,
         })
-        self._send_logs_update()
+        while len(self._logs) > self.MAX_NOF_LOGS:
+            self._logs.pop(0)
+        websockets.broadcast(self._websockets, json.dumps({
+            "messageType": "log-added",
+            "data": self._logs[-1]
+        }))
 
     def clear_logs(self):
         self._logs = []
