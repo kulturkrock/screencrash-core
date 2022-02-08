@@ -51,6 +51,8 @@ class Core:
         self._ui.add_event_listener("run-actions", self._performance.run_actions)
         self._ui.add_event_listener("choose-path", self._performance.choose_path)
         self._ui.add_event_listener("component-action", self._run_action_on_the_fly)
+        self._ui.add_event_listener("component-reset", self._reset_component)
+        self._ui.add_event_listener("component-restart", self._restart_component)
         self._performance.add_event_listener("history-changed", self._ui.changed_history)
         self._performance.add_event_listener("run-action", self._run_action_by_id)
 
@@ -92,6 +94,17 @@ class Core:
                     print(f"Failed to run handle_action: {e}")
         if not handled:
             print(f"Warning: Action {action.id} not handled by anyone ({action.target})")
+
+    def _reset_component(self, component_id: str):
+        for peer in self._components.values():
+            if peer.has_component(component_id):
+                peer.reset_component(component_id)
+
+    def _restart_component(self, component_id: str):
+        for peer in self._components.values():
+            if peer.has_component(component_id):
+                peer.restart_component(component_id)
+
 
     async def socket_listener(self, websocket: WebSocketServerProtocol):
         """
