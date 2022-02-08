@@ -1,10 +1,13 @@
+import asyncio
 import base64
+from dataclasses import dataclass
 import json
+import threading
 import traceback
 from typing import Any, List, Dict
 from opus import Asset
 from util.event_emitter import EventEmitter
-from peers.component_info import ComponentInfo
+from peers.component_info import ComponentData, ComponentInfo
 
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -25,7 +28,7 @@ class ComponentPeer(EventEmitter):
         self._target_types = target_types
         self._websockets: List[WebSocketServerProtocol] = []
         self._assets: List[Asset] = []
-        self._infos: Dict[str, ComponentInfo] = {}
+        self._infos: Dict[str, ComponentData] = {}
     
     def add_asset(self, asset: Asset) -> None:
         self._assets.append(asset)
@@ -57,7 +60,7 @@ class ComponentPeer(EventEmitter):
                     if message_type == "heartbeat":
                         pass  # Ignore heartbeats for now
                     elif message_type == "component_info":
-                        component_id = self.handle_component_info(message_dict)
+                        component_id = self.handle_component_info(message_dict, websocket)
                     else:
                         self.handle_component_message(component_id, message_type, message_dict)
                 except Exception as e:
@@ -76,16 +79,38 @@ class ComponentPeer(EventEmitter):
         return len(self._websockets)
 
     def get_connected_clients(self) -> List[ComponentInfo]:
-        return list(self._infos.values())
+        return list(map(lambda comp: comp.info, self._infos.values()))
 
     def send_command(self, data) -> None:
         websockets.broadcast(self._websockets, json.dumps(data))
 
-    def handle_component_info(self, component_data):
-        component = ComponentInfo(**{k: v for k, v in component_data.items() if k != "messageType"})
-        self._infos[component.componentId] = component
-        self.emit("info-updated", component)
-        return component.componentId
+    def send_command_to(self, component_id, data):
+        if self.has_component(component_id):
+            def impl():
+                websocket = self._infos[component_id].socket
+                asyncio.run(websocket.send(json.dumps(data)))
+            threading.Thread(target=impl).start()
+
+    def has_component(self, component_id: str):
+        return component_id in self._infos
+
+    def reset_component(self, component_id: str):
+        self.send_command_to(component_id, {
+            "command": "reset",
+            "channel": 1,
+        })
+
+    def restart_component(self, component_id: str):
+        self.send_command_to(component_id, {
+            "command": "restart",
+            "channel": 1,
+        })
+
+    def handle_component_info(self, data, socket):
+        component_info = ComponentInfo(**{k: v for k, v in data.items() if k != "messageType"})
+        self._infos[component_info.componentId] = ComponentData(component_info, socket)
+        self.emit("info-updated", component_info)
+        return component_info.componentId
 
     def handles_target(self, target_type: str) -> bool:
         """Checks whether this instance can handle actions of the given type."""

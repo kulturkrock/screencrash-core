@@ -185,6 +185,12 @@ class UI(EventEmitter):
                     self.emit("component-action", target, cmd, asset_names, params)
                 elif message_type == "clear-logs":
                     self.clear_logs()
+                elif message_type == "component-reset":
+                    component_id = message_dict["componentId"]
+                    self.emit("component-reset", component_id)
+                elif message_type == "component-restart":
+                    component_id = message_dict["componentId"]
+                    self.emit("component-restart", component_id)
                 else:
                     print(f"WARNING: Unknown message type {message_type}")
                     self.log_message("warning", time.time(), "core", f"Unknown message type from UI {message_type}")
