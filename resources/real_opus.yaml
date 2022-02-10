@@ -23,6 +23,7 @@ nodes:
           - path: "2. Mystisk_musik_hamnsyltan_sorl.wav"
         params:
           entityId: "mystisk_musik_hamnsyltan"
+          loops: 0
   "5":
     prompt: "Mörk magi är lite av min egen specialitet, förstår ni."
     next: "30a"
@@ -51,7 +52,7 @@ nodes:
           time: 5
           stopOnDone: true
   "30b":
-    prompt: "Ge honom lite förslag!"
+    prompt: "Ge honom lite förslag! [Liten paus]"
     next: "81"
     actions:
       - target: "audio"
@@ -140,7 +141,7 @@ nodes:
     next: "155"
   "155":
     prompt: "\"Möt mig uppe på kullen vid midnatt.\" Signerat \"en hemlig välgörare\"..."
-    next: "160"
+    next: "161"
     actions:
       - target: "audio"
         cmd: "create"
@@ -148,16 +149,16 @@ nodes:
           - path: "156. wind_thunder.wav"
         params:
           entityId: "olycksbådande_vind"
-  "160":
-    prompt: "Ja, då var vi av med honom!"
-    next: "165"
+  "161":
+    prompt: "Ja, då var vi av med honom! [Piraterna skrattar]"
+    next: "163_sekvens_8"
     actions:
       - target: "video"
         cmd: "create"
         assets:
           - path: "161. Loading screen 0.mp4"
         params:
-          entityId: "loading_screen_mvg"
+          entityId: "loading_screen"
           layer: 1
           visible: true
       - target: "image"
@@ -168,17 +169,16 @@ nodes:
     prompt: "[Sekvens 8]"
     next: "165"
     actions:
-      # TODO: Do the same in other places
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading_screen_mvg"
+          entityId: "loading_screen"
           stopOnDone: true
           target: 0
           time: 3
   "165":
     prompt: "Schh, nu är han strax här!"
-    next: "184"
+    next: "182"
     actions:
       - target: "audio"
         cmd: "create"
@@ -186,8 +186,8 @@ nodes:
           - path: "166. knackning.wav"
         params:
           entityId: "knackning"
-  "184":
-    prompt: "Självklart!"
+  "182":
+    prompt: "Så vilken ska vi börja med, fäktningen eller skatten?"
     next:
       - node: "185_sekvens_9"
         description: "Guybrush väljer fäktning"
@@ -242,12 +242,20 @@ nodes:
         assets:
           - path: "216. Loading screen 1.mp4"
         params:
-          entityId: "loading_screen_utmaning_1"
+          entityId: "loading_screen" 
           layer: 1
           visible: true
   "217_sekvens_12":
     prompt: "[Sekvens 12]"
     next: "240"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
   "240":
     prompt: "Jag ska nog kunna ge dig lite hjälp på traven."
     next:
@@ -273,12 +281,20 @@ nodes:
         assets:
           - path: "249. Loading screen 3.mp4"
         params:
-          entityId: "loading_screen_utmaning_2"
+          entityId: "loading_screen" 
           layer: 1
           visible: true
   "250_sekvens_14":
     prompt: "[Sekvens 14]"
     next: "283"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
   "283":
     prompt: "Precis. Inte den skarpaste kniven, minsann."
     next: "814a_sekvens_59"
@@ -288,16 +304,20 @@ nodes:
         assets:
           - path: "283. Loading screen 1.mp4"
         params:
-          entityId: "loading_screen_utmaning_3"
+          entityId: "loading_screen" 
           layer: 1
           visible: true    
   "285a_sekvens_15":
     prompt: "[Sekvens 15]"
-    next: "285b"
-  "285b":
-    prompt: "[Redo att visa klippan]"
     next: "286"
     actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
       - target: "image"
         cmd: "create"
         assets:
@@ -346,7 +366,7 @@ nodes:
       - node: "307"
         # TODO: Köp linan
         description: "Guybrush köper linan"
-      - node: "373a_sekvens_28"
+      - node: "371" # Manus säger sekvens 28, men det stämmer inte (alltid?)
         description: "Guybrush är redo att åka linbana"
       - node: "309_sekvens_21"
         description: "Guybrush pratar med banditen"
@@ -470,20 +490,31 @@ nodes:
     next: "373b"
   "373b":
     prompt: "Okej, alla med. Fäktmästare Carla, här kommer jaaaaaaag!"
-    next: "381"
+    next: "376"
     actions:
       - target: "video"
         cmd: "create"
         assets:
           - path: "375-1. Linbanan_into_loading_screen.mp4"
         params:
-          entityId: "linbana"
+          entityId: "linbana_loading_screen" 
           layer: 1
           visible: true
       - target: "image"
         cmd: "destroy"
         params:
           entityId: "klippan_med_lina"
+  "376":
+    prompt: "[Redo att visa kobben]"
+    next: "381"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "linbana_loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
       - target: "image"
         cmd: "create"
         assets:
@@ -493,7 +524,7 @@ nodes:
           visible: true
   "381":
     prompt: "Okej. Låt oss få det här överstökat."
-    next: "465"
+    next: "468"
     actions:
       - target: "audio"
         cmd: "create"
@@ -501,8 +532,8 @@ nodes:
           - path: "382. Duellen.mp3"
         params:
           entityId: "duellen"
-  "465":
-    prompt: "...så blir alla utmanare mitt problem istället."
+  "468":
+    prompt: "Du måste säga att det var en jämn match! Jag vill inte bli utskrattad. [Räcker över medaljen]"
     # TODO: Få medalj
     next: "470"
   "470":
@@ -519,7 +550,7 @@ nodes:
         assets:
           - path: "472. Loading screen 2.mp4"
         params:
-          entityId: "loading_screen_efter_fäktning"
+          entityId: "loading_screen" 
           layer: 1
           visible: true
       - target: "image"
@@ -528,11 +559,15 @@ nodes:
           entityId: "kobbe"
   "474a_sekvens_29":
     prompt: "[Sekvens 29]"
-    next: "474b"
-  "474b":
-    prompt: "[Redo att visa kyrkogården]"
     next: "488"
     actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
       - target: "image"
         cmd: "create"
         assets:
@@ -573,7 +608,7 @@ nodes:
     prompt: "[Sekvens 31]"
     next: "502"
   "502":
-    prompt: "Det vore snällt. Den ska dit bort."
+    prompt: "Det vore snällt. Den ska dit bort. [Bär stenar och plockar upp skiffernyckel]"
     # TODO: Plocka upp en skiffernyckel
     next: "506"
   "506":
@@ -719,6 +754,21 @@ nodes:
   "567_sekvens_42":
     prompt: "[Sekvens 42]"
     next: "571"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "474. Kyrkogarden.png"
+        params:
+          entityId: "kyrkogården"
+          visible: true
   "571":
     prompt: "Hoppas det här funkar nu, annars kommer han döda mig..."
     next: "573"
@@ -741,14 +791,14 @@ nodes:
           assets:
             - path: "573. Loading screen 2.mp4"
           params:
-            entityId: "loading_screen_efter_kyrkogård"
+            entityId: "loading_screen"
             layer: 1
             visible: true
         - target: "image"
           cmd: "destroy"
           params:
             entityId: "kyrkogården"
-      - node: "474a_sekvens_29" # TODO: Stämmer detta verkligen?
+      - node: "474a_sekvens_29"
         description: "Guybrush har inte hittat skatten"
   "574_sekvens_43":
     prompt: "[Sekvens 43]"
@@ -774,7 +824,7 @@ nodes:
             assets:
               - path: "616. Loading screen 2.mp4"
             params:
-              entityId: "loading_screen_efter_kyrkogård_alt"
+              entityId: "loading_screen"
               layer: 1
               visible: true
           - target: "image"
@@ -796,7 +846,7 @@ nodes:
     prompt: "[Sekvens 45]"
     next: "656"
   "656":
-    prompt: "Jag är här för att hämta en sak i en av dina gravar. Du gör bäst i att hålla dig undan, om du inte vill tänka på vad \"en av dina gravar\" skulle kunna betyda."
+    prompt: "Du gör bäst i att hålla dig undan, om du inte vill tänka på vad \"en av dina gravar\" skulle kunna betyda."
     next:
       # TODO: Använd state
       - node: "756_sekvens_55"
@@ -877,9 +927,6 @@ nodes:
         description: "Guybrush är på väg till fäktmästaren"
   "734_sekvens_51":
     prompt: "[Sekvens 51]"
-    next: "736"
-  "736":
-    prompt: "[Redo att eventuellt spela sarkofagljud]"
     next:
       - node: "754"
         description: "Vi är på kyrkogården"
@@ -935,6 +982,13 @@ nodes:
     prompt: "[Sekvens 59]"
     next: "814b"
     actions: # TODO: Ska det här läggas till bakom videon i nästa nod i stället?
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
       - target: "image"
         cmd: "create"
         assets:
@@ -981,7 +1035,7 @@ nodes:
     # TODO: Klockan slår ett
   "1095":
     prompt: "Vi ses!"
-    next: "1180"
+    next: "1181"
     # TODO: Visa briggen
     # Här kan Elaine byta grejer mot en tårta
   "1181":
