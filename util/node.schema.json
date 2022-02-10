@@ -36,8 +36,13 @@
                                 "description": "The actions which should run when performing this choice",
                                 "type": "array",
                                 "items": {
-                                    "title": "Action ID",
-                                    "type": "string"
+                                    "oneOf": [
+                                        {
+                                            "title": "Action ID",
+                                            "type": "string"
+                                        },
+                                        {"$ref": "action.schema.json#"}
+                                    ]
                                 }
                             }
                         },
@@ -68,8 +73,13 @@
             "description": "The actions on this node",
             "type": "array",
             "items": {
-                "title": "Action ID",
-                "type": "string"
+                "oneOf": [
+                    {
+                        "title": "Action ID",
+                        "type": "string"
+                    },
+                    {"$ref": "action.schema.json#"}
+                ]
             }
         }
     },

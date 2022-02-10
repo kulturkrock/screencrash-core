@@ -1,5 +1,5 @@
 {
-    "$id": "https://kulturkrock.se/internalcommand.schema.json",
+    "$id": "https://kulturkrock.se/commands/internal.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Internal commands in Opus",
     "description": "An internal command in an Opus to use for Screencrash",
