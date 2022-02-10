@@ -11,6 +11,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "file" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -38,6 +43,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "create" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "assets": {
                     "title": "Asset",
                     "description": "Asset to play. This command expects exactly ONE asset",
@@ -127,6 +137,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "play" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -149,6 +164,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "pause" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -171,6 +191,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "destroy" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -193,6 +218,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "toggle_mute" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -215,6 +245,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "set_volume" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -276,6 +311,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "seek" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {
@@ -303,6 +343,11 @@
             "properties": {
                 "target": { "const": "audio" },
                 "cmd": { "const": "fade" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
                 "params": {
                     "type": "object",
                     "properties": {

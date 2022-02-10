@@ -34,7 +34,7 @@ class Core:
         self._opus = await load_opus(Path("resources") / opus_file)
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
-        self._components: Dict[str,ComponentPeer] = {
+        self._components: Dict[str, ComponentPeer] = {
             "internal": InternalPeer(),
             "media": MediaPeer()
         }
@@ -48,36 +48,51 @@ class Core:
     def _setup_events(self):
         self._ui.add_event_listener("next-node", self._performance.next_node)
         self._ui.add_event_listener("prev-node", self._performance.prev_node)
-        self._ui.add_event_listener("run-actions", self._performance.run_actions)
-        self._ui.add_event_listener("choose-path", self._performance.choose_path)
-        self._ui.add_event_listener("component-action", self._run_action_on_the_fly)
-        self._performance.add_event_listener("history-changed", self._ui.changed_history)
-        self._performance.add_event_listener("run-action", self._run_action_by_id)
+        self._ui.add_event_listener(
+            "run-actions", self._performance.run_actions)
+        self._ui.add_event_listener(
+            "choose-path", self._performance.choose_path)
+        self._ui.add_event_listener(
+            "component-action", self._run_action_on_the_fly)
+        self._ui.add_event_listener("component-reset", self._reset_component)
+        self._ui.add_event_listener(
+            "component-restart", self._restart_component)
+        self._performance.add_event_listener(
+            "history-changed", self._ui.changed_history)
+        self._performance.add_event_listener(
+            "run-action", self._run_action_by_id)
 
         for component in self._components.values():
             component.add_event_listener("effect-added", self._ui.effect_added)
-            component.add_event_listener("effect-changed", self._ui.effect_changed)
-            component.add_event_listener("effect-removed", self._ui.effect_removed)
-            component.add_event_listener("info-updated", self._ui.component_updated)
-            component.add_event_listener("disconnected", self._ui.component_removed)
-    
+            component.add_event_listener(
+                "effect-changed", self._ui.effect_changed)
+            component.add_event_listener(
+                "effect-removed", self._ui.effect_removed)
+            component.add_event_listener(
+                "info-updated", self._ui.component_updated)
+            component.add_event_listener("log-message", self._ui.log_message)
+            component.add_event_listener(
+                "disconnected", self._ui.component_removed)
+
     def _distribute_assets(self):
         for asset in self._opus.assets.values():
             for component in self._components.values():
                 if any([component.handles_target(target) for target in asset.targets]):
                     component.add_asset(asset)
-    
+
     def _run_action_by_id(self, action_id):
         try:
             action = self._opus.action_templates[action_id]
             assets = [self._opus.assets[key] for key in action.assets]
             self._run_action(action, assets)
         except KeyError:
-            print(f"Failed to find action or asset for action {action_id}. Skipping.")
+            print(
+                f"Failed to find action or asset for action {action_id}. Skipping.")
             return
 
     def _run_action_on_the_fly(self, target, cmd, asset_names, params):
-        action = ActionTemplate("on_the_fly_action", target, cmd, asset_names, params)
+        action = ActionTemplate(
+            "on_the_fly_action", target, cmd, "Live command", asset_names, params)
         assets = [self._opus.assets[name] for name in asset_names]
         self._run_action(action, assets)
 
@@ -86,12 +101,24 @@ class Core:
         for peer in self._components.values():
             if peer.handles_target(action.target) and peer.nof_instances() > 0:
                 try:
-                    peer.handle_action(action.target, action.cmd, assets, action.params)
+                    peer.handle_action(
+                        action.target, action.cmd, assets, action.params)
                     handled = True
                 except Exception as e:
                     print(f"Failed to run handle_action: {e}")
         if not handled:
-            print(f"Warning: Action {action.id} not handled by anyone ({action.target})")
+            print(
+                f"Warning: Action {action.id} not handled by anyone ({action.target})")
+
+    def _reset_component(self, component_id: str):
+        for peer in self._components.values():
+            if peer.has_component(component_id):
+                peer.reset_component(component_id)
+
+    def _restart_component(self, component_id: str):
+        for peer in self._components.values():
+            if peer.has_component(component_id):
+                peer.restart_component(component_id)
 
     async def socket_listener(self, websocket: WebSocketServerProtocol):
         """
@@ -112,7 +139,8 @@ class Core:
             print(f"Accepted client of type {client_type}")
             await self._components[client_type].handle_socket(websocket, message_dict)
         else:
-            print(f"An unsupported client type tried to connect: {client_type}")
+            print(
+                f"An unsupported client type tried to connect: {client_type}")
 
 
 if __name__ == "__main__":
