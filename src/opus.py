@@ -211,13 +211,14 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
         typed_node = node.copy()
         if isinstance(typed_node.get("next"), list):
             for i, choice in enumerate(typed_node["next"]):
-                if isinstance(choice.get("actions"), list):
+                if "actions" in choice:
                     for j, action in enumerate(choice["actions"]):
-                        action_id = f"{key}_choice_{i}_action_{j}"
-                        action_dicts[action_id] = action
-                        choice["actions"][j] = action_id
+                        if isinstance(action, dict):
+                            action_id = f"{key}_choice_{i}_action_{j}"
+                            action_dicts[action_id] = action
+                            choice["actions"][j] = action_id
                 typed_node["next"][i] = NodeChoice(**choice)
-        if isinstance(typed_node.get("actions"), list):
+        if "actions" in typed_node:
             for i, action in enumerate(typed_node["actions"]):
                 if isinstance(action, dict):
                     action_id = f"{key}_action_{i}"
