@@ -1,5 +1,3 @@
-# TODO: Loopa alla loading screens?
-# TODO: Ta bort bakgrunder vid loading screens?
 startNode: "1"
 nodes:
   "1":
@@ -110,7 +108,6 @@ nodes:
   "104":
     prompt: "Välkommen åter! Tack för att du handlar hos Stans Väskor och Vätskor."
     next:
-      # Bara ett val som har effekt
       - node: "106_sekvens_6"
         description: "Guybrush pratar med piraterna"
   "106_sekvens_6":
@@ -360,7 +357,7 @@ nodes:
         # TODO: Köp svärd
         description: "Guybrush har råd med svärdet"
   "307":
-    prompt: "Varsågod. Vassa änden bortåt, så ja." # TODO: Inte alltid, kan höftas!
+    prompt: "Varsågod. Vassa änden bortåt, så ja. [Kan ev. höftas]"
     next:
       # TODO: Använd state
       - node: "307"
@@ -480,9 +477,11 @@ nodes:
   "371":
     prompt: "Såja! Hmm, är allt klart nu?"
     next:
+      - node: "371"
+        description: "Guybrush plockar upp LeChucks värja"
+        # TODO: Få värja
       - node: "298_sekvens_20"
         description: "Guybrush köper värjan"
-      # TODO: Guybrush kan plocka upp LeChucks värja också
       - node: "373a_sekvens_28"
         description: "Guybrush åker linbana"
   "373a_sekvens_28":
@@ -716,7 +715,7 @@ nodes:
       - node: "540"
         description: "Guybrush har inte råd med spaden"
   "540":
-    prompt: "Okej, du är hård, men jag kan respektera det. Tre dubloner." # TODO: Inte alltid, kan höftas!
+    prompt: "Okej, du är hård, men jag kan respektera det. Tre dubloner. [Kan ev. höftas]"
     next:
       # TODO: Dear lord använd state
       - node: "540"
@@ -916,7 +915,6 @@ nodes:
               entityId: "exorcism_kyrkogården"
               layer: 1
               visible: true
-    # TODO: Behöver vi få tillbaka bakgrunden här?
   "733":
     prompt: "Var var jag?"
     next:
@@ -981,7 +979,7 @@ nodes:
   "814a_sekvens_59":
     prompt: "[Sekvens 59]"
     next: "814b"
-    actions: # TODO: Ska det här läggas till bakom videon i nästa nod i stället?
+    actions:
       - target: "video"
         cmd: "fade"
         params:
@@ -1008,14 +1006,21 @@ nodes:
           entityId: "lechucks_begravning"
           layer: 1
           visible: true
-      - target: "image" # TODO: Ska den här förstöras senare i stället?
+      - target: "image"
         cmd: "destroy"
         params:
           entityId: "lechucks_skepp"
   "933":
     prompt: "[Sången är slut]"
-    # Effekt: Visa "Sätt i diskett 2"? Eller del av filmen?
     next: "940_aktpaus"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "lechucks_begravning"
+          stopOnDone: true
+          target: 0
+          time: 3
   "940_aktpaus":
     prompt: "[Aktpaus]"
     next: "943_sekvens_61"
