@@ -944,7 +944,7 @@ nodes:
     next:
       # TODO: Använd state
       - node: "652_sekvens_45"
-        description: "De är på kyrkogården" # TODO: Verkar konstigt, stämmer det här verkligen?
+        description: "De är på kyrkogården"
       - node: "756_sekvens_55"
         description: "De är på klippan"
   "756_sekvens_55":
@@ -1018,215 +1018,970 @@ nodes:
     next: "940_aktpaus"
   "940_aktpaus":
     prompt: "[Aktpaus]"
-    next: "941"
-  # TODO: Utveckla akt 2
+    next: "943_sekvens_61"
   # Akt 2
-  "941":
-    prompt: "[I Elaines hus]"
-    next: "953"
-    # TODO: Visa hus
-  "953":
+  "943_sekvens_61":
+    prompt: "[Sekvens 61]"
+    next: "947"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "943. Marley Manor dark.png"
+        params:
+          entityId: "marley_manor_dark"
+          visible: true
+  "947":
+    prompt: "Hmm, den är låst. Var kan han ha nyckeln tro?"
+    next: "952"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "948-1. lampknapp.wav"
+        params:
+          entityId: "lampknapp"   
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "marley_manor_dark"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "948-2. Marley Manor light.gif" # TODO: Loopar den här av sig själv? Annars får vi fixa
+        params:
+          entityId: "marley_manor_light"
+          visible: true
+  "952":
     prompt: "Guybrush?"
+    next: "1014"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "953. Inte som det ser ut.wav"
+        params:
+          entityId: "inte_som_det_ser_ut"
+  "1014":
+    prompt: "Och rör inte finsilvret!"
+    next: "1015_sekvens_62"
+  "1015_sekvens_62":
+    prompt: "[Sekvens 62]"
+    next: "1031"
+  "1031":
+    prompt: "Åh, jag tänker inte förstöra överraskningen. Men jag behöver den här, tack så mycket. [Låser upp glaskupan]"
+    next: "1037"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1032. Unlock glass display avgudabild.wav"
+        params:
+          entityId: "unlock_glass"
+  "1037":
+    prompt: "Ja, vad ska jag göra?"
+    next:
+      - node: "1039_sekvens_63"
+        description: "Elaine pratar med Largo"
+  "1039_sekvens_63":
+    prompt: "[Sekvens 63]"
     next: "1050"
-    # TODO: Spela musik
   "1050":
     prompt: "J-jaså du, spöke? Så du bor där i förrådet?"
+    next: "1067"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1051. klockan_ett_spoktimmen.wav"
+        params:
+          entityId: "klockan_ett"
+  "1067":
+    prompt: "Vänta bara tills LeChuck-"
+    next: "1069_sekvens_64"
+  "1069_sekvens_64":
+    prompt: "[Sekvens 64]"
+    next: "1078"
+  "1078":
+    prompt: "Om du inte kan hjälpa mig ur det här repet så vill jag inte höra mer från dig, Guybrush!"
+    next:
+      - node: "1080_sekvens_65"
+        description: "Guybrush sticker ut en kniv genom dörrspringan"
+  "1080_sekvens_65":
+    prompt: "[Sekvens 65]"
     next: "1095"
-    # TODO: Klockan slår ett
   "1095":
     prompt: "Vi ses!"
-    next: "1181"
-    # TODO: Visa briggen
-    # Här kan Elaine byta grejer mot en tårta
-  "1181":
-    prompt: "[MVGs hydda]"
-    next: "1212"
-    # TODO: MVGs hydda?
-  "1212":
-    prompt: "[LeChucks hytt]"
+    next: "1097_sekvens_66"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1095. Loading screen 2.mp4"
+        params:
+          entityId: "loading_screen"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "marley_manor_light"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1097. Briggen.png"
+        params:
+          entityId: "briggen"
+          visible: true
+  "1097_sekvens_66":
+    prompt: "[Sekvens 66]"
+    next: "1101"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
+  "1101": # TODO: Den här biten är på gränsen till att behövas i opus, se om den kan undvaras/tryckas ihop
+    prompt: "LeChuck har såklart låst in sig medan han slutför sin mörka ritual... Hur ska jag ta mig in?"
+    next:
+      - node: "1102_sekvens_67"
+        description: "Elaine gör något som väcker fången"
+      - node: "1107_sekvens_68"
+        description: "Elaine pratar med fången"
+  "1102_sekvens_67":
+    prompt: "[Sekvens 67]"
+    next: "1105"
+  "1105":
+    prompt: "Nähä nä. Joho."
+    next:
+      - node: "1107_sekvens_68"
+        description: "Elaine frågar om fången själv"
+      - node: "1126_sekvens_69"
+        description: "Elaine frågar om tårtan"
+  "1107_sekvens_68":
+    prompt: "[Sekvens 68]"
+    next: "1124"
+  "1124":
+    prompt: "Mot ordningsmakten"
+    next:
+      - node: "1126_sekvens_69"
+        description: "Elaine frågar om tårtan (första gången)"
+      - node: "1140_sekvens_70"
+        description: "Elaine frågar om hon kan få tårtan"
+  "1126_sekvens_69":
+    prompt: "[Sekvens 69]"
+    next: "1139"
+    actions:
+      - target: "internal"
+        cmd: "print"
+        desc: "Nice"
+        params:
+          text: "Nice"
+  "1139":
+    prompt: "Jag förstår."
+    next:
+      # TODO: Använd state
+      - node: "1107_sekvens_68"
+        description: "Fången har inte berättat om sitt brott än"
+      - node: "1140_sekvens_70"
+        description: "Elaine vill ha tårtan"
+  "1140_sekvens_70":
+    prompt: "[Sekvens 70]"
+    next: "1147"
+  "1147":
+    prompt: "Jodå! Så jag får nog be att få nåt i utbyte mot den hära tårtan."
+    next:
+      - node: "1166_sekvens_74"
+        description: "Elaine erbjuder/blir av med pistolen"
+        # TODO: Bli av med pistolen
+      - node: "1166_sekvens_74"
+        description: "Elaine erbjuder/blir av med krutet"
+        # TODO: Bli av med krutet
+      - node: "1166_sekvens_74"
+        description: "Elaine erbjuder/blir av med kulorna"
+        # TODO: Bli av med kulorna
+  "1166_sekvens_74":
+    prompt: "[Sekvens 74]"
+    next: "1180"
+    # TODO: Stickreplik och få tårtan? Eller filen senare?
+  "1180":
+    prompt: "Och då tänkte jag att jag skulle besöka min hemliga välgörare som bor där..."
+    next: "1182_sekvens_75"
+    actions:
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "briggen"
+          target: 0
+          time: 3
+          stopOnDone: true
+  "1182_sekvens_75":
+    prompt: "[Sekvens 75]"
+    next: "1195"
+  "1195":
+    prompt: "Hur skall jag kunna besegra LeChuck nu?"
+    next:
+      - node: "1205"
+        description: "Guybrush undersöker eller petar på något i hyddan"
+  "1205":
+    prompt: "Plocka upp det så går vi och stoppar LeChuck."
+    next: "1210"
+    # TODO: Plocka upp recept
+  "1210":
+    prompt: "Tåga nu mot LeChuck för att verkställa min hämnd!"
+    next: "1213_sekvens_76"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1211. Loading screen 3.mp4"
+        params:
+          entityId: "loading_screen"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1213. LeChucks hytt mediterande LC.png"
+        params:
+          entityId: "hytt"
+          visible: true
+  "1213":
+    prompt: "[Sekvens 76]"
+    next: "1215"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
+  "1215":
+    prompt: "Vad gör vi nu?"
+    next:
+      - node: "1228_sekvens_79"
+        description: "Ritualdolken kommer på tal"
+  "1228_sekvens_79":
+    prompt: "[Sekvens 79]"
     next: "1232"
   "1232":
-    prompt: "Han är redan död."
+    prompt: "Han är redan död. [Går av scen]"
+    next: "1235_sekvens_80"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "hytt"
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1234-1. Knivhugget.mp4"
+        params:
+          entityId: "knivhugget"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1234-2. LeChucks hytt efter knivhugg.png"
+        params:
+          entityId: "hytt_efter"
+          visible: true
+  "1235_sekvens_80":
+    prompt: "[Sekvens 80]"
     next: "1241"
-    # TODO: Mystisk musik
   "1241":
     prompt: "När du säger det så..."
     next: "1276"
-    # TODO: Spela musik
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1242. Balladen om Elaine och LeChuck.mp3"
+        params:
+          entityId: "elaine_lechuck"
   "1276":
     prompt: "Men jag är inte pirat än! Vänta nu... du är kär i mig?"
-    next: "1321"
-    # TODO: Spela musik
-  "1321":
-    prompt: "[LeChucks skepp]"
+    next: "1319"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1277. Inte som det ser ut repris.wav"
+        params:
+          entityId: "inte_som_det_ser_ut_repris"
+  "1319a":
+    prompt: "Mm. [Stoppar avgudabild i väskan]"
+    next: "1319b"
+    # TODO: Få avgudabild
+  "1319b":
+    prompt: "[Går av scen]"
+    next: "1321_sekvens_81"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "hytt_efter"
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1320. Loading screen 1.mp4"
+        params:
+          entityId: "loading_screen"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1321. LeChucks skepp morgon.png"
+        params:
+          entityId: "lechucks_skepp_morgon"
+          visible: true
+  "1321_sekvens_81":
+    prompt: "[Sekvens 81]"
+    next: "1327"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
+  "1327":
+    prompt: "Här. [Räcker över flaskan]"
+    next: "1334"
+    # TODO: Bli av med flaskan
+  "1334":
+    prompt: "Åh, här. [Räcker över receptet]"
     next: "1373"
-    # TODO: LeChucks skepp?
+    # TODO: Bli av med receptet
   "1373":
-    prompt: "Se så yngel, du hörde kapten. Hehe."
+    prompt: "Se så yngel, du hörde kapten. Hehe. [Kastar Guybrushs väska överbord]"
     next: "1377"
-    # TODO: Plums
-  "1377":
-    prompt: "Jag heter Guybrush! Elaine-"
-    next: "1379"
-    # TODO: Plask
-  "1379":
-    prompt: "[Öde ö]"
-    next: "1443"
-    # TODO: Öde ö
-  "1443":
-    prompt: "Ja! Jag går och kollar!"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1374. plums_vaskan.wav"
+        params:
+          entityId: "plums_vaskan"
+  "1377a":
+    prompt: "Jag heter Guybrush! Elaine- [Blir petad och faller av plankan]"
+    next: "1377b"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1378-1. plask_guybrush.wav"
+        params:
+          entityId: "plask_guybrush"
+  "1377b":
+    prompt: "[Lite senare]"
+    next: "1379_sekvens_82"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "lechucks_skepp_morgon"
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1378-2. Loading screen 2.mp4"
+        params:
+          entityId: "loading_screen"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1397. Deserted island.png"
+        params:
+          entityId: "deserted_island"
+          visible: true
+  "1379_sekvens_82":
+    prompt: "[Sekvens 82]"
+    next: "1414"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
+  "1414":
+    prompt: "Men först: hur tar vi oss härifrån?"
+    next:
+      - node: "1416_sekvens_83"
+        description: "De försöker locka till sig ett skepp"
+      - node: "1424_sekvens_84"
+        description: "De ser sig om och letar efter något"
+      - node: "1524_sekvens_89"
+        description: "De frågar Stan om hans varor"
+  "1416_sekvens_83":
+    prompt: "[Sekvens 83]"
+    next:
+      # TODO: Använd state
+      - node: "1422"
+        description: "De har inte förstoringsglaset"
+      - node: "1587_sekvens_93"
+        description: "De har förstoringsglaset"
+  "1422":
+    prompt: "Då är bara frågan hur vi kommer över en sån..."
+    next:
+      - node: "1422"
+        description: "De köper veden"
+        # TODO: Köp veden
+      - node: "1422"
+        description: "De köper burken"
+        # TODO: Köp burken
+      - node: "1539_sekvens_90"
+        description: "De pratar med Herman"
+      - node: "1524_sekvens_89"
+        description: "De frågar Stan om hans varor"
+      - node: "1424_sekvens_84"
+        description: "De ser sig om och letar efter något (har inte hittat skatten)"
+  "1424_sekvens_84":
+    prompt: "[Sekvens 84]"
+    next: "1442"
+  "1442":
+    prompt: "Ja! Jag går och kollar! [Går av scen]"
+    next: "1449"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1443. Seagull 1.wav"
+        params:
+          entityId: "mås"
+  "1449":
+    prompt: "Stan? Har du något långt och vasst tillhygge?"
+    next:
+      # TODO: Använd state
+      - node: "1450_sekvens_85"
+        description: "Guybrush köpte aldrig värjan"
+      - node: "1497_sekvens_87"
+        description: "Stan har inte svärdet"
+  "1450_sekvens_85":
+    prompt: "[Sekvens 85]"
+    next: "1458"
+  "1458":
+    prompt: "Ett nöje att göra affärer med er. [Ger Guybrush värjan]"
+    next: "1459_sekvens_86"
+    # TODO: Få värjan
+  "1459_sekvens_86":
+    prompt: "[Sekvens 86]"
     next: "1462"
-    # TODO: Måsen attackerar
-    # TODO: Obligatoriskt?
   "1462":
     prompt: "A-ha! Hej där, din hönshjärna - hur mås?"
     next: "1464"
-    # TODO: Måsen skriar
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1463. Seagull 2.wav"
+        params:
+          entityId: "mås"
   "1464":
     prompt: "En sandkrabba hade varit en mer avskräckande väktare!"
     next: "1475"
-    # TODO: Måsen skriar
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1465. Seagull 3.wav"
+        params:
+          entityId: "mås"
   "1475":
     prompt: "Du är lite klipsk du!"
     next: "1487"
-    # TODO: Måsen skriar
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1476. Seagull 4.wav"
+        params:
+          entityId: "mås"
   "1487":
     prompt: "Min guvernörsstolthet dragen i smutsen sådär, va!"
+    next: "1489"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1488. Seagull 5.wav"
+        params:
+          entityId: "mås"
+  "1489":
+    prompt: "Att du ens kallar dig fågel - du når knappt upp till \"mittemellan\"!"
+    next: "1495"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1490. Seagull 6 dead.wav"
+        params:
+          entityId: "mås"
+  "1495":
+    prompt: "Trevligt. Jag är strax tillbaka, jag ska bara gräva upp en skatt."
+    next:
+      # TODO: Använd state
+      - node: "1508_sekvens_88"
+        description: "Guybrush har spaden"
+      - node: "1497_sekvens_87"
+        description: "Guybrush har inte spaden"
+  "1497_sekvens_87":
+    prompt: "[Sekvens 87]"
+    next: "1507"
+  "1507":
+    prompt: "Som ni vill. Välkommen åter till Stans Väskor och- jag menar, Stans Bitar av Båtar!"
+    next:
+      - node: "1459_sekvens_86"
+        description: "Guybrush har inte fäktats med måsen"
+      - node: "1508_sekvens_88"
+        description: "Guybrush har fäktats med måsen"
+  "1508_sekvens_88":
+    prompt: "[Sekvens 88]"
+    next: "1512"
+  "1512":
+    prompt: "Åh, det vet jag inte. Men jag kan ju försöka."
+    next: "1522"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1513. Spade_mot_kista.wav"
+        params:
+          entityId: "spade_mot_kista"
+  "1522":
+    prompt: "Vi kommer säkert på nåt!"
+    next:
+      - node: "1522"
+        description: "De köper veden"
+        # TODO: Köp veden
+      - node: "1522"
+        description: "De köper burken"
+        # TODO: Köp burken
+      - node: "1416_sekvens_83"
+        description: "De försöker locka till sig ett skepp"
+      - node: "1524_sekvens_89"
+        description: "De frågar Stan om hans varor"
+      - node: "1539_sekvens_90"
+        description: "De pratar med Herman"
+  "1524_sekvens_89":
+    prompt: "[Sekvens 89]"
+    next: "1537"
+  "1537":
+    prompt: "Hmm. Är det något vi behöver köpa?"
+    next:
+      - node: "1537"
+        description: "De köper veden"
+        # TODO: Köp veden
+      - node: "1537"
+        description: "De köper burken"
+        # TODO: Köp burken
+      - node: "1539_sekvens_90"
+        description: "De pratar med Herman"
+      - node: "1416_sekvens_83"
+        description: "De spanar efter skepp, eller vill tända en eld"
+      - node: "1424_sekvens_84"
+        description: "De ser sig om eller letar efter något (och inte hittat skatten)"
+      - node: "1559_sekvens_91"
+        description: "De försöker använda surströmmingen på apan"
+  "1539_sekvens_90":
+    prompt: "[Sekvens 90]"
+    next: "1557"
+  "1557":
+    prompt: "Vi kanske kan locka bort honom på något sätt. Men med vad?"
+    next:
+      - node: "1557"
+        description: "De köper veden"
+        # TODO: Köp veden
+      - node: "1557"
+        description: "De köper burken"
+        # TODO: Köp burken
+      - node: "1559_sekvens_91"
+        description: "De försöker använda surströmmingen"
+      - node: "1524_sekvens_89"
+        description: "De frågar Stan om hans varor"
+      - node: "1579_sekvens_92"
+        description: "De kommer på något annat sätt"
+  "1559_sekvens_91":
+    prompt: "[Sekvens 91]"
     next: "1562"
-    # TODO: Måsen skriar
   "1562":
     prompt: "Kolla här, King Kong! Finfin mat!"
     next: "1591"
-    # TODO: Ordning?
-    # TODO: Obligatorisk?
-    # TODO: Surströmming öppnas
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1563. konservburk.wav"
+        params:
+          entityId: "konservburk"
+  "1577":
+    prompt: "...och det finns kvitto."
+    next: "1579_sekvens_92"
+    # TODO: Få guvernörsbältet?
+  "1579_sekvens_92":
+    prompt: "[Sekvens 92]"
+    next: "1581"
+    # TODO: Bli av med guvernörsbältet?
+  "1581":
+    prompt: "Guvernörsämbetet på Hermanö tackar er ödmjukast. Här får ni er belöning. [Räcker över förstoringsglaset]"
+    next: "1583"
+    # TODO: Få förstoringsglaset
+  "1583":
+    prompt: "Jag köpte den på Stans Glas och Glass imorse, jag."
+    next:
+      # TODO: Använd state
+      - node: "1587_sekvens_93"
+        description: "De har kommit på idén med elden"
+      - node: "1585"
+        description: "De har inte kommit på idén med elden"
+  "1585":
+    prompt: "Så vad gör vi nu?"
+    next:
+      - node: "1585"
+        description: "De köper veden"
+        # TODO: Köp veden
+      - node: "1585"
+        description: "De köper burken"
+        # TODO: Köp burken
+      - node: "1416_sekvens_83"
+        description: "De spanar efter skepp eller försöker tända en eld"
+      - node: "1524_sekvens_89"
+        description: "De frågar Stan om hans varor"
+  "1587_sekvens_93":
+    prompt: "[Sekvens 93]"
+    next:
+      # TODO: Använd state
+      - node: "1591"
+        description: "De har inte veden än"
+      - node: "1591"
+        description: "De har redan veden"
   "1591":
-    prompt: "Jag kan berätta sen. Fläkta på!"
+    prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar]"
     next: "1609"
-    # TODO: Eld tänds
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1593. Deserted island with fire.mp4"
+        params:
+          entityId: "fire"
+          layer: 1
+          visible: true
   "1609":
     prompt: "Välkomna till Stans Bitar av Båtar!"
+    next: "1612_sekvens_94"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "deserted_island"
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1610. Loading screen 3.mp4"
+        params:
+          entityId: "loading_screen"
+          layer: 1
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1612. Piratskeppet 0.png"
+        params:
+          entityId: "piratskeppet_0"
+          visible: true
+  "1612_sekvens_94":
+    prompt: "[Sekvens 94]"
     next: "1624"
-    # TODO: Visa piratskeppet
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading_screen"
+          stopOnDone: true
+          target: 0
+          time: 3
   "1624":
     prompt: "Och vem är du då, pojkvasker?"
-    next: "1712"
-    # TODO: Guybrush piratsång repris
-  "1712":
+    next: "1646"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1625. Guybrushs piratsang repris.wav"
+        params:
+          entityId: "piratsång_repris"
+  "1646":
+    prompt: "Och vunnit? [Guybrush kastar medaljen till Lösskägg]"
+    next: "1657"
+    # TODO: Bli av med medaljen
+  "1657":
+    prompt: "Han stal den här - och det var inte lätt, för LeChuck var ute efter den också. [Kastar den till Rödskägg]"
+    next: "1711"
+    # TODO: Bli av med avgudabilden
+  "1711":
     prompt: "Hämta en gryta!"
-    next: "1740"
-    # TODO: Spela musik
+    next: "1717"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1712. Receptet 0.wav"
+        params:
+          entityId: "receptet"
+  "1717":
+    prompt: "En citron! Åh, det fick ju jag för längesen."
+    next: "1720"
+    # TODO: Bli av med citron
+  "1720":
+    prompt: "En dublon!"
+    next: "1732"
+    # TODO: Bli av med en dublon
+  "1732":
+    prompt: "Nej, du. Jag hoppas ni vet vad ni gör..."
+    next:
+      - node: "1740"
+        description: "De kommer på att Guybrush har en blomma (eller flera)"
   "1740":
     prompt: "Äsch! Börja om från början!"
-    next: "1741"
-    # TODO: Spela musik
-  "1741":
-    prompt: "[Spelar musik]"
     next: "1747"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1740. Receptet 1 (efter blomman).wav"
+        params:
+          entityId: "receptet"
   "1747":
     prompt: "En färsk djävulsrot som har hela skalet kvar"
-    next:
-      # TODO: Använd state
-      - node: "1762"
-        description: "Här första gången"
-      - node: "1748"
-        description: "Varit här förut"
+    next: "1754_sekvens_96"
   "1748":
     prompt: "Nånting som förvillar, som du hellre sluppit se"
-    next:
-      # TODO: Använd state
-      - node: "1773"
-        description: "Här första gången"
-      - node: "1749"
-        description: "Varit här förut"
+    next: "1763_sekvens_97"
   "1749":
     prompt: "Nåt som är så starkt att du inte mäktar med"
-    next:
-      # TODO: Använd state
-      - node: "1789"
-        description: "Här första gången"
-      - node: "1751"
-        description: "Varit här förut"
+    next: "1774_sekvens_98"
   "1751":
     prompt: "Nåt som är ett rent förräderi"
-    next:
-      # TODO: Använd state
-      - node: "1791"
-        description: "Här första gången"
-      - node: "1752"
-        description: "Varit här förut"
+    next: "1790_sekvens_99"
   "1752":
     prompt: "Nånting du fick tag på allde's nyss"
-    next:
-      # TODO: Använd state
-      - node: "1801"
-        description: "Här första gången"
-      - node: "1753"
-        description: "Varit här förut"
+    next: "1801_sekvens_100"
   "1753":
     prompt: "Och det älskande parets första kyss"
-    next: "1818"
-    # TODO: Fade out
+    next: "1812_sekvens_101"
+  "1754_sekvens_96":
+    prompt: "[Sekvens 96]"
+    next: "1762"
   "1762":
-    prompt: "Vad kommer sen?" # TODO: Eller om de kommer på något annat
-    next: "1741"
+    prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
+    next: "1748"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1762. Receptet 2 (efter roten).wav"
+        params:
+          entityId: "receptet"
+  "1763_sekvens_97":
+    prompt: "[Sekvens 97]"
+    next: "1773"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_0"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1763. Piratskeppet med LCs skepp 1.png"
+        params:
+          entityId: "piratskeppet_1"
+          visible: true
   "1773":
-    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack!"
-    next: "1741"
+    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
+    next: "1749"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1773. Receptet 3 (efter kompassen).wav"
+        params:
+          entityId: "receptet"
+  "1774_sekvens_98":
+    prompt: "[Sekvens 98]"
+    next: "1789"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_1"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1774. Piratskeppet med LCs skepp 2.png"
+        params:
+          entityId: "piratskeppet_2"
+          visible: true
   "1789":
-    prompt: "Jag såg till att ställa ner den väldigt försiktigt!"
-    next: "1741"
+    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de lägger i något annat än grogg]"
+    next: "1751"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1774. Receptet 4 (efter kompassen).wav"
+        params:
+          entityId: "receptet"
+  "1790_sekvens_99":
+    prompt: "[Sekvens 99]"
+    next: "1791"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_2"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1790. Piratskeppet med LCs skepp 3.png"
+        params:
+          entityId: "piratskeppet_3"
+          visible: true
   "1791":
     prompt: "Ett förräderi? Hur tusan lägger man det i en gryta?"
     next: "1800"
-    # TODO: Kanoneld hörs
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "1792-1. Kanon i vattnet.mp4"
+        params:
+          entityId: "kanoneld_1"
+          layer: 1
+          visible: true
   "1800":
-    prompt: "Jaha, den ja!"
-    next: "1741"
-  "1801":
-    prompt: "[Läge för kanoneld]"
+    prompt: "Jaha, den ja! [Eller om de kommer på något annat än plankan]"
+    next: "1752"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1800. Receptet 5 (efter plankan).wav"
+        params:
+          entityId: "receptet"
+  "1801_sekvens_100":
+    prompt: "[Sekvens 100]"
+    next: "1804"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_3"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1801. Piratskeppet med LCs skepp 4.png"
+        params:
+          entityId: "piratskeppet_4"
+          visible: true
+  "1804":
+    prompt: "Nej, det är snart klart! Nånting du fick tag på allde's nyss!"
     next:
-      - node: "1741"
-        description: "De kommer på något annat än hatten"
-      - node: "1806"
-        description: "De kommer inte på något annat än hatten"
-    # TODO: Kanoneld
-  "1806":
-    prompt: "[Läge för en kanon]"
-    next: "1807"
-    # TODO: Kanoneld
-  "1807":
-    prompt: "Se upp!"
-    next: "1811"
-    # TODO: Kanonkula viner förbi
+    - node: "1741"
+      description: "De kommer på något annat än hatten"
+      actions:
+        - target: "audio"
+          cmd: "create"
+          assets:
+            - path: "1811. Receptet 6 (efter hatten).wav"
+          params:
+            entityId: "receptet"
+    - node: "1811"
+      description: "De kommer inte på något annat än hatten"
+      actions:
+        - target: "video"
+          cmd: "create"
+          assets:
+            - path: "1806-1. Kanon mot skeppet.mp4"
+          params:
+            entityId: "kanoneld_2"
+            layer: 1
+            visible: true
   "1811":
     prompt: "Hatten!"
-    next: "1741"
+    next: "1753"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1811. Receptet 6 (efter hatten).wav"
+        params:
+          entityId: "receptet"
+  "1812_sekvens_101":
+    prompt: "[Sekvens 101]"
+    next: "1818"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_4"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1821. Piratskeppet med LCs skepp 5.png"
+        params:
+          entityId: "piratskeppet_5"
+          visible: true
   "1818":
     prompt: "Då är det ju inte vår första kyss!"
-    next: "1826"
-    # Spela musik
-  "1826":
-    prompt: "Vågar du kalla dig havets fasa med det ansiktet?"
-    next: "1829"
-    # TODO: Svärdsfäktning
-  "1829":
-    prompt: "Spökpiraten LeChuck, ha, du är inte mer spöke än jag är din far."
-    next: "1832"
-    # TODO: Svärdsfäktning
-  "1832":
-    prompt: "En garde, din fäktning är värre än blasé!"
     next: "1848"
-    # TODO: Svärdsfäktning
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1820. Receptet final.wav"
+        params:
+          entityId: "receptet"
   "1848":
     prompt: "Och det älskande parets första kyss"
+    next: "1851_sekvens_102"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_5"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1851. Night sky.png"
+        params:
+          entityId: "stjärnhimmel"
+          visible: true
+  "1851_sekvens_102":
+    prompt: "[Sekvens 102]"
     next: "1858"
-    # TODO: LeChuck förintas, karibisk stjärnhimmel
-  "1858":
-    prompt: "[Slut]"
+  "1858a":
+    prompt: "[Folk blir tackade]"
+    next: "1858b"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "stjärnhimmel"
+  "1858b":
+    prompt: "[Nu är det slut]"
     next: "1"
-  # TODO: Placera in alla effekter
-  # TODO: Anteckna var och hur inventariet kan ändras
 action_templates: {}
 assets:
   "script":
