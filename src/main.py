@@ -30,13 +30,15 @@ class Core:
     async def main(self):
         """The main loop."""
         opus_file = os.environ.get("OPUS", "dev_opus.yaml")
+        sync_assets = os.environ.get(
+            "SCREENCRASH_SYNC_ASSETS", "true") == "true"
         print("Loading opus...")
-        self._opus = await load_opus(Path("resources") / opus_file)
+        self._opus = await load_opus(Path("resources") / opus_file, read_asset_data=sync_assets)
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
         self._components: Dict[str, ComponentPeer] = {
-            "internal": InternalPeer(),
-            "media": MediaPeer()
+            "internal": InternalPeer(sync_assets),
+            "media": MediaPeer(sync_assets)
         }
         self._setup_events()
         self._distribute_assets()
