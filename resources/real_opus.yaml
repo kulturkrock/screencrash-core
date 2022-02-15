@@ -1254,7 +1254,7 @@ nodes:
         params:
           entityId: "hytt"
           visible: true
-  "1213":
+  "1213_sekvens_76":
     prompt: "[Sekvens 76]"
     next: "1215"
     actions:
@@ -1311,7 +1311,7 @@ nodes:
           entityId: "elaine_lechuck"
   "1276":
     prompt: "Men jag är inte pirat än! Vänta nu... du är kär i mig?"
-    next: "1319"
+    next: "1319a"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1367,7 +1367,7 @@ nodes:
     # TODO: Bli av med receptet
   "1373":
     prompt: "Se så yngel, du hörde kapten. Hehe. [Kastar Guybrushs väska överbord]"
-    next: "1377"
+    next: "1377a"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1903,7 +1903,7 @@ nodes:
   "1804":
     prompt: "Nej, det är snart klart! Nånting du fick tag på allde's nyss!"
     next:
-    - node: "1741"
+    - node: "1753"
       description: "De kommer på något annat än hatten"
       actions:
         - target: "audio"
@@ -1975,7 +1975,7 @@ nodes:
           visible: true
   "1851_sekvens_102":
     prompt: "[Sekvens 102]"
-    next: "1858"
+    next: "1858a"
   "1858a":
     prompt: "[Folk blir tackade]"
     next: "1858b"
