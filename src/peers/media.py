@@ -13,10 +13,12 @@ class MediaPeer(ComponentPeer):
 
     Parameters
     ----------
+    sync_assets
+        Whether to sync assets
     """
 
-    def __init__(self):
-        super().__init__(["image", "video", "web", "audio"])
+    def __init__(self, sync_assets: bool):
+        super().__init__(["image", "video", "web", "audio"], sync_assets)
         self._available_target_types = {}
 
     def handle_component_message(self, component_id: str, message_type: str, message: object):
@@ -26,10 +28,12 @@ class MediaPeer(ComponentPeer):
             log_msg = message["msg"]
             self.emit("log-message", level, time.time(), component_id, log_msg)
         elif message_type == "effect-added":
-            data = {key:value for key, value in message.items() if key != "messageType"}
+            data = {key: value for key, value in message.items() if key !=
+                    "messageType"}
             self.emit("effect-added", data)
         elif message_type == "effect-changed":
-            data = {key:value for key, value in message.items() if key != "messageType"}
+            data = {key: value for key, value in message.items() if key !=
+                    "messageType"}
             self.emit("effect-changed", data)
         elif message_type == "effect-removed":
             entity_id = message["entityId"]

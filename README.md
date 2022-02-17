@@ -26,6 +26,15 @@ The following commands are available:
 | <code>make&nbsp;init</code> | Install dependencies                                               |
 | <code>make&nbsp;dev</code>  | Run Core in development mode, with automatic reload on file change |
 
+## Environment variables
+
+You can configure Core with the following environment variables:
+
+| Variable                  | Effect                                          |
+| ------------------------- | ----------------------------------------------- | --------------- |
+| `OPUS`                    | Which opus file (under `resources`) to use      | `dev_opus.yaml` |
+| `SCREENCRASH_SYNC_ASSETS` | Whether to sync assets when components connect. | `true`          |
+
 ## Files and Folders
 
 | Path           |                                                                                  |

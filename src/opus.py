@@ -62,7 +62,7 @@ class Opus:
     script: bytes
 
 
-async def load_opus(opus_path: Path):
+async def load_opus(opus_path: Path, read_asset_data: bool):
     """Load an opus from a file."""
     parent = opus_path.parent
     async with aiofiles.open(opus_path, mode="r", encoding="utf-8") as f:
@@ -72,7 +72,7 @@ async def load_opus(opus_path: Path):
         action_templates, inlined_asset_dicts = load_actions(
             {**opus_dict["action_templates"], **inlined_action_dicts})
         assets = dict(await asyncio.gather(
-            *[load_asset(key, asset["path"], action_templates, opus_path)
+            *[load_asset(key, asset["path"], action_templates, opus_path, read_asset_data)
               for key, asset in [*opus_dict["assets"].items(), *inlined_asset_dicts.items()]]
         ))
         if assets.get("script") is None:
@@ -86,7 +86,7 @@ async def load_opus(opus_path: Path):
     return Opus(nodes, action_templates, assets, start_node, script)
 
 
-async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemplate], opus_path: Path):
+async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemplate], opus_path: Path, read_asset_data: bool):
     """
     Load an asset from a file.
 
@@ -100,6 +100,8 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
         All action templates in the opus. Used for checking where the asset is used.
     opus_path
         The path to the opus file
+    read_asset_data
+        Whether to read the asset data from the file
 
     Returns
     -------
@@ -109,7 +111,7 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
         action.target for action in action_templates.values() if key in action.assets)
     data = None
     checksum = None
-    if not path.startswith("http://") and not path.startswith("https://"):
+    if read_asset_data and not path.startswith("http://") and not path.startswith("https://"):
         async with aiofiles.open(opus_path.parent / path, mode="rb") as f:
             data = await f.read()
         checksum = hashlib.md5(data).hexdigest()

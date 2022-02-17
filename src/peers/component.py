@@ -21,15 +21,18 @@ class ComponentPeer(EventEmitter):
     ----------
     target_types
         Target types this peer listens too (e.g. audio, video, image etc.)
+    sync_assets
+        Whether to sync assets
     """
 
-    def __init__(self, target_types: List[str]):
+    def __init__(self, target_types: List[str], sync_assets: bool):
         super().__init__()
         self._target_types = target_types
+        self._sync_assets = sync_assets
         self._websockets: List[WebSocketServerProtocol] = []
         self._assets: List[Asset] = []
         self._infos: Dict[str, ComponentData] = {}
-    
+
     def add_asset(self, asset: Asset) -> None:
         self._assets.append(asset)
 
@@ -38,18 +41,10 @@ class ComponentPeer(EventEmitter):
         self._websockets.append(websocket)
         # Request component info
         await websocket.send(json.dumps({"command": "req_component_info"}))
-        # Sync files
-        hashes = initial_message["files"]
-        for asset in self._assets:
-            if asset.data and hashes.get(asset.path) == asset.checksum:
-                print(f"Asset {asset.path} already up to date")
-            elif asset.data:
-                print(f"Syncing asset {asset.path}")
-                await websocket.send(json.dumps({"command": "file", "path": asset.path, 
-                "data": base64.b64encode(asset.data).decode("utf-8")}))
-            else:
-                print(f"Skipping sync of asset {asset.path} (no data)")
-
+        if self._sync_assets:
+            await websocket.send(json.dumps({"command": "report_checksums"}))
+        else:
+            print("Not syncing assets")
         # Handle messages from the client
         component_id = None
         try:
@@ -60,9 +55,24 @@ class ComponentPeer(EventEmitter):
                     if message_type == "heartbeat":
                         pass  # Ignore heartbeats for now
                     elif message_type == "component_info":
-                        component_id = self.handle_component_info(message_dict, websocket)
+                        component_id = self.handle_component_info(
+                            message_dict, websocket)
+                    elif message_type == "file_checksums":
+                        # Sync assets
+                        for asset in self._assets:
+                            if asset.data and message_dict["files"].get(asset.path) == asset.checksum:
+                                print(f"Asset {asset.path} already up to date")
+                            elif asset.data:
+                                print(f"Syncing asset {asset.path}")
+                                await websocket.send(json.dumps({"command": "file", "path": asset.path,
+                                                                "data": base64.b64encode(asset.data).decode("utf-8")}))
+                            else:
+                                print(
+                                    f"Skipping sync of asset {asset.path} (no data)")
+                        print("Synced everything")
                     else:
-                        self.handle_component_message(component_id, message_type, message_dict)
+                        self.handle_component_message(
+                            component_id, message_type, message_dict)
                 except Exception as e:
                     print(f"Failed to handle component message. Got error {e}")
                     traceback.print_exc()
@@ -107,8 +117,10 @@ class ComponentPeer(EventEmitter):
         })
 
     def handle_component_info(self, data, socket):
-        component_info = ComponentInfo(**{k: v for k, v in data.items() if k != "messageType"})
-        self._infos[component_info.componentId] = ComponentData(component_info, socket)
+        component_info = ComponentInfo(
+            **{k: v for k, v in data.items() if k != "messageType"})
+        self._infos[component_info.componentId] = ComponentData(
+            component_info, socket)
         self.emit("info-updated", component_info)
         return component_info.componentId
 
