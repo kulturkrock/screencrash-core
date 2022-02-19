@@ -8,6 +8,7 @@ from websockets.server import WebSocketServerProtocol
 
 from opus import ActionTemplate, load_opus
 from peers.component import ComponentPeer
+from peers.inventory import InventoryPeer
 from performance import Performance
 from peers.internal import InternalPeer
 from peers.media import MediaPeer
@@ -38,7 +39,8 @@ class Core:
         self._ui = UI(self._opus, self._performance.history)
         self._components: Dict[str, ComponentPeer] = {
             "internal": InternalPeer(sync_assets),
-            "media": MediaPeer(sync_assets)
+            "media": MediaPeer(sync_assets),
+            "inventory": InventoryPeer(sync_assets),
         }
         self._setup_events()
         self._distribute_assets()
@@ -71,7 +73,9 @@ class Core:
             component.add_event_listener(
                 "effect-removed", self._ui.effect_removed)
             component.add_event_listener(
-                "info-updated", self._ui.component_updated)
+                "info-updated", self._ui.component_info_updated)
+            component.add_event_listener(
+                "state-updated", self._ui.component_state_updated)
             component.add_event_listener("log-message", self._ui.log_message)
             component.add_event_listener(
                 "disconnected", self._ui.component_removed)

@@ -2,6 +2,7 @@ import asyncio
 import base64
 from dataclasses import dataclass
 import json
+import time
 import threading
 import traceback
 from typing import Any, List, Dict
@@ -57,6 +58,9 @@ class ComponentPeer(EventEmitter):
                     elif message_type == "component_info":
                         component_id = self.handle_component_info(
                             message_dict, websocket)
+                    elif message_type == "log-message":
+                        self.handle_component_log_message(
+                            component_id, message_dict["level"], message_dict["msg"])
                     elif message_type == "file_checksums":
                         # Sync assets
                         for asset in self._assets:
@@ -116,13 +120,22 @@ class ComponentPeer(EventEmitter):
             "channel": 1,
         })
 
+    def handle_component_log_message(self, component_id, level, message):
+        print(f"Got a log message from component {component_id}: [{level}] {message}")
+        self.emit("log-message", level, time.time(), component_id, message)
+
     def handle_component_info(self, data, socket):
         component_info = ComponentInfo(
             **{k: v for k, v in data.items() if k != "messageType"})
-        self._infos[component_info.componentId] = ComponentData(
-            component_info, socket)
+        self._infos[component_info.componentId] = ComponentData(component_info, socket)
         self.emit("info-updated", component_info)
         return component_info.componentId
+
+    def handle_component_state_update(self, component_id: str, state: Dict[str, Any]):
+        if component_id not in self._infos:
+            print(f"Warning: Component {component_id} not found when updating state. Skipping...")
+            return
+        self.emit("state-updated", component_id, state)
 
     def handles_target(self, target_type: str) -> bool:
         """Checks whether this instance can handle actions of the given type."""

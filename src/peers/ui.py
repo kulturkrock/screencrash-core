@@ -8,7 +8,7 @@ import websockets
 from websockets.server import WebSocketServerProtocol
 
 from opus import Opus, Node, ActionTemplate
-from peers.component_info import ComponentInfo
+from peers.component_info import ComponentInfo, ComponentState
 from util.event_emitter import EventEmitter
 
 
@@ -40,7 +40,7 @@ class UI(EventEmitter):
         super().__init__()
         self._opus = opus
         self._history = initial_history
-        self._components: Dict[str, ComponentInfo] = {}
+        self._components: Dict[str, ComponentState] = {}
         self._effects = {}
         self._websockets: List[WebSocketServerProtocol] = []
         self._logs = []
@@ -114,8 +114,16 @@ class UI(EventEmitter):
         self._logs = []
         self._send_logs_update()
 
-    def component_updated(self, component: ComponentInfo) -> None:
-        self._components[component.componentId] = component
+    def component_info_updated(self, component: ComponentInfo) -> None:
+        if component.componentId in self._components:
+            self._components[component.componentId].info = component
+        else:
+            self._components[component.componentId] = ComponentState(component, {})
+        self._send_components_update()
+
+    def component_state_updated(self, component_id: str, state: Dict[str, Any]):
+        if component_id in self._components:
+            self._components[component_id].state.update(state)
         self._send_components_update()
 
     def component_removed(self, component_id: str) -> None:
