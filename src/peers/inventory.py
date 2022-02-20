@@ -21,7 +21,7 @@ class InventoryPeer(ComponentPeer):
         elif message_type == "money":
             self.handle_component_state_update(component_id, { "money": message["money"] })
         elif message_type == "achievements":
-            self.handle_component_state_update(component_id, { "achievemnents": message["achievements"] })
+            self.handle_component_state_update(component_id, { "achievements": message["achievements"] })
         elif message_type == "achievement_reached":
             # TODO: Handle event
             print("achievement reached")
