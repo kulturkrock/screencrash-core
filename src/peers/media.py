@@ -1,4 +1,3 @@
-import time
 from typing import Any, List, Dict
 from opus import Asset
 
@@ -22,12 +21,7 @@ class MediaPeer(ComponentPeer):
         self._available_target_types = {}
 
     def handle_component_message(self, component_id: str, message_type: str, message: object):
-        if message_type == "log-message":
-            print(f"Got a log message from Media Component: {message}")
-            level = message["level"]
-            log_msg = message["msg"]
-            self.emit("log-message", level, time.time(), component_id, log_msg)
-        elif message_type == "effect-added":
+        if message_type == "effect-added":
             data = {key: value for key, value in message.items() if key !=
                     "messageType"}
             self.emit("effect-added", data)

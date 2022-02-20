@@ -1,4 +1,4 @@
-startNode: "1126"
+startNode: "1125"
 nodes:
   "11":
     next:
@@ -23,6 +23,27 @@ nodes:
   "1396":
     next: "1126"
     prompt: "Jag beklagar. Jag hör att du höll av honom."
+  "1125":
+    next: "1126"
+    prompt: "Vi börjar här..."
+    actions:
+      - target: inventory
+        cmd: setup
+        desc: Sätt upp inventory-komponenten
+        assets:
+          - path: "inventory/inventory-data.zip"
+        params:
+          color: "#a51d16"
+      - target: inventory
+        cmd: change_money
+        desc: Initiera pengar till 5
+        params:
+          amount: 5
+      - target: inventory
+        cmd: buy
+        desc: Köp en blomma
+        params:
+          item: blomma
   "1126":
     next: "415"
     prompt: "Vad är tårtan till?"

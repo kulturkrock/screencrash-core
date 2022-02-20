@@ -9,6 +9,7 @@
         { "$ref": "commands/audio.schema.json"},
         { "$ref": "commands/image.schema.json"},
         { "$ref": "commands/video.schema.json"},
-        { "$ref": "commands/web.schema.json"}
+        { "$ref": "commands/web.schema.json"},
+        { "$ref": "commands/inventory.schema.json"}
     ]
 }
