@@ -86,7 +86,7 @@ class ComponentPeer(EventEmitter):
         # Websocket is closed
         if component_id:
             del self._infos[component_id]
-            self.emit("disconnected", component_id)
+            self.handle_component_disconnect(component_id)
         self._websockets.remove(websocket)
 
     def nof_instances(self) -> int:
@@ -119,6 +119,9 @@ class ComponentPeer(EventEmitter):
             "command": "restart",
             "channel": 1,
         })
+
+    def handle_component_disconnect(self, component_id):
+        self.emit("disconnected", component_id)
 
     def handle_component_log_message(self, component_id, level, message):
         print(f"Got a log message from component {component_id}: [{level}] {message}")
