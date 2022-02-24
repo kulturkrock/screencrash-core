@@ -666,7 +666,12 @@ nodes:
           entityId: "mausoleum_dörr"
   "521":
     prompt: "Usch, vad dammigt! Få se, vad har vi här..."
-    next: "522"
+    next:
+      # TODO: Använd state
+      - node: "647_sekvens_44"
+        description: "Skattjakten är den första prövningen"
+      - node: "734_sekvens_51"
+        description: "Skattjakten är den andra prövningen"
     actions:
       - target: "audio"
         cmd: "create"
@@ -674,14 +679,6 @@ nodes:
           - path: "522. sarkofag1_guybrush_kampar.wav"
         params:
           entityId: "sarkofag"
-  "522":
-    prompt: "[Guybrush kämpar med locket]"
-    next:
-      # TODO: Använd state
-      - node: "647_sekvens_44"
-        description: "Skattjakten är den första prövningen"
-      - node: "734_sekvens_51"
-        description: "Skattjakten är den andra prövningen"
   "523_sekvens_35":
     prompt: "[Sekvens 35]"
     next:
@@ -927,7 +924,7 @@ nodes:
     prompt: "[Sekvens 51]"
     next:
       - node: "754"
-        description: "Vi är på kyrkogården"
+        description: "Vi är på kyrkogården [Elaine kommer in på scen]"
         actions:
           - target: "audio"
             cmd: "create"
@@ -1011,7 +1008,7 @@ nodes:
         params:
           entityId: "lechucks_skepp"
   "933":
-    prompt: "[Sången är slut]"
+    prompt: "Då tar vi paus i 20 minuter!"
     next: "940_aktpaus"
     actions:
       - target: "video"
@@ -1621,7 +1618,7 @@ nodes:
     next: "1562"
   "1562":
     prompt: "Kolla här, King Kong! Finfin mat!"
-    next: "1591"
+    next: "1577"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1674,6 +1671,10 @@ nodes:
     prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar]"
     next: "1609"
     actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "deserted_island"
       - target: "video"
         cmd: "create"
         assets:
@@ -1686,10 +1687,13 @@ nodes:
     prompt: "Välkomna till Stans Bitar av Båtar!"
     next: "1612_sekvens_94"
     actions:
-      - target: "image"
-        cmd: "destroy"
+      - target: "video"
+        cmd: "fade"
         params:
-          entityId: "deserted_island"
+          entityId: "fire"
+          stopOnDone: true
+          target: 0
+          time: 3
       - target: "video"
         cmd: "create"
         assets:
@@ -1769,37 +1773,9 @@ nodes:
           entityId: "receptet"
   "1747":
     prompt: "En färsk djävulsrot som har hela skalet kvar"
-    next: "1754_sekvens_96"
+    next: "1762"
   "1748":
     prompt: "Nånting som förvillar, som du hellre sluppit se"
-    next: "1763_sekvens_97"
-  "1749":
-    prompt: "Nåt som är så starkt att du inte mäktar med"
-    next: "1774_sekvens_98"
-  "1751":
-    prompt: "Nåt som är ett rent förräderi"
-    next: "1790_sekvens_99"
-  "1752":
-    prompt: "Nånting du fick tag på allde's nyss"
-    next: "1801_sekvens_100"
-  "1753":
-    prompt: "Och det älskande parets första kyss"
-    next: "1812_sekvens_101"
-  "1754_sekvens_96":
-    prompt: "[Sekvens 96]"
-    next: "1762"
-  "1762":
-    prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
-    next: "1748"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1762. Receptet 2 (efter roten).wav"
-        params:
-          entityId: "receptet"
-  "1763_sekvens_97":
-    prompt: "[Sekvens 97]"
     next: "1773"
     actions:
       - target: "image"
@@ -1813,18 +1789,8 @@ nodes:
         params:
           entityId: "piratskeppet_1"
           visible: true
-  "1773":
-    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
-    next: "1749"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1773. Receptet 3 (efter kompassen).wav"
-        params:
-          entityId: "receptet"
-  "1774_sekvens_98":
-    prompt: "[Sekvens 98]"
+  "1749":
+    prompt: "Nåt som är så starkt att du inte mäktar med"
     next: "1789"
     actions:
       - target: "image"
@@ -1838,18 +1804,8 @@ nodes:
         params:
           entityId: "piratskeppet_2"
           visible: true
-  "1789":
-    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de lägger i något annat än grogg]"
-    next: "1751"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1774. Receptet 4 (efter kompassen).wav"
-        params:
-          entityId: "receptet"
-  "1790_sekvens_99":
-    prompt: "[Sekvens 99]"
+  "1751":
+    prompt: "Nåt som är ett rent förräderi"
     next: "1791"
     actions:
       - target: "image"
@@ -1863,6 +1819,66 @@ nodes:
         params:
           entityId: "piratskeppet_3"
           visible: true
+  "1752":
+    prompt: "Nånting du fick tag på allde's nyss"
+    next: "1804"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_3"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1801. Piratskeppet med LCs skepp 4.png"
+        params:
+          entityId: "piratskeppet_4"
+          visible: true
+  "1753":
+    prompt: "Och det älskande parets första kyss"
+    next: "1818"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_4"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1821. Piratskeppet med LCs skepp 5.png"
+        params:
+          entityId: "piratskeppet_5"
+          visible: true
+  "1762":
+    prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
+    next: "1748"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1762. Receptet 2 (efter roten).wav"
+        params:
+          entityId: "receptet"
+  "1773":
+    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
+    next: "1749"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1773. Receptet 3 (efter kompassen).wav"
+        params:
+          entityId: "receptet"
+  "1789":
+    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de lägger i något annat än grogg]"
+    next: "1751"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1774. Receptet 4 (efter kompassen).wav"
+        params:
+          entityId: "receptet"
   "1791":
     prompt: "Ett förräderi? Hur tusan lägger man det i en gryta?"
     next: "1800"
@@ -1885,21 +1901,6 @@ nodes:
           - path: "1800. Receptet 5 (efter plankan).wav"
         params:
           entityId: "receptet"
-  "1801_sekvens_100":
-    prompt: "[Sekvens 100]"
-    next: "1804"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_3"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1801. Piratskeppet med LCs skepp 4.png"
-        params:
-          entityId: "piratskeppet_4"
-          visible: true
   "1804":
     prompt: "Nej, det är snart klart! Nånting du fick tag på allde's nyss!"
     next:
@@ -1933,21 +1934,6 @@ nodes:
           - path: "1811. Receptet 6 (efter hatten).wav"
         params:
           entityId: "receptet"
-  "1812_sekvens_101":
-    prompt: "[Sekvens 101]"
-    next: "1818"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_4"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1821. Piratskeppet med LCs skepp 5.png"
-        params:
-          entityId: "piratskeppet_5"
-          visible: true
   "1818":
     prompt: "Då är det ju inte vår första kyss!"
     next: "1848"
