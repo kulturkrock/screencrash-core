@@ -68,6 +68,11 @@
             "minimum": 0,
             "maximum": 1
         },
+        "lineNumber": {
+            "title": "Line number",
+            "description": "Optional line number, if not part of the ID",
+            "type": "number"
+        },
         "actions": {
             "title": "Actions",
             "description": "The actions on this node",

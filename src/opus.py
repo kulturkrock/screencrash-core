@@ -50,6 +50,7 @@ class Node:
     pdfPage: int
     pdfLocationOnPage: float
     actions: List[str] = field(default_factory=list)
+    lineNumber: Optional[int] = None
 
 
 @dataclass
@@ -149,9 +150,11 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     """
     Load the nodes, find their locations on the page, and pick out inlined actions.
 
+    If a node does not already have a defined lineNumber, it will be given one.
+    Then we assume the node ID begins with the line number, e.g. "12" or "13a".
+
     If a node does not already have defined pdfPage and pdfLocationOnPage,
-    we will try to find it in the PDF. If so, we assume the node ID begins
-    with the line number, e.g. "12" or "13a".
+    we will try to find it in the PDF based on the line number.
 
     Parameters
     ----------
@@ -164,6 +167,15 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     -------
     The nodes and the inlined actions
     """
+    # Get line numbers
+    for key, node in nodes_dict.items():
+        if "lineNumber" not in node:
+            try:
+                line_number = re.match(r"[0-9]+", key).group(0)
+                node["lineNumber"] = int(line_number)
+            except AttributeError:
+                pass  # lineNumber is not mandatory
+
     doc = fitz.open(script_path)
     # Get all node keys where we need to discover the location.
     node_keys = [
@@ -172,12 +184,13 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     ]
     if len(node_keys) > 0:
         try:
-            with_line_numbers = [(key, re.match(r"[0-9]+", key).group(0))
+            with_line_numbers = [(key, nodes_dict[key]["lineNumber"])
                                  for key in node_keys]
-        except AttributeError:
+        except KeyError:
             raise RuntimeError(
-                "Nodes without specified PDF locations must have IDs beginning with numbers. "
-                f"Offenders: {[key for key in node_keys if re.match(r'[0-9]+', key) is None]}"
+                "Nodes without specified PDF locations must have IDs beginning with numbers, "
+                "or defined lineNumber. "
+                f"Offenders: {[key for key in node_keys if 'lineNumber' not in nodes_dict[key]]}"
             )
         sorted_keys_and_numbers = sorted(
             with_line_numbers, key=lambda x: int(x[1]))
@@ -188,7 +201,7 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
             while True:
                 key, line_number = next_pair
                 found = [
-                    rect for rect in page.search_for(line_number)
+                    rect for rect in page.search_for(str(line_number))
                     if (LEFT_PAGE_LINE_NUMBER_END[0] < rect.x1 < LEFT_PAGE_LINE_NUMBER_END[1])
                     or (RIGHT_PAGE_LINE_NUMBER_END[0] < rect.x1 < RIGHT_PAGE_LINE_NUMBER_END[1])
                 ]
