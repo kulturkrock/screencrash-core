@@ -1,5 +1,37 @@
-startNode: "1"
+startNode: "0"
 nodes:
+  "0":
+    prompt: "[Starta inventory]"
+    next: "1"
+    actions:
+      - target: inventory
+        cmd: setup
+        desc: Starta inventory
+        assets:
+          - path: "inventory-data.zip"
+        params:
+          color: "#a51d16"
+      - target: inventory
+        cmd: change_money
+        desc: Sätt pengar till 2
+        params:
+          amount: 2
+      - target: web
+        cmd: create
+        desc: Lägg till inventory på skärmen
+        assets:
+          - path: "http://localhost:4218"
+        params:
+          # Inventory size is set to 1400x720
+          entityId: inventory
+          displayName: "Inventory"
+          usePercentage: false
+          x: 260
+          y: 150
+          width: 1400
+          height: 720
+          visible: false
+          layer: 10000
   "1":
     prompt: "[Redo att visa stjärnhimmel]"
     next: "2"
@@ -105,6 +137,12 @@ nodes:
         description: "Guybrush har redan pratat med piraterna"
       - node: "104"
         description: "Guybrush har inte pratat med piraterna"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Grogg"
+        params:
+          item: grogg
   "104":
     prompt: "Välkommen åter! Tack för att du handlar hos Stans Väskor och Vätskor."
     next:
@@ -135,7 +173,18 @@ nodes:
         description: "Guybrush har pratat med Stan men inte köpt väskan"
   "149_sekvens_7":
     prompt: "[Sekvens 7]"
+    next: "152"
+    actions:
+      - "show_inventory"
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Anteckningar +Fjäderpenna +Karta +Kompass"
+        params:
+          items: notes,featherpen,map_part1,kompass
+  "152":
     next: "155"
+    prompt: Herr Threepwood, förresten!
+    actions: ["hide_inventory"]
   "155":
     prompt: "\"Möt mig uppe på kullen vid midnatt.\" Signerat \"en hemlig välgörare\"..."
     next: "161"
@@ -190,9 +239,25 @@ nodes:
         description: "Guybrush väljer fäktning"
       - node: "193_sekvens_10"
         description: "Guybrush väljer skatten"
+        actions:
+        - target: inventory
+          cmd: change_money
+          desc: "Inventory: -1 dublon"
+          params:
+            amount: -1
   "185_sekvens_9":
     prompt: "[Sekvens 9]"
+    next: "189"
+  "189":
     next: "192"
+    prompt: "...den här. Och den här."
+    actions:
+      - "show_inventory"
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Gummikyckling +Citron"
+        params:
+          items: gummikyckling,citron
   "192":
     prompt: "Ja"
     next:
@@ -201,6 +266,7 @@ nodes:
         description: "Detta är Guybrushs första prövning"
       - node: "242_sekvens_13"
         description: "Detta är Guybrushs andra prövning"
+    actions: ["hide_inventory"]
   "193_sekvens_10":
     prompt: "[Sekvens 10]"
     next: "196"
@@ -222,6 +288,12 @@ nodes:
         description: "Detta är Guybrushs första prövning"
       - node: "242_sekvens_13"
         description: "Detta är Guybrushs andra prövning"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Flaska"
+        params:
+          item: flaska
   "202_sekvens_11":
     prompt: "[Sekvens 11]"
     next: "216"
@@ -261,6 +333,12 @@ nodes:
         description: "Dags att besegra fäktmästaren"
       - node: "193_sekvens_10"
         description: "Dags att hitta skatten"
+        actions:
+          - target: inventory
+            cmd: change_money
+            desc: "Inventory: -1 dublon"
+            params:
+              amount: -1
   "242_sekvens_13":
     prompt: "[Sekvens 13]"
     next: "249"
@@ -303,7 +381,7 @@ nodes:
         params:
           entityId: "loading_screen" 
           layer: 1
-          visible: true    
+          visible: true
   "285a_sekvens_15":
     prompt: "[Sekvens 15]"
     next: "286"
@@ -331,65 +409,104 @@ nodes:
         description: "Guybrush pratar med banditen"
   "288_sekvens_16":
     prompt: "[Sekvens 16]"
-    next: "296"
-  "296":
+    next: "296a"
+  "296a":
+    prompt: "Jag har också den här utsökta värjan. Den har tillhört en äkta pirat!"
+    next: "296b"
+    actions: ["show_inventory"]
+  "296b":
     prompt: "Jag har också den här utsökta värjan. Den har tillhört en äkta pirat!"
     next:
-      - node: "296"
-        # TODO: Köp linan
+      - node: "296b"
         description: "Guybrush köper linan"
+        actions:
+          - target: inventory
+            cmd: buy
+            desc: "Inventory: Köp rep (203m)"
+            params:
+              item: rep
       - node: "298_sekvens_20"
         description: "Guybrush frågar om svärdet"
       - node: "309_sekvens_21"
         description: "Guybrush pratar med banditen"
+        actions: ["hide_inventory"]
       - node: "367a_sekvens_26"
         description: "Guybrush försöker använda gummikycklingen"
+        actions: ["hide_inventory"]
   "298_sekvens_20":
+    # All nodes leading here should keep inventory open
     prompt: "[Sekvens 20]"
     next: "301"
   "301":
     prompt: "Tre dubloner"
     next:
       # TODO: Använd state
-      - node: "307"
+      - node: "307b"
         description: "Guybrush har inte råd med svärdet"
-      - node: "307"
-        # TODO: Köp svärd
+      - node: "307a"
         description: "Guybrush har råd med svärdet"
-  "307":
+  "307a":
+    next: "307b"
     prompt: "Varsågod. Vassa änden bortåt, så ja. [Kan ev. höftas]"
+    actions:
+      - target: inventory
+        cmd: buy
+        desc: "Inventory: Köp värja"
+        params:
+          item: varja
+  "307b":
+    prompt: "[Välj vad Guybrush ska göra]"
     next:
       # TODO: Använd state
-      - node: "307"
-        # TODO: Köp linan
+      - node: "307b"
         description: "Guybrush köper linan"
-      - node: "371" # Manus säger sekvens 28, men det stämmer inte (alltid?)
+        actions:
+          - target: inventory
+            cmd: buy
+            desc: "Inventory: Köp rep (203m)"
+            params:
+              item: rep
+      - node: "371a" # Manus säger sekvens 28, men det stämmer inte (alltid?)
         description: "Guybrush är redo att åka linbana"
+        actions: ["hide_inventory"]
       - node: "309_sekvens_21"
         description: "Guybrush pratar med banditen"
+        actions: ["hide_inventory"]
       - node: "367a_sekvens_26"
         description: "Guybrush försöker använda gummikycklingen"
+        actions: ["hide_inventory"]
   "309_sekvens_21":
     prompt: "[Sekvens 21]"
     next:
       # TODO: Använd state
       - node: "324_sekvens_22"
         description: "Guybrush har redan pratat med banditen en gång"
-      - node: "322"
+      - node: "322a"
         description: "Guybrush har inte pratat med banditen förut"
-  "322":
+  "322a":
+    prompt: "Jag har ett byte här som ska till en bättre behövande."
+    next: "322b"
+    actions: ["show_inventory"]
+  "322b":
     prompt: "Jag har ett byte här som ska till en bättre behövande."
     next:
       # TODO: Använd state
-      - node: "296"
-        # TODO: Köp linan
+      - node: "296b"
         description: "Guybrush köper linan"
+        actions:
+          - target: inventory
+            cmd: buy
+            desc: "Inventory: Köp rep (203m)"
+            params:
+              item: rep
       - node: "288_sekvens_16"
         description: "Guybrush pratar med Stan (första gången)"
+        actions: ["hide_inventory"]
       - node: "298_sekvens_20"
         description: "Guybrush går för att köpa värjan"
       - node: "324_sekvens_22"
         description: "Guybrush intresserar sig för bågen"
+        actions: ["hide_inventory"]
   "324_sekvens_22":
     prompt: "[Sekvens 22]"
     next: "333"
@@ -404,13 +521,32 @@ nodes:
   "334_sekvens_23":
     prompt: "[Sekvens 23]"
     next: "339"
+    actions: ["show_inventory"]
   "339":
     prompt: "Varsågod!"
-    # TODO: Köp linan
+    next: "340"
+    actions:
+      - target: inventory
+        cmd: buy
+        desc: "Inventory: Köp repet"
+        params:
+          item: rep
+  "340":
+    prompt: "[Dölj inventory]"
     next: "341_sekvens_24"
+    actions: ["hide_inventory"]
   "341_sekvens_24":
     prompt: "[Sekvens 24]"
+    next: "346"
+  "346":
+    prompt: "[Guybrush sätter på repet på pilen]"
     next: "348"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Rep"
+        params:
+          item: rep
   "348":
     prompt: "Säg adjö till dina dubloner!"
     next: "352"
@@ -436,30 +572,45 @@ nodes:
           visible: true
   "352":
     prompt: "...oj, det var mitt sista mynt."
-    # TODO: Bli av med ett mynt
     next: "358"
+    actions:
+      - target: inventory
+        cmd: change_money
+        desc: "Inventory: -1 dublon"
+        params:
+          amount: -1
   "358":
     prompt: "Här, bygg dig ett nytt liv."
-    # TODO: Få 5 pengar
     next: "360"
+    actions:
+      - target: inventory
+        cmd: change_money
+        desc: "Inventory: +5 dubloner"
+        params:
+          amount: +5
   "360":
     prompt: "Ingen orsak!"
     next:
       # TODO: Använd state
       - node: "365_sekvens_25"
         description: "Stan har inte presenterat sin affär"
-      - node: "362"
+      - node: "362a"
         description: "Stan har redan presenterat sin affär"
-  "362":
+  "362a":
+    prompt: "Men det verkar fasligt långt att klättra. Kommer jag aldrig orka."
+    next: "362b"
+    actions: ["show_inventory"]
+  "362b":
     prompt: "Men det verkar fasligt långt att klättra. Kommer jag aldrig orka."
     next:
       - node: "298_sekvens_20"
         description: "Guybrush köper värjan"
       - node: "367a_sekvens_26"
         description: "Guybrush försöker använda gummikycklingen"
+        actions: ["hide_inventory"]
   "365_sekvens_25":
     prompt: "[Sekvens 25]"
-    next: "296"
+    next: "296a"
   "367a_sekvens_26":
     prompt: "[Sekvens 26]"
     next: "367b"
@@ -471,19 +622,35 @@ nodes:
         description: "Fäktningen är den första prövningen"
       - node: "734_sekvens_51"
         description: "Fäktningen är den andra prövningen"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Gummikyckling"
+        params:
+          item: gummikyckling
   "369_sekvens_27":
     prompt: "[Sekvens 27]"
-    next: "371"
-  "371":
+    next: "371a"
+  "371a":
     prompt: "Såja! Hmm, är allt klart nu?"
+    next: "371b"
+    actions: ["show_inventory"]
+  "371b":
+    prompt: "[Guybrush tänker]"
     next:
-      - node: "371"
-        description: "Guybrush plockar upp LeChucks värja"
-        # TODO: Få värja
+      - node: "371b"
+        description: "Guybrush plockar upp LeChucks svärd"
+        actions:
+          - target: inventory
+            cmd: add
+            desc: "Inventory: +LeChucks svärd"
+            params:
+              item: lechuck_sword
       - node: "298_sekvens_20"
         description: "Guybrush köper värjan"
       - node: "373a_sekvens_28"
         description: "Guybrush åker linbana"
+        actions: ["hide_inventory"]
   "373a_sekvens_28":
     prompt: "[Sekvens 28]"
     next: "373b"
@@ -523,7 +690,7 @@ nodes:
           visible: true
   "381":
     prompt: "Okej. Låt oss få det här överstökat."
-    next: "468"
+    next: "468a"
     actions:
       - target: "audio"
         cmd: "create"
@@ -531,10 +698,19 @@ nodes:
           - path: "382. Duellen.mp3"
         params:
           entityId: "duellen"
-  "468":
-    prompt: "Du måste säga att det var en jämn match! Jag vill inte bli utskrattad. [Räcker över medaljen]"
-    # TODO: Få medalj
+  "468a":
+    prompt: "Du måste säga att det var en jämn match!"
+    next: "468b"
+    actions: ["show_inventory"]
+  "468b":
+    prompt: "Jag vill inte bli utskrattad. [Räcker över medaljen]"
     next: "470"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Medalj"
+        params:
+          item: medalj
   "470":
     prompt: "Ha! Lycka till med resten av inträdesproven, Guybrush!"
     next:
@@ -544,6 +720,7 @@ nodes:
       - node: "250_sekvens_14"
         description: "Detta var Guybrushs andra prövning"
     actions:
+      - "hide_inventory"
       - target: "video"
         cmd: "create"
         assets:
@@ -558,7 +735,7 @@ nodes:
           entityId: "kobbe"
   "474a_sekvens_29":
     prompt: "[Sekvens 29]"
-    next: "488"
+    next: "488a"
     actions:
       - target: "video"
         cmd: "fade"
@@ -574,60 +751,88 @@ nodes:
         params:
           entityId: "kyrkogården"
           visible: true
-  "488":
+  "488a":
     prompt: "Gör du det."
+    next: "488b"
+    actions: ["show_inventory"]
+  "488b":
+    prompt: "[Guybrush tänker]"
     next:
-      - node: "488"
-        # TODO: Köp blomman
+      - node: "488b"
         description: "Guybrush köper blomman"
+        actions: ["buy_flower"]
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+        actions: ["hide_inventory"]
       - node: "509_sekvens_32"
         description: "Guybrush plockar fram en blomma"
+        actions: ["hide_inventory"]
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren"
+        actions: ["hide_inventory"]
       - node: "523_sekvens_35"
         description: "Guybrush pratar med Stan"
+        actions: ["hide_inventory"]
   "490_sekvens_30":
     prompt: "[Sekvens 30]"
-    next: "493"
-  "493":
+    next: "493a"
+  "493a":
+    prompt: "Gamla mamsen blir nog inge glad om du kommer utan en blomma. Sjas."
+    next: "493b"
+    actions: ["show_inventory"]
+  "493b":
     prompt: "Gamla mamsen blir nog inge glad om du kommer utan en blomma. Sjas."
     next:
-      - node: "493"
-        # TODO: Köp blomman
+      - node: "493b"
         description: "Guybrush köper blomman"
+        actions: ["buy_flower"]
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+        actions: ["hide_inventory"]
       - node: "509_sekvens_32"
         description: "Guybrush plockar fram en blomma"
+        actions: ["hide_inventory"]
       - node: "523_sekvens_35"
         description: "Guybrush pratar med Stan"
+        actions: ["hide_inventory"]
   "495_sekvens_31":
     prompt: "[Sekvens 31]"
-    next: "502"
-  "502":
-    prompt: "Det vore snällt. Den ska dit bort. [Bär stenar och plockar upp skiffernyckel]"
-    # TODO: Plocka upp en skiffernyckel
+    next: "504a"
+  "504a":
+    prompt: "Vad raskt det går för dig. Du har så långa ben du."
+    next: "504b"
+    actions: ["show_inventory"]
+  "504b":
+    prompt: "[Plockar på sig skiffernyckel]"
     next: "506"
+    actions: ["show_inventory"]
   "506":
     prompt: "Du ska ha en slant för besväret."
-    # TODO: Få 5 dubloner
     next: "507"
+    actions:
+      - target: inventory
+        cmd: change_money
+        desc: "Inventory: +5 dubloner"
+        params:
+          amount: +5
   "507":
     prompt: "Oj, 5 dubloner, tack så mycket."
     next:
       - node: "507"
-        # TODO: Köp blomman
         description: "Guybrush köper blomman"
+        actions: ["buy_flower"]
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+        actions: ["hide_inventory"]
       - node: "509_sekvens_32"
         description: "Guybrush plockar fram en blomma"
+        actions: ["hide_inventory"]
       - node: "515_sekvens_33"
         description: "Guybrush undersöker mausoleet (har redan visat blomman)"
+        actions: ["hide_inventory"]
       - node: "523_sekvens_35"
         description: "Guybrush pratar med Stan"
+        actions: ["hide_inventory"]
   "509_sekvens_32":
     prompt: "[Sekvens_32]"
     next: "513"
@@ -658,6 +863,11 @@ nodes:
     prompt: "Jaha. Det är en skiffer-nyckel."
     next: "521"
     actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Skiffernyckel"
+        params:
+          item: skiffernyckel
       - target: "audio"
         cmd: "create"
         assets:
@@ -672,6 +882,12 @@ nodes:
         description: "Skattjakten är den första prövningen"
       - node: "734_sekvens_51"
         description: "Skattjakten är den andra prövningen"
+        actions:
+          - target: inventory
+            cmd: add
+            desc: "Inventory: +Skelettben"
+            params:
+              item: skelettben
     actions:
       - target: "audio"
         cmd: "create"
@@ -685,30 +901,44 @@ nodes:
       # TODO: Använd state
       - node: "532_sekvens_39"
         description: "Guybrush har redan pratat med Stan på kyrkogården"
-      - node: "530"
+        actions: ["show_inventory"]
+      - node: "530a"
         description: "Guybrush har inte pratat med Stan på kyrkogården"
-  "530":
+  "530a":
     prompt: "Vad får det lov att vara?"
+    next: "530b"
+    actions: ["show_inventory"]
+  "530b":
+    prompt: "[Guybrush tänker]"
     next:
-      - node: "530"
-        # TODO: Köp blomman
+      - node: "530b"
         description: "Guybrush köper blomman"
+        actions: ["buy_flower"]
       - node: "532_sekvens_39"
         description: "Guybrush frågar om spaden"
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+        actions: ["hide_inventory"]
       - node: "509_sekvens_32"
         description: "Guybrush plockar fram en blomma"
+        actions: ["hide_inventory"]
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+        actions: ["hide_inventory"]
       - node: "515_sekvens_33"
         description: "Guybrush undersöker mausoleet (har redan visat blomman)"
+        actions: ["hide_inventory"]
   "532_sekvens_39":
     prompt: "[Sekvens 39]"
     next:
       - node: "540"
-        # TODO: Köp spaden
         description: "Guybrush har råd med spaden"
+        actions:
+          - target: inventory
+            cmd: buy
+            desc: "Inventory: Köp spade"
+            params:
+              item: spade
       - node: "540"
         description: "Guybrush har inte råd med spaden"
   "540":
@@ -716,26 +946,52 @@ nodes:
     next:
       # TODO: Dear lord använd state
       - node: "540"
-        # TODO: Köp blomman
         description: "Guybrush köper blomman"
+        actions: ["buy_flower"]
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
+        actions: ["hide_inventory"]
       - node: "509_sekvens_32"
         description: "Guybrush plockar fram en blomma"
+        actions: ["hide_inventory"]
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
+        actions: ["hide_inventory"]
       - node: "515_sekvens_33"
         description: "Guybrush undersöker mausoleet (har redan visat blomman)"
+        actions: ["hide_inventory"]
       - node: "574_sekvens_43"
         description: "Guybrush håller på att följa kartan"
+        actions: ["hide_inventory"]
   "541_sekvens_40":
     prompt: "[Sekvens 40]"
+    next: "542"
+  "542":
+    prompt: "Jag borde se om det finns något mer därinne"
     next: "544"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Karta del 2"
+        params:
+          item: map_part2
   "544":
     prompt: "\"Graven. Fram. Baka - ost? Fram, vänster, bak...\""
     next:
       - node: "546_sekvens_41"
         description: "Guybrush försöker kombinera kartdelarna"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Karta del 1"
+            params:
+              item: map_part1
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Karta del 2"
+            params:
+              item: map_part2
+          - "hide_inventory"
   "546_sekvens_41":
     prompt: "[Sekvens 41]"
     next: "564"
@@ -747,6 +1003,14 @@ nodes:
         description: "Guybrush har spaden"
       - node: "532_sekvens_39"
         description: "Guybrush har inte spaden"
+        actions: ["show_inventory"]
+    actions:
+      # Note: Här lägger Guybrush ifrån sig benet
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Skelettben"
+        params:
+          item: skelettben
   "567_sekvens_42":
     prompt: "[Sekvens 42]"
     next: "571"
@@ -827,6 +1091,16 @@ nodes:
             cmd: "destroy"
             params:
               entityId: "kyrkogården"
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Spade"
+            params:
+              item: spade
+          - target: inventory
+            cmd: add
+            desc: "Inventory: +Tröja"
+            params:
+              item: tshirt
   "647_sekvens_44":
     prompt: "[Sekvens 44]"
     next: "651"
@@ -870,12 +1144,29 @@ nodes:
     next: "673_sekvens_47"
   "673_sekvens_47":
     prompt: "[Sekvens 47]"
-    next: "695"
-  "695":
+    next: "695a"
+  "695a":
+    prompt: "Jag borde hjälpa till! Vad ska jag göra?"
+    next: "695b"
+    actions: ["show_inventory"]
+  "695b":
     prompt: "Jag borde hjälpa till! Vad ska jag göra?"
     next:
-      - node: "699"
+      # TODO: Fler preppade varianter här?
+      - node: "696"
+        description: "Guybrush får LeChucks uppmärksamhet med citronen"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Citron"
+            params:
+              item: citron
+      - node: "696"
         description: "Guybrush får LeChucks uppmärksamhet"
+  "696":
+    prompt: "Lägg dig inte i pojkspoling"
+    next: "699"
+    actions: ["hide_inventory"]
   "699":
     prompt: "Tror du det hjälper att sticka mig med en dolk? Jag är den fruktade spökpiraten LeChuck!"
     next: "711"
@@ -1050,13 +1341,13 @@ nodes:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "948-2. Marley Manor light.gif" # TODO: Loopar den här av sig själv? Annars får vi fixa
+          - path: "948-2. Marley Manor light.gif"
         params:
           entityId: "marley_manor_light"
           visible: true
   "952":
     prompt: "Guybrush?"
-    next: "1014"
+    next: "993"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1064,6 +1355,20 @@ nodes:
           - path: "953. Inte som det ser ut.wav"
         params:
           entityId: "inte_som_det_ser_ut"
+  "993":
+    prompt: "[Elaine tar Guybrushs vapen och ställer dem åt sidan]"
+    next: "1014"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Värja"
+        params:
+          item: varja
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -LeChucks svärd"
+        params:
+          item: lechuck_sword
   "1014":
     prompt: "Och rör inte finsilvret!"
     next: "1015_sekvens_62"
@@ -1226,16 +1531,35 @@ nodes:
   "1195":
     prompt: "Hur skall jag kunna besegra LeChuck nu?"
     next:
-      - node: "1205"
+      - node: "1204"
         description: "Guybrush undersöker eller petar på något i hyddan"
+  "1204":
+    prompt: "Men vad skall du göra mot LeChuck? Du är bara en skalle."
+    next: "1205"
+    actions: ["show_inventory"]
   "1205":
     prompt: "Plocka upp det så går vi och stoppar LeChuck."
+    next: "1207"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Recept"
+        params:
+          item: recept
+  "1207":
+    prompt: "[Plockar upp Murray]"
     next: "1210"
-    # TODO: Plocka upp recept
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory +Murray"
+        params:
+          item: skull
   "1210":
     prompt: "Tåga nu mot LeChuck för att verkställa min hämnd!"
     next: "1213_sekvens_76"
     actions:
+      - "hide_inventory"
       - target: "video"
         cmd: "create"
         assets:
@@ -1265,8 +1589,17 @@ nodes:
   "1215":
     prompt: "Vad gör vi nu?"
     next:
+      # TODO: State. Kan bara ta avgudastaty en gång.
       - node: "1228_sekvens_79"
         description: "Ritualdolken kommer på tal"
+      - node: "1215"
+        description: "[Guybrush tar avgudabilden]"
+        actions:
+          - target: inventory
+            cmd: add
+            desc: "Inventory: +Avgudastaty"
+            params:
+              item: avgudastaty
   "1228_sekvens_79":
     prompt: "[Sekvens 79]"
     next: "1232"
@@ -1318,8 +1651,17 @@ nodes:
           entityId: "inte_som_det_ser_ut_repris"
   "1319a":
     prompt: "Mm. [Stoppar avgudabild i väskan]"
-    next: "1319b"
-    # TODO: Få avgudabild
+    next:
+      - node: "1319b"
+        description: "[Guybrush har inte avgudastatyn]"
+        actions:
+          - target: inventory
+            cmd: add
+            desc: "Inventory: +Avgudastaty"
+            params:
+              item: "avgudastaty"
+      - node: "1319b"
+        description: "[Guybrush har redan avgudastatyn]"
   "1319b":
     prompt: "[Går av scen]"
     next: "1321_sekvens_81"
@@ -1357,11 +1699,21 @@ nodes:
   "1327":
     prompt: "Här. [Räcker över flaskan]"
     next: "1334"
-    # TODO: Bli av med flaskan
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Flaska"
+        params:
+          item: flaska
   "1334":
     prompt: "Åh, här. [Räcker över receptet]"
     next: "1373"
-    # TODO: Bli av med receptet
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Recept"
+        params:
+          item: recept
   "1373":
     prompt: "Se så yngel, du hörde kapten. Hehe. [Kastar Guybrushs väska överbord]"
     next: "1377a"
@@ -1407,7 +1759,7 @@ nodes:
           visible: true
   "1379_sekvens_82":
     prompt: "[Sekvens 82]"
-    next: "1414"
+    next: "1414a"
     actions:
       - target: "video"
         cmd: "fade"
@@ -1416,7 +1768,11 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
-  "1414":
+  "1414a":
+    prompt: "Men först: hur tar vi oss härifrån?"
+    next: "1414b"
+    actions: ["show_inventory"]
+  "1414b":
     prompt: "Men först: hur tar vi oss härifrån?"
     next:
       - node: "1416_sekvens_83"
@@ -1425,29 +1781,37 @@ nodes:
         description: "De ser sig om och letar efter något"
       - node: "1524_sekvens_89"
         description: "De frågar Stan om hans varor"
+    actions: ["hide_inventory"]
   "1416_sekvens_83":
     prompt: "[Sekvens 83]"
     next:
       # TODO: Använd state
-      - node: "1422"
+      - node: "1422a"
         description: "De har inte förstoringsglaset"
       - node: "1587_sekvens_93"
         description: "De har förstoringsglaset"
-  "1422":
+  "1422a":
+    prompt: "Då är bara frågan hur vi kommer över en sån..."
+    next: "1422b"
+    actions: ["show_inventory"]
+  "1422b":
     prompt: "Då är bara frågan hur vi kommer över en sån..."
     next:
-      - node: "1422"
+      - node: "1422b"
         description: "De köper veden"
-        # TODO: Köp veden
-      - node: "1422"
+        actions: ["buy_ved"]
+      - node: "1422b"
         description: "De köper burken"
-        # TODO: Köp burken
+        actions: ["buy_surstromming"]
       - node: "1539_sekvens_90"
         description: "De pratar med Herman"
+        actions: ["hide_inventory"]
       - node: "1524_sekvens_89"
         description: "De frågar Stan om hans varor"
+        actions: ["hide_inventory"]
       - node: "1424_sekvens_84"
         description: "De ser sig om och letar efter något (har inte hittat skatten)"
+        actions: ["hide_inventory"]
   "1424_sekvens_84":
     prompt: "[Sekvens 84]"
     next: "1442"
@@ -1475,7 +1839,12 @@ nodes:
   "1458":
     prompt: "Ett nöje att göra affärer med er. [Ger Guybrush värjan]"
     next: "1459_sekvens_86"
-    # TODO: Få värjan
+    actions:
+      - target: inventory
+        cmd: buy
+        desc: "Inventory: Köp värja"
+        params:
+          item: varja
   "1459_sekvens_86":
     prompt: "[Sekvens 86]"
     next: "1462"
@@ -1539,7 +1908,16 @@ nodes:
         description: "Guybrush har inte spaden"
   "1497_sekvens_87":
     prompt: "[Sekvens 87]"
+    next: "1505"
+  "1505":
+    prompt: "Åh, är herrn intresserad av en större väska? [Räcker över spaden]"
     next: "1507"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Spade"
+        params:
+          item: spade
   "1507":
     prompt: "Som ni vill. Välkommen åter till Stans Väskor och- jag menar, Stans Bitar av Båtar!"
     next:
@@ -1560,59 +1938,88 @@ nodes:
           - path: "1513. Spade_mot_kista.wav"
         params:
           entityId: "spade_mot_kista"
+  "1519":
+    # Note: Skattkistan "kostar" -30 dubloner -> får 30 dubloner av att "köpa" den
+    prompt: "[Guybrush kommer in på scen med 30 dubloner]"
+    next: "1522"
+    actions:
+      - "show_inventory"
+      - target: inventory
+        cmd: buy
+        desc: "Inventory: \"Köp\" skattkista (+30 dubloner)"
+        params:
+          item: skattkista
   "1522":
     prompt: "Vi kommer säkert på nåt!"
     next:
       - node: "1522"
         description: "De köper veden"
-        # TODO: Köp veden
+        actions: ["buy_ved"]
       - node: "1522"
         description: "De köper burken"
-        # TODO: Köp burken
+        actions: ["buy_surstromming"]
       - node: "1416_sekvens_83"
         description: "De försöker locka till sig ett skepp"
+        actions: ["hide_inventory"]
       - node: "1524_sekvens_89"
         description: "De frågar Stan om hans varor"
+        actions: ["hide_inventory"]
       - node: "1539_sekvens_90"
         description: "De pratar med Herman"
+        actions: ["hide_inventory"]
   "1524_sekvens_89":
     prompt: "[Sekvens 89]"
-    next: "1537"
-  "1537":
+    next: "1537a"
+  "1537a":
     prompt: "Hmm. Är det något vi behöver köpa?"
+    next: "1537b"
+    actions: ["show_inventory"]
+  "1537b":
+    prompt: "[Guybrush och Elaine tänker]"
     next:
-      - node: "1537"
+      - node: "1537b"
         description: "De köper veden"
-        # TODO: Köp veden
-      - node: "1537"
+        actions: ["buy_ved"]
+      - node: "1537b"
         description: "De köper burken"
-        # TODO: Köp burken
+        actions: ["buy_surstromming"]
       - node: "1539_sekvens_90"
         description: "De pratar med Herman"
+        actions: ["hide_inventory"]
       - node: "1416_sekvens_83"
         description: "De spanar efter skepp, eller vill tända en eld"
+        actions: ["hide_inventory"]
       - node: "1424_sekvens_84"
         description: "De ser sig om eller letar efter något (och inte hittat skatten)"
+        actions: ["hide_inventory"]
       - node: "1559_sekvens_91"
         description: "De försöker använda surströmmingen på apan"
+        actions: ["hide_inventory"]
   "1539_sekvens_90":
     prompt: "[Sekvens 90]"
-    next: "1557"
-  "1557":
+    next: "1557a"
+  "1557a":
     prompt: "Vi kanske kan locka bort honom på något sätt. Men med vad?"
+    next: "1557b"
+    actions: ["show_inventory"]
+  "1557b":
+    prompt: "[Guybrush och Elaine tänker]"
     next:
-      - node: "1557"
+      - node: "1557b"
         description: "De köper veden"
-        # TODO: Köp veden
-      - node: "1557"
+        actions: ["buy_ved"]
+      - node: "1557b"
         description: "De köper burken"
-        # TODO: Köp burken
+        actions: ["buy_surstromming"]
       - node: "1559_sekvens_91"
         description: "De försöker använda surströmmingen"
+        actions: ["hide_inventory"]
       - node: "1524_sekvens_89"
         description: "De frågar Stan om hans varor"
+        actions: ["hide_inventory"]
       - node: "1579_sekvens_92"
         description: "De kommer på något annat sätt"
+        actions: ["hide_inventory"]
   "1559_sekvens_91":
     prompt: "[Sekvens 91]"
     next: "1562"
@@ -1626,18 +2033,38 @@ nodes:
           - path: "1563. konservburk.wav"
         params:
           entityId: "konservburk"
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Surströmming"
+        params:
+          item: surstromming
   "1577":
     prompt: "...och det finns kvitto."
     next: "1579_sekvens_92"
-    # TODO: Få guvernörsbältet?
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Guvernörsbälte"
+        params:
+          item: guvernorsbalte
   "1579_sekvens_92":
     prompt: "[Sekvens 92]"
     next: "1581"
-    # TODO: Bli av med guvernörsbältet?
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Guvernörsbälte"
+        params:
+          item: guvernorsbalte
   "1581":
     prompt: "Guvernörsämbetet på Hermanö tackar er ödmjukast. Här får ni er belöning. [Räcker över förstoringsglaset]"
     next: "1583"
-    # TODO: Få förstoringsglaset
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Förstoringsglas"
+        params:
+          item: forstoringsglas
   "1583":
     prompt: "Jag köpte den på Stans Glas och Glass imorse, jag."
     next:
@@ -1646,30 +2073,34 @@ nodes:
         description: "De har kommit på idén med elden"
       - node: "1585"
         description: "De har inte kommit på idén med elden"
+        actions: ["show_inventory"]
   "1585":
     prompt: "Så vad gör vi nu?"
     next:
       - node: "1585"
         description: "De köper veden"
-        # TODO: Köp veden
+        actions: ["buy_ved"]
       - node: "1585"
         description: "De köper burken"
-        # TODO: Köp burken
+        actions: ["buy_surstromming"]
       - node: "1416_sekvens_83"
         description: "De spanar efter skepp eller försöker tända en eld"
+        actions: ["hide_inventory"]
       - node: "1524_sekvens_89"
         description: "De frågar Stan om hans varor"
+        actions: ["hide_inventory"]
   "1587_sekvens_93":
     prompt: "[Sekvens 93]"
     next:
       # TODO: Använd state
       - node: "1591"
         description: "De har inte veden än"
+        actions: ["buy_ved"]
       - node: "1591"
         description: "De har redan veden"
   "1591":
     prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar]"
-    next: "1609"
+    next: "1599"
     actions:
       - target: "image"
         cmd: "destroy"
@@ -1683,6 +2114,15 @@ nodes:
           entityId: "fire"
           layer: 1
           visible: true
+  "1599":
+    prompt: "Ja. Och spanar. [Lägger planka i väskan]"
+    next: "1609"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Planka"
+        params:
+          item: planka
   "1609":
     prompt: "Välkomna till Stans Bitar av Båtar!"
     next: "1612_sekvens_94"
@@ -1733,11 +2173,30 @@ nodes:
   "1646":
     prompt: "Och vunnit? [Guybrush kastar medaljen till Lösskägg]"
     next: "1657"
-    # TODO: Bli av med medaljen
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Medalj"
+        params:
+          item: medalj
   "1657":
     prompt: "Han stal den här - och det var inte lätt, för LeChuck var ute efter den också. [Kastar den till Rödskägg]"
+    next: "1666"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Avgudastaty"
+        params:
+          item: avgudastaty
+  "1666":
+    prompt: "[Rödskägg får en hatt inlangad från byxan och ger den till Guybrush]"
     next: "1711"
-    # TODO: Bli av med avgudabilden
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Hatt"
+        params:
+          item: hatt
   "1711":
     prompt: "Hämta en gryta!"
     next: "1717"
@@ -1751,16 +2210,46 @@ nodes:
   "1717":
     prompt: "En citron! Åh, det fick ju jag för längesen."
     next: "1720"
-    # TODO: Bli av med citron
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Citron"
+        params:
+          item: citron
   "1720":
     prompt: "En dublon!"
     next: "1732"
-    # TODO: Bli av med en dublon
-  "1732":
+    actions:
+      - target: inventory
+        cmd: change_money
+        desc: "Inventory: -1 dublon"
+        params:
+          amount: -1
+  "1732a":
     prompt: "Nej, du. Jag hoppas ni vet vad ni gör..."
+    next: "1732b"
+    actions: ["show_inventory"]
+  "1732b":
+    prompt: "[Guybrush och Elaine tänker]"
     next:
       - node: "1740"
         description: "De kommer på att Guybrush har en blomma (eller flera)"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Blomma"
+            params:
+              item: blomma
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Blomma"
+            params:
+              item: blomma
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Ros"
+            params:
+              item: ros
   "1740":
     prompt: "Äsch! Börja om från början!"
     next: "1747"
@@ -1774,9 +2263,10 @@ nodes:
   "1747":
     prompt: "En färsk djävulsrot som har hela skalet kvar"
     next: "1762"
+    actions: ["show_inventory"]
   "1748":
     prompt: "Nånting som förvillar, som du hellre sluppit se"
-    next: "1773"
+    next: "1769"
     actions:
       - target: "image"
         cmd: "destroy"
@@ -1791,7 +2281,7 @@ nodes:
           visible: true
   "1749":
     prompt: "Nåt som är så starkt att du inte mäktar med"
-    next: "1789"
+    next: "1781"
     actions:
       - target: "image"
         cmd: "destroy"
@@ -1851,7 +2341,17 @@ nodes:
           visible: true
   "1762":
     prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
-    next: "1748"
+    next:
+      - node: "1748"
+        description: "[De kommer på djävulsroten]"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Djävulsrot"
+            params:
+              item: devils_root
+      - node: "1748"
+        description: "[De kommer på något som INTE är djävulsroten]"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1859,9 +2359,24 @@ nodes:
           - path: "1762. Receptet 2 (efter roten).wav"
         params:
           entityId: "receptet"
+      - "hide_inventory"
+  "1769":
+    prompt: "Något som förvillar, som du hellre sluppit se"
+    next: "1773"
+    actions: ["show_inventory"]
   "1773":
     prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
-    next: "1749"
+    next:
+      - node: "1749"
+        description: "[De kommer på kompassen]"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Kompass"
+            params:
+              item: kompass
+      - node: "1749"
+        description: "[De kommer på något som INTE är kompassen]"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1869,9 +2384,24 @@ nodes:
           - path: "1773. Receptet 3 (efter kompassen).wav"
         params:
           entityId: "receptet"
+      - "hide_inventory"
+  "1781":
+    prompt: "Jag vet inte!"
+    next: "1789"
+    actions: ["show_inventory"]
   "1789":
     prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de lägger i något annat än grogg]"
-    next: "1751"
+    next:
+      - node: "1751"
+        description: "[De kommer på groggen]"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Grogg"
+            params:
+              item: grogg
+      - node: "1751"
+        description: "[De kommer på något som INTE är groggen]"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1879,9 +2409,10 @@ nodes:
           - path: "1774. Receptet 4 (efter kompassen).wav"
         params:
           entityId: "receptet"
+      - "hide_inventory"
   "1791":
     prompt: "Ett förräderi? Hur tusan lägger man det i en gryta?"
-    next: "1800"
+    next: "1794a"
     actions:
       - target: "video"
         cmd: "create"
@@ -1891,6 +2422,23 @@ nodes:
           entityId: "kanoneld_1"
           layer: 1
           visible: true
+  "1794a":
+    prompt: "Okej, tänk!"
+    next: "1794b"
+    actions: ["show_inventory"]
+  "1794b":
+    prompt: "[Guybrush och Elaine tänker]"
+    next:
+      - node: "1800"
+        description: "[De kommer på plankan]"
+        actions:
+          - target: inventory
+            cmd: remove
+            desc: "Inventory: -Plankan"
+            params:
+              item: planka
+      - node: "1800"
+        description: "[De kommer på något som INTE är plankan]"
   "1800":
     prompt: "Jaha, den ja! [Eller om de kommer på något annat än plankan]"
     next: "1752"
@@ -1901,8 +2449,13 @@ nodes:
           - path: "1800. Receptet 5 (efter plankan).wav"
         params:
           entityId: "receptet"
+      - "hide_inventory"
   "1804":
     prompt: "Nej, det är snart klart! Nånting du fick tag på allde's nyss!"
+    next: "1804b"
+    actions: ["show_inventory"]
+  "1804b":
+    prompt: "[Guybrush och Elaine tänker]"
     next:
     - node: "1753"
       description: "De kommer på något annat än hatten"
@@ -1913,6 +2466,7 @@ nodes:
             - path: "1811. Receptet 6 (efter hatten).wav"
           params:
             entityId: "receptet"
+        - "hide_inventory"
     - node: "1811"
       description: "De kommer inte på något annat än hatten"
       actions:
@@ -1934,6 +2488,12 @@ nodes:
           - path: "1811. Receptet 6 (efter hatten).wav"
         params:
           entityId: "receptet"
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Hatt"
+        params:
+          item: hatt
+      - "hide_inventory"
   "1818":
     prompt: "Då är det ju inte vår första kyss!"
     next: "1848"
@@ -1973,7 +2533,37 @@ nodes:
   "1858b":
     prompt: "[Nu är det slut]"
     next: "1"
-action_templates: {}
+action_templates:
+  "show_inventory":
+    target: web
+    cmd: show
+    desc: Visa inventory
+    params:
+      entityId: inventory
+  "hide_inventory":
+    target: web
+    cmd: hide
+    desc: Dölj inventory
+    params:
+      entityId: inventory
+  "buy_flower":
+    target: inventory
+    cmd: buy
+    desc: "Inventory: Köp blomman"
+    params:
+      item: blomma
+  "buy_ved":
+    target: inventory
+    cmd: buy
+    desc: "Inventory: Köp veden"
+    params:
+      item: ved
+  "buy_surstromming":
+    target: inventory
+    cmd: buy
+    desc: "Inventory: Köp surströmming"
+    params:
+      item: surstromming
 assets:
   "script":
-    path: "Apornas ö 2021-11-22.pdf"
+    path: "Apornas o 2021-11-22.pdf"

@@ -38,7 +38,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set up and load resources",
+            "title": "Inventory: Set up and load resources",
             "description": "Loads inventory-data.json to memory and creates base structures for inventory",
             "properties": {
                 "target": { "const": "inventory" },
@@ -97,9 +97,17 @@
                             "title": "Item name",
                             "description": "Item name as given in inventory-data.json",
                             "type": "string"
+                        },
+                        "items": {
+                            "title": "Item names",
+                            "description": "Item names. Comma separated and given as in inventory-data.json",
+                            "type": "string"
                         }
                     },
-                    "required": ["item"],
+                    "oneOf": [
+                        { "required": ["item"] },
+                        { "required": ["items"] }
+                    ],
                     "additionalProperties": false
                 }
             },
