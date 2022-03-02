@@ -98,9 +98,21 @@ nodes:
         description: "Prata med Stan"
       - node: "106_sekvens_6"
         description: "Prata med pirater"
+    actions:
+      - "hide_items_section"
+      - "show_inventory"
+      - target: inventory
+        cmd: enable_achievement
+        desc: "Inventory: Achievement: En röst i mörkret"
+        params:
+          achievement: spirit_guidance
   "82_sekvens_3":
     prompt: "[Sekvens 3]"
     next: "90"
+    actions:
+      # Reset inventory after achievement in node 81
+      - "hide_inventory"
+      - "unhide_items_section"
   "90":
     prompt: "Vad sägs till exempel om den här utmärkt praktiska saken, äkta läder, bara tre dubloner?"
     next:
@@ -151,6 +163,10 @@ nodes:
   "106_sekvens_6":
     prompt: "[Sekvens 6]"
     next: "133"
+    actions:
+      # Reset inventory after achievement in node 81
+      - "hide_inventory"
+      - "unhide_items_section"
   "133":
     prompt: "En särskild kompass, som inte pekar åt norr?"
     next: "146"
@@ -1181,7 +1197,7 @@ nodes:
     prompt: "Äckel-krusen, domino, fugitte party advarsel!"
     next: 
       # TODO: Använd state
-      - node: "733"
+      - node: "713"
         description: "Vi är på klippan"
         actions:
           - target: "video"
@@ -1192,7 +1208,7 @@ nodes:
               entityId: "exorcism_klippan"
               layer: 1
               visible: true
-      - node: "733"
+      - node: "713"
         description: "Vi är på kyrkogården"
         actions:
           - target: "video"
@@ -1203,6 +1219,17 @@ nodes:
               entityId: "exorcism_kyrkogården"
               layer: 1
               visible: true
+  "713":
+    prompt: "Puh! Tack så mycket. Jag trodde han skulle döda mig"
+    next: "733"
+    actions:
+      - "hide_items_section"
+      - "show_inventory"
+      - target: inventory
+        cmd: enable_achievement
+        desc: "Inventory: Achivement: Who you gonna call"
+        params:
+          achievement: lechuck_ghost
   "733":
     prompt: "Var var jag?"
     next:
@@ -1211,6 +1238,10 @@ nodes:
         description: "Guybrush håller på med skattjakten"
       - node: "369_sekvens_27"
         description: "Guybrush är på väg till fäktmästaren"
+    actions:
+      # Reset after node 713
+      - "hide_inventory"
+      - "unhide_items_section"
   "734_sekvens_51":
     prompt: "[Sekvens 51]"
     next:
@@ -1248,7 +1279,7 @@ nodes:
           entityId: "skjuten_i_bröstet"    
   "789":
     prompt: "Bra."
-    next: "812"
+    next: "791"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1256,6 +1287,17 @@ nodes:
           - path: "790. pistol2 headshot.wav"
         params:
           entityId: "headshot" 
+  "791":
+    prompt: "Jaa!"
+    next: "812"
+    actions:
+      - "hide_items_section"
+      - "show_inventory"
+      - target: inventory
+        cmd: enable_achievement
+        desc: "Inventory: Achievement: En pistol med en kula"
+        params:
+          achievement: lechuck_zombie
   "812":
     prompt: "Var var jag?"
     next:
@@ -1264,6 +1306,10 @@ nodes:
         description: "De är på kyrkogården"
       - node: "369_sekvens_27"
         description: "De är på klippan"
+    actions:
+      # Reset after node 791
+      - "hide_inventory"
+      - "unhide_items_section"
   "814a_sekvens_59":
     prompt: "[Sekvens 59]"
     next: "814b"
@@ -1629,6 +1675,14 @@ nodes:
   "1235_sekvens_80":
     prompt: "[Sekvens 80]"
     next: "1241"
+    actions:
+      - "hide_items_section"
+      - "show_inventory"
+      - target: inventory
+        cmd: enable_achievement
+        desc: "Inventory: Achievement: Pang - Kniv i ryggen"
+        params:
+          achievement: lechuck_demon
   "1241":
     prompt: "När du säger det så..."
     next: "1276"
@@ -1639,6 +1693,9 @@ nodes:
           - path: "1242. Balladen om Elaine och LeChuck.mp3"
         params:
           entityId: "elaine_lechuck"
+      # Reset changes after node 1235_sekvens_80
+      - "hide_inventory"
+      - "unhide_items_section"
   "1276":
     prompt: "Men jag är inte pirat än! Vänta nu... du är kär i mig?"
     next: "1319a"
@@ -2350,8 +2407,15 @@ nodes:
             desc: "Inventory: -Djävulsrot"
             params:
               item: devils_root
+          - "hide_items_section"
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Roten till allt ont"
+            params:
+              achievement: devils_root
       - node: "1748"
         description: "[De kommer på något som INTE är djävulsroten]"
+        actions: ["hide_inventory"]
     actions:
       - target: "audio"
         cmd: "create"
@@ -2359,11 +2423,12 @@ nodes:
           - path: "1762. Receptet 2 (efter roten).wav"
         params:
           entityId: "receptet"
-      - "hide_inventory"
   "1769":
     prompt: "Något som förvillar, som du hellre sluppit se"
     next: "1773"
-    actions: ["show_inventory"]
+    actions:
+      - "unhide_items_section"
+      - "show_inventory"
   "1773":
     prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
     next:
@@ -2522,6 +2587,14 @@ nodes:
   "1851_sekvens_102":
     prompt: "[Sekvens 102]"
     next: "1858a"
+    actions:
+      - "hide_items_section"
+      - "show_inventory"
+      - target: inventory
+        cmd: enable_achievement
+        desc: "Inventory: Achievement: Kärlekens kraft"
+        params:
+          achievement: lechuck_final
   "1858a":
     prompt: "[Folk blir tackade]"
     next: "1858b"
@@ -2530,6 +2603,9 @@ nodes:
         cmd: "destroy"
         params:
           entityId: "stjärnhimmel"
+      # Reset inventory after node 1851_sekvens_102
+      - "hide_inventory"
+      - "unhide_items_section"
   "1858b":
     prompt: "[Nu är det slut]"
     next: "1"
@@ -2546,6 +2622,18 @@ action_templates:
     desc: Dölj inventory
     params:
       entityId: inventory
+  "hide_items_section":
+    target: inventory
+    cmd: set_items_visibility
+    desc: Inaktivera items section
+    params:
+      visible: false
+  "unhide_items_section":
+    target: inventory
+    cmd: set_items_visibility
+    desc: Återaktivera items section
+    params:
+      visible: true
   "buy_flower":
     target: inventory
     cmd: buy

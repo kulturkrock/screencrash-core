@@ -275,6 +275,33 @@
             },
             "required": ["target", "cmd", "params"],
             "additionalProperties": false
+        },
+        {
+            "title": "Inventory: Set items section visibility",
+            "description": "Set whether items part should be visible (or only achievements)",
+            "properties": {
+                "target": { "const": "inventory" },
+                "cmd": { "const": "set_items_visibility" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "visible": {
+                            "title": "Visibility of items section",
+                            "description": "If set to false, only achievements section is shown. If true, all is visible",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": ["visible"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
         }
     ]
 }
