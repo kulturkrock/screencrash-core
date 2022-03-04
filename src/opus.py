@@ -35,6 +35,15 @@ class ActionTemplate:
 
 
 @dataclass
+class EventTrigger:
+    """An EventTrigger can trigger actions based on events from components"""
+    event: str
+    actions: List[str]
+    target: str = "any"
+    params: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
 class NodeChoice:
     """One choice of node when the opus branches"""
     node: str
@@ -58,6 +67,7 @@ class Opus:
     """An Opus has all the information required for a performance."""
     nodes: Dict[str, Node]
     action_templates: Dict[str, ActionTemplate]
+    event_triggers: List[EventTrigger]
     assets: Dict[str, Asset]
     start_node: str
     script: bytes
@@ -70,8 +80,9 @@ async def load_opus(opus_path: Path, read_asset_data: bool):
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
         nodes, inlined_action_dicts = await load_nodes(opus_dict["nodes"], parent / opus_dict["assets"]["script"]["path"])
+        event_triggers, inlined_action_dicts_2 = await load_event_triggers(opus_dict.get("event_triggers"))
         action_templates, inlined_asset_dicts = load_actions(
-            {**opus_dict["action_templates"], **inlined_action_dicts})
+            {**opus_dict["action_templates"], **inlined_action_dicts, **inlined_action_dicts_2})
         assets = dict(await asyncio.gather(
             *[load_asset(key, asset["path"], action_templates, opus_path, read_asset_data)
               for key, asset in [*opus_dict["assets"].items(), *inlined_asset_dicts.items()]]
@@ -84,7 +95,7 @@ async def load_opus(opus_path: Path, read_asset_data: bool):
     async with aiofiles.open(parent / assets["script"].path, mode="rb") as f:
         script = await f.read()
 
-    return Opus(nodes, action_templates, assets, start_node, script)
+    return Opus(nodes, action_templates, event_triggers, assets, start_node, script)
 
 
 async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemplate], opus_path: Path, read_asset_data: bool):
@@ -242,3 +253,31 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
         nodes[key] = Node(**typed_node)
 
     return nodes, action_dicts
+
+
+async def load_event_triggers(event_triggers_list: List[dict]) -> Tuple[List[EventTrigger], Dict[str, dict]]:
+    """
+    Load the event triggers and pick out inlined actions.
+
+    Parameters
+    ----------
+    event_triggers_dict
+        The event triggers from the opus file
+
+    Returns
+    -------
+    The event triggers and the inlined actions
+    """
+    event_triggers = []
+    action_dicts = {}
+    for i, event_trigger in enumerate(event_triggers_list):
+        typed_event_trigger = event_trigger.copy()
+        if "actions" in typed_event_trigger:
+            for j, action in enumerate(typed_event_trigger["actions"]):
+                if isinstance(action, dict):
+                    action_id = f"eventtrigger_{i}_action_{j}"
+                    action_dicts[action_id] = action
+                    typed_event_trigger["actions"][j] = action_id
+        event_triggers.append(EventTrigger(**typed_event_trigger))
+
+    return event_triggers, action_dicts

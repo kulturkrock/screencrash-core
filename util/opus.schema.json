@@ -26,6 +26,12 @@
                 "$ref": "asset.schema.json#"
             },
             "required": ["script"]
+        },
+        "event_triggers": {
+            "type": "array",
+            "additionalProperties": {
+                "$ref": "eventtrigger.schema.json#"
+            }
         }
     },
     "additionalProperties": false,
