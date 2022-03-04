@@ -38,7 +38,7 @@
             "additionalProperties": false
         },
         {
-            "title": "Set up and load resources",
+            "title": "Inventory: Set up and load resources",
             "description": "Loads inventory-data.json to memory and creates base structures for inventory",
             "properties": {
                 "target": { "const": "inventory" },
@@ -97,9 +97,17 @@
                             "title": "Item name",
                             "description": "Item name as given in inventory-data.json",
                             "type": "string"
+                        },
+                        "items": {
+                            "title": "Item names",
+                            "description": "Item names. Comma separated and given as in inventory-data.json",
+                            "type": "string"
                         }
                     },
-                    "required": ["item"],
+                    "oneOf": [
+                        { "required": ["item"] },
+                        { "required": ["items"] }
+                    ],
                     "additionalProperties": false
                 }
             },
@@ -262,6 +270,33 @@
                         }
                     },
                     "required": ["currency"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Inventory: Set items section visibility",
+            "description": "Set whether items part should be visible (or only achievements)",
+            "properties": {
+                "target": { "const": "inventory" },
+                "cmd": { "const": "set_items_visibility" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "visible": {
+                            "title": "Visibility of items section",
+                            "description": "If set to false, only achievements section is shown. If true, all is visible",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": ["visible"],
                     "additionalProperties": false
                 }
             },
