@@ -63,7 +63,7 @@ class Opus:
     script: bytes
 
 
-async def load_opus(opus_path: Path, read_asset_data: bool):
+async def load_opus(opus_path: Path, read_asset_data: bool, exit_on_validation_failure: bool):
     """Load an opus from a file."""
     parent = opus_path.parent
     async with aiofiles.open(opus_path, mode="r", encoding="utf-8") as f:
@@ -85,7 +85,7 @@ async def load_opus(opus_path: Path, read_asset_data: bool):
         script = await f.read()
 
     opus = Opus(nodes, action_templates, assets, start_node, script)
-    validate_references(opus)
+    validate_references(opus, exit_on_validation_failure)
     return opus
 
 
@@ -234,7 +234,7 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     return nodes, action_dicts
 
 
-def validate_references(opus: Opus):
+def validate_references(opus: Opus, exit_on_failure: bool):
     """
     Validate that we only refer to existing nodes, assets and actions.
 
@@ -244,6 +244,8 @@ def validate_references(opus: Opus):
     ----------
     opus
         The opus
+    exit_on_failure
+        Whether to exit the program if validation fails
     """
     # Nodes
     referred_nodes = set([opus.start_node])
@@ -264,7 +266,9 @@ def validate_references(opus: Opus):
         if unreferred_nodes:
             print("Nodes never referred to:")
             print('\n'.join(unreferred_nodes))
-        sys.exit(1)
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)
 
     # Assets
     referred_assets = set(["script"])
@@ -281,7 +285,9 @@ def validate_references(opus: Opus):
         if unreferred_assets:
             print("Assets never referred to:")
             print('\n'.join(unreferred_assets))
-        sys.exit(1)
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)
 
     # Actions
     referred_actions = set()
@@ -303,4 +309,6 @@ def validate_references(opus: Opus):
         if unreferred_actions:
             print("Actions never referred to:")
             print('\n'.join(unreferred_actions))
-        sys.exit(1)
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)
