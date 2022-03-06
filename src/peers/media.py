@@ -2,6 +2,7 @@ from typing import Any, List, Dict
 from opus import Asset
 
 from peers.component import ComponentPeer
+from util.utilities import get_random_string
 
 
 class MediaPeer(ComponentPeer):
@@ -37,6 +38,10 @@ class MediaPeer(ComponentPeer):
 
     def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
+
+        if cmd == "create" and "entityId" not in params:
+            params["entityId"] = get_random_string(16)
+
         data = {
             "command": cmd,
             "entityId": params["entityId"],

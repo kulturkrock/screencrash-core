@@ -153,11 +153,11 @@
                             "additionalProperties": false
                         }
                     },
-                    "required": ["entityId"],
+                    "required": [],
                     "additionalProperties": false
                 }
             },
-            "required": ["target", "cmd", "assets", "params"],
+            "required": ["target", "cmd", "assets"],
             "additionalProperties": false
         },
         {
