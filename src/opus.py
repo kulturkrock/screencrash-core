@@ -4,6 +4,7 @@ import hashlib
 from typing import Any, Dict, List, Optional, Tuple, Union
 from pathlib import Path
 import re
+import sys
 import aiofiles
 import fitz
 import yaml
@@ -63,7 +64,7 @@ class Opus:
     script: bytes
 
 
-async def load_opus(opus_path: Path, read_asset_data: bool):
+async def load_opus(opus_path: Path, read_asset_data: bool, exit_on_validation_failure: bool):
     """Load an opus from a file."""
     parent = opus_path.parent
     async with aiofiles.open(opus_path, mode="r", encoding="utf-8") as f:
@@ -84,7 +85,9 @@ async def load_opus(opus_path: Path, read_asset_data: bool):
     async with aiofiles.open(parent / assets["script"].path, mode="rb") as f:
         script = await f.read()
 
-    return Opus(nodes, action_templates, assets, start_node, script)
+    opus = Opus(nodes, action_templates, assets, start_node, script)
+    validate_references(opus, exit_on_validation_failure)
+    return opus
 
 
 async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemplate], opus_path: Path, read_asset_data: bool):
@@ -242,3 +245,83 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
         nodes[key] = Node(**typed_node)
 
     return nodes, action_dicts
+
+
+def validate_references(opus: Opus, exit_on_failure: bool):
+    """
+    Validate that we only refer to existing nodes, assets and actions.
+
+    Exits the program if validation fails.
+
+    Parameters
+    ----------
+    opus
+        The opus
+    exit_on_failure
+        Whether to exit the program if validation fails
+    """
+    # Nodes
+    referred_nodes = set([opus.start_node])
+    for node in opus.nodes.values():
+        if isinstance(node.next, str):
+            referred_nodes.add(node.next)
+        elif isinstance(node.next, list):
+            for choice in node.next:
+                referred_nodes.add(choice.node)
+    actual_nodes = set(opus.nodes.keys())
+    if referred_nodes != actual_nodes:
+        nonexistent_nodes = referred_nodes - actual_nodes
+        unreferred_nodes = actual_nodes - referred_nodes
+        print("Malformed opus!")
+        if nonexistent_nodes:
+            print("References to nonexistent nodes:")
+            print('\n'.join(nonexistent_nodes))
+        if unreferred_nodes:
+            print("Nodes never referred to:")
+            print('\n'.join(unreferred_nodes))
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)
+
+    # Assets
+    referred_assets = set(["script"])
+    for action in opus.action_templates.values():
+        referred_assets.update(set(action.assets))
+    actual_assets = set(opus.assets.keys())
+    if referred_assets != actual_assets:
+        nonexistent_assets = referred_assets - actual_assets
+        unreferred_assets = actual_assets - referred_assets
+        print("Malformed opus!")
+        if nonexistent_assets:
+            print("References to nonexistent assets:")
+            print('\n'.join(nonexistent_assets))
+        if unreferred_assets:
+            print("Assets never referred to:")
+            print('\n'.join(unreferred_assets))
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)
+
+    # Actions
+    referred_actions = set()
+    for node in opus.nodes.values():
+        if node.actions is not None:
+            referred_actions.update(set(node.actions))
+        if isinstance(node.next, list):
+            for choice in node.next:
+                if choice.actions is not None:
+                    referred_actions.update(set(choice.actions))
+    actual_actions = set(opus.action_templates.keys())
+    if referred_actions != actual_actions:
+        nonexistent_actions = referred_actions - actual_actions
+        unreferred_actions = actual_actions - referred_actions
+        print("Malformed opus!")
+        if nonexistent_actions:
+            print("References to nonexistent actions:")
+            print('\n'.join(nonexistent_actions))
+        if unreferred_actions:
+            print("Actions never referred to:")
+            print('\n'.join(unreferred_actions))
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)

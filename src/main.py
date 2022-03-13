@@ -33,8 +33,14 @@ class Core:
         opus_file = os.environ.get("OPUS", "dev_opus.yaml")
         sync_assets = os.environ.get(
             "SCREENCRASH_SYNC_ASSETS", "true") == "true"
+        exit_on_validation_failure = os.environ.get(
+            "SCREENCRASH_EXIT_ON_VALIDATION_FAILURE", "true") == "true"
         print("Loading opus...")
-        self._opus = await load_opus(Path("resources") / opus_file, read_asset_data=sync_assets)
+        self._opus = await load_opus(
+            Path("resources") / opus_file,
+            read_asset_data=sync_assets,
+            exit_on_validation_failure=exit_on_validation_failure
+        )
         self._performance = Performance(self._opus)
         self._ui = UI(self._opus, self._performance.history)
         self._components: Dict[str, ComponentPeer] = {
