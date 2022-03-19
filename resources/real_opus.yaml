@@ -2471,7 +2471,7 @@ nodes:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "1774. Receptet 4 (efter kompassen).wav"
+          - path: "1789. Receptet 4 (efter groggen).wav"
         params:
           entityId: "receptet"
       - "hide_inventory"
