@@ -74,6 +74,8 @@ class ComponentPeer(EventEmitter):
                                 print(
                                     f"Skipping sync of asset {asset.path} (no data)")
                         print("Synced everything")
+                    elif message_type == "event":
+                        self.handle_component_event(component_id, message_dict["event"], message_dict["params"])
                     else:
                         self.handle_component_message(
                             component_id, message_type, message_dict)
@@ -139,6 +141,11 @@ class ComponentPeer(EventEmitter):
             print(f"Warning: Component {component_id} not found when updating state. Skipping...")
             return
         self.emit("state-updated", component_id, state)
+
+    def handle_component_event(self, component_id: str, event: str, params: Dict[str, str]) -> None:
+        component_info = self._infos.get(component_id)
+        if component_info:
+            self.emit("event", component_info.info.componentName, event, params)
 
     def handles_target(self, target_type: str) -> bool:
         """Checks whether this instance can handle actions of the given type."""

@@ -2652,6 +2652,24 @@ action_templates:
     desc: "Inventory: Köp surströmming"
     params:
       item: surstromming
+event_triggers:
+  - target: inventory
+    event: item_added
+    params:
+      - name: item
+        expression: "ros|blomma"
+    actions:
+      - target: internal
+        cmd: print
+        params:
+          text: "Inventory got a new flower"
+  - target: inventory
+    event: money_updated
+    actions:
+      - target: internal
+        cmd: print
+        params:
+          text: "Inventory changed money amount"
 assets:
   "script":
     path: "Apornas o 2021-11-22.pdf"

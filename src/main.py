@@ -82,6 +82,8 @@ class Core:
                 "info-updated", self._ui.component_info_updated)
             component.add_event_listener(
                 "state-updated", self._ui.component_state_updated)
+            component.add_event_listener(
+                "event", self._performance.on_component_event)
             component.add_event_listener("log-message", self._ui.log_message)
             component.add_event_listener(
                 "disconnected", self._ui.component_removed)

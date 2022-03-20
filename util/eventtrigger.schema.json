@@ -1,0 +1,64 @@
+{
+    "$id": "https://kulturkrock.se/eventtrigger.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Event trigger",
+    "description": "An event trigger which runs actions when a matching event is received from a component",
+    "type": "object",
+    "properties": {
+        "target": {
+            "title": "Target component",
+            "description": "Type of component which sent event",
+            "type": "string"
+        },
+        "event": {
+            "title": "Event name",
+            "description": "Event name. Multiple event names may be given by joining them with '|'",
+            "type": "string"
+        },
+        "params": {
+            "title": "Parameters",
+            "description": "Parameters of the event",
+            "type": "array",
+            "items": {
+                "title": "Parameter match setup",
+                "description": "Parameter value. Multiple accepted values may be given by joining them with '|'",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Parameter name",
+                        "description": "Parameter name in event",
+                        "type": "string"
+                    },
+                    "expression": {
+                        "title": "Parameter match expression",
+                        "description": "Expression to match parameter value. Multiple accepted values may be given by joining them with '|' or all can be allowed by using 'any'",
+                        "type": "string"
+                    },
+                    "inverted": {
+                        "title": "Invert match expression",
+                        "description": "Inverts the match expression if set to true",
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false,
+                "required": ["name", "expression"]
+            }
+        },
+        "actions": {
+            "title": "Actions",
+            "description": "The actions which should run when the event is triggered",
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "title": "Action ID",
+                        "type": "string"
+                    },
+                    {"$ref": "action.schema.json#"}
+                ]
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": ["event", "actions"]
+}
