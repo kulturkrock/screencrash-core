@@ -17,7 +17,59 @@
         "action_templates": {
             "type": "object",
             "additionalProperties": {
-                "$ref": "action.schema.json#"
+                "oneOf": [
+                    {
+                        "$ref": "action.schema.json#"
+                    },
+                    {
+                        "title": "Parametrized action",
+                        "description": "Action which accepts some dynamic elements",
+                        "type": "object",
+                        "properties": {
+                            "parameters": {
+                                "title": "Available parameters",
+                                "description": "Available dynamic parameters",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "title": "Parameter",
+                                    "description": "Available parameter",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "path": {
+                                                "title": "JSONSchema path",
+                                                "description": "JSONSchema path to action option affected by this parameter",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": ["path"],
+                                        "additionalProperties": false
+                                    },
+                                    "minItems": 1
+                                },
+                                "minProperties": 1
+                            },
+                            "actions": {
+                                "title": "Actions",
+                                "description": "Sub-actions that uses these parameters",
+                                "type": "array",
+                                "items": {
+                                    "oneOf": [
+                                        {
+                                            "title": "Action ID",
+                                            "type": "string"
+                                        },
+                                        { "$ref": "action.schema.json#" }
+                                    ]
+                                },
+                                "minItems": 1
+                            }
+                        },
+                        "required": ["parameters", "actions"],
+                        "additionalProperties": false
+                    }
+                ]
             }
         },
         "assets": {

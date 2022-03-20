@@ -28,5 +28,8 @@ class InternalPeer(ComponentPeer):
         """Process the given action."""
         if cmd == "print":
             print(params.get("text", "[print command found no text to print]"))
+        elif cmd == "nop":
+            # No operation. Do nothing.
+            pass
         else:
             super().handle_action(target_type, cmd, assets, params)

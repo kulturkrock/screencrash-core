@@ -95,8 +95,7 @@ class Core:
     def _run_action_by_id(self, action_id):
         try:
             action = self._opus.action_templates[action_id]
-            assets = [self._opus.assets[key] for key in action.assets]
-            self._run_action(action, assets)
+            self._run_action(action)
         except KeyError:
             print(
                 f"Failed to find action or asset for action {action_id}. Skipping.")
@@ -105,11 +104,11 @@ class Core:
     def _run_action_on_the_fly(self, target, cmd, asset_names, params):
         action = ActionTemplate(
             "on_the_fly_action", target, cmd, "Live command", asset_names, params)
-        assets = [self._opus.assets[name] for name in asset_names]
-        self._run_action(action, assets)
+        self._run_action(action)
 
-    def _run_action(self, action, assets):
+    def _run_action(self, action):
         handled = False
+        assets = [self._opus.assets[key] for key in action.assets]
         for peer in self._components.values():
             if peer.handles_target(action.target) and peer.nof_instances() > 0:
                 try:
@@ -121,6 +120,9 @@ class Core:
         if not handled:
             print(
                 f"Warning: Action {action.id} not handled by anyone ({action.target})")
+        
+        for subaction in action.subactions:
+            self._run_action(subaction)
 
     def _reset_component(self, component_id: str):
         for peer in self._components.values():
@@ -132,7 +134,7 @@ class Core:
             if peer.has_component(component_id):
                 peer.restart_component(component_id)
 
-    async def socket_listener(self, websocket: WebSocketServerProtocol):
+    async def socket_listener(self, websocket: WebSocketServerProtocol, _path: str):
         """
         This function handles an incoming websocket connection.
 
