@@ -2663,21 +2663,13 @@ event_triggers:
         cmd: print
         params:
           text: "Inventory got a new flower"
-      - target: audio
-        cmd: create
-        assets:
-          - path: gold.wav
-        params:
-          entityId: inventory_gold
   - target: inventory
     event: money_updated
     actions:
-      - target: audio
-        cmd: create
-        assets:
-          - path: gold.wav
+      - target: internal
+        cmd: print
         params:
-          entityId: inventory_gold
+          text: "Inventory changed money amount"
 assets:
   "script":
     path: "Apornas o 2021-11-22.pdf"
