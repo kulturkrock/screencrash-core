@@ -72,7 +72,7 @@ class Performance(EventEmitter):
             self.emit("history-changed", self.history)
 
     def on_component_event(self, component_type: str, event: str, params: Dict[str, str]) -> None:
-        print(f"Got event {component_type} {event} {params}")
+        # print(f"Got event {component_type} {event} {params}")
         for event_trigger in self._event_triggers:
             if self._matches_event_trigger(event_trigger, component_type, event, params):
                 for action_id in event_trigger.actions:

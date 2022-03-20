@@ -30,10 +30,11 @@ The following commands are available:
 
 You can configure Core with the following environment variables:
 
-| Variable                  | Effect                                          |
-| ------------------------- | ----------------------------------------------- | --------------- |
-| `OPUS`                    | Which opus file (under `resources`) to use      | `dev_opus.yaml` |
-| `SCREENCRASH_SYNC_ASSETS` | Whether to sync assets when components connect. | `true`          |
+| Variable                                 | Effect                                          |                 |
+| ---------------------------------------- | ----------------------------------------------- | --------------- |
+| `OPUS`                                   | Which opus file (under `resources`) to use      | `dev_opus.yaml` |
+| `SCREENCRASH_SYNC_ASSETS`                | Whether to sync assets when components connect. | `true`          |
+| `SCREENCRASH_EXIT_ON_VALIDATION_FAILURE` | Whether to exit if the opus fails to validate   | `true`          |
 
 ## Files and Folders
 
