@@ -3,6 +3,7 @@ import asyncio
 from dataclasses import dataclass, field
 import hashlib
 from typing import Any, Dict, List, Optional, Tuple, Union
+from copy import deepcopy
 from pathlib import Path
 import re
 import sys
@@ -171,7 +172,7 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
             template = parametrized_action_templates.get(action_dict["action"])
             if not template:
                 raise RuntimeError(f"Could not find parametrized action template {action_dict['action']}")
-            subactions_list = template.get("actions").copy()
+            subactions_list = deepcopy(template.get("actions"))
             for parameter, change_list in template.get("parameters", {}).items():
                 parameter_var = f"${parameter}"
                 for change_order in change_list:
@@ -193,16 +194,14 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
                     subaction_name = subaction_dict
                     subactions.append(ActionTemplate(**actions[subaction_name].__dict__))
                 else:
-                    typed_subaction_dict = subaction_dict.copy()
+                    typed_subaction_dict = deepcopy(subaction_dict)
                     subaction_key = f"{action_dict['action']}_{action_index}"
                     if "assets" in typed_subaction_dict:
-                        assets_list = typed_subaction_dict["assets"].copy()
-                        for i, asset in enumerate(assets_list):
+                        for i, asset in enumerate(typed_subaction_dict["assets"]):
                             if isinstance(asset, dict):
                                 asset_id = f"{subaction_key}_asset_{i}"
                                 assets[asset_id] = asset
-                                assets_list[i] = asset_id
-                        typed_subaction_dict["assets"] = assets_list
+                                typed_subaction_dict["assets"][i] = asset_id
                     subactions.append(ActionTemplate(id=subaction_key, **typed_subaction_dict))
                 action_index += 1
             param_action_template_indexes[action_dict["action"]] = action_index
@@ -211,7 +210,7 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
             actions[key] = ActionTemplate(id=key, target="internal", cmd="nop", desc=desc, assets=[], params={}, subactions=subactions)
         else:
             # "Normal" action
-            typed_action_dict = action_dict.copy()
+            typed_action_dict = deepcopy(action_dict)
             if "assets" in typed_action_dict:
                 for i, asset in enumerate(typed_action_dict["assets"]):
                     if isinstance(asset, dict):
