@@ -18,13 +18,30 @@
         "params": {
             "title": "Parameters",
             "description": "Parameters of the event",
-            "type": "object",
-            "patternProperties": {
-                "*": {
-                    "title": "Parameter value",
-                    "description": "Parameter value. Multiple accepted values may be given by joining them with '|'",
-                    "type": "string"
-                }
+            "type": "array",
+            "items": {
+                "title": "Parameter match setup",
+                "description": "Parameter value. Multiple accepted values may be given by joining them with '|'",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Parameter name",
+                        "description": "Parameter name in event",
+                        "type": "string"
+                    },
+                    "expression": {
+                        "title": "Parameter match expression",
+                        "description": "Expression to match parameter value. Multiple accepted values may be given by joining them with '|' or all can be allowed by using 'any'",
+                        "type": "string"
+                    },
+                    "inverted": {
+                        "title": "Invert match expression",
+                        "description": "Inverts the match expression if set to true",
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false,
+                "required": ["name", "expression"]
             }
         },
         "actions": {

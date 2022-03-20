@@ -29,7 +29,7 @@
         },
         "event_triggers": {
             "type": "array",
-            "additionalProperties": {
+            "items": {
                 "$ref": "eventtrigger.schema.json#"
             }
         }

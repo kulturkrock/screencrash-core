@@ -35,12 +35,20 @@ class ActionTemplate:
 
 
 @dataclass
+class EventTriggerParam:
+    """Parameter that should match for an EventTrigger to trigger"""
+    name: str
+    expression: str
+    inverted: bool = False
+
+
+@dataclass
 class EventTrigger:
     """An EventTrigger can trigger actions based on events from components"""
     event: str
     actions: List[str]
     target: str = "any"
-    params: Dict[str, Any] = field(default_factory=dict)
+    params: List[EventTriggerParam] = field(default_factory=dict)
 
 
 @dataclass
@@ -278,6 +286,7 @@ async def load_event_triggers(event_triggers_list: List[dict]) -> Tuple[List[Eve
                     action_id = f"eventtrigger_{i}_action_{j}"
                     action_dicts[action_id] = action
                     typed_event_trigger["actions"][j] = action_id
+        typed_event_trigger["params"] = [EventTriggerParam(**param) for param in event_trigger.get("params", [])]
         event_triggers.append(EventTrigger(**typed_event_trigger))
 
     return event_triggers, action_dicts

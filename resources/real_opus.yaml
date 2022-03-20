@@ -2656,21 +2656,19 @@ event_triggers:
   - target: inventory
     event: item_added
     params:
-      item: "ros|blomma"
+      - name: item
+        expression: "ros|blomma"
     actions:
       - target: internal
         cmd: print
         params:
           text: "Inventory got a new flower"
-  - target: inventory
-    event: item_added
-    params:
-      item: "any"
-    actions:
-      - target: internal
-        cmd: print
+      - target: audio
+        cmd: create
+        assets:
+          - path: gold.wav
         params:
-          text: "Inventory got a new item (any allowed)"
+          entityId: inventory_gold
   - target: inventory
     event: money_updated
     actions:

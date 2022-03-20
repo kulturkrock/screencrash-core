@@ -83,16 +83,17 @@ class Performance(EventEmitter):
             return False
         if not self._matches_event_string(event_trigger.event, event):
             return False
-        for key, value in event_trigger.params.items():
-            if key not in params:
+        for param in event_trigger.params:
+            expected_result = False if param.inverted else True
+            if param.name not in params:
                 return False
-            if not self._matches_event_string(value, params[key]):
+            if self._matches_event_string(param.expression, params[param.name]) != expected_result:
                 return False
         return True
 
     def _matches_event_string(self, expected_value: str, value: str):
         if expected_value == "any":
-            return True
+            return value is not None
         elif "|" in expected_value:
             return value in expected_value.split("|")
         else:
