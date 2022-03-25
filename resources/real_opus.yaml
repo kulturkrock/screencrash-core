@@ -2655,3 +2655,45 @@ action_templates:
 assets:
   "script":
     path: "Apornas o 2021-11-22.pdf"
+ui:
+  shortcuts:
+    - title: Starta inventory
+      hotkey:
+        key: i
+        modifiers:
+          - ctrl
+          - shift
+      actions:
+        - target: inventory
+          cmd: setup
+          desc: Starta inventory
+          assets:
+            - path: "inventory-data.zip"
+          params:
+            color: "#a51d16"
+        - target: inventory
+          cmd: change_money
+          desc: Sätt pengar till 2
+          params:
+            amount: 2
+    - title: Add inventory to screen
+      hotkey:
+        key: i
+        modifiers:
+          - ctrl
+      actions:
+        - target: web
+          cmd: create
+          assets:
+            - path: "http://localhost:4218"
+          params:
+            # Inventory size is set to 1400x720
+            entityId: inventory
+            displayName: "Inventory"
+            usePercentage: false
+            x: 260
+            y: 150
+            width: 1400
+            height: 720
+            visible: false
+            layer: 10000
