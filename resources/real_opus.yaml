@@ -25,7 +25,7 @@ nodes:
         cmd: create
         desc: Lägg till inventory på skärmen
         assets:
-          - path: "http://192.168.1.128:4218"
+          - path: "http://localhost:4218"
         params:
           # Inventory size is set to 1400x720
           entityId: inventory
