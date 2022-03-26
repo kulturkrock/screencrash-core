@@ -1,4 +1,4 @@
-startNode: "1711"
+startNode: "1a"
 nodes:
   "1a":
     prompt: "[Starta inventory]"
