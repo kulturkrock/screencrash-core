@@ -1,8 +1,8 @@
-startNode: "0"
+startNode: "1711"
 nodes:
-  "0":
+  "1a":
     prompt: "[Starta inventory]"
-    next: "1"
+    next: "1b"
     actions:
       - target: inventory
         cmd: setup
@@ -12,6 +12,11 @@ nodes:
         params:
           color: "#a51d16"
       - target: inventory
+        cmd: set_items_visibility
+        desc: Inaktivera items section
+        params:
+          visible: false
+      - target: inventory
         cmd: change_money
         desc: Sätt pengar till 2
         params:
@@ -20,7 +25,7 @@ nodes:
         cmd: create
         desc: Lägg till inventory på skärmen
         assets:
-          - path: "http://localhost:4218"
+          - path: "http://192.168.1.128:4218"
         params:
           # Inventory size is set to 1400x720
           entityId: inventory
@@ -32,7 +37,7 @@ nodes:
           height: 720
           visible: false
           layer: 10000
-  "1":
+  "1b":
     prompt: "[Redo att visa stjärnhimmel]"
     next: "2"
     actions:
@@ -43,6 +48,11 @@ nodes:
         params:
           entityId: "stjärnhimmel"
           visible: true
+      - target: web
+        cmd: show
+        desc: Visa inventory
+        params:
+          entityId: inventory
   "2":
     prompt: "[Redo att spela mystisk musik]"
     next: "5"
@@ -99,8 +109,6 @@ nodes:
       - node: "106_sekvens_6"
         description: "Prata med pirater"
     actions:
-      - "hide_items_section"
-      - "show_inventory"
       - target: inventory
         cmd: enable_achievement
         desc: "Inventory: Achievement: En röst i mörkret"
@@ -109,10 +117,6 @@ nodes:
   "82_sekvens_3":
     prompt: "[Sekvens 3]"
     next: "90"
-    actions:
-      # Reset inventory after achievement in node 81
-      - "hide_inventory"
-      - "unhide_items_section"
   "90":
     prompt: "Vad sägs till exempel om den här utmärkt praktiska saken, äkta läder, bara tre dubloner?"
     next:
@@ -163,12 +167,8 @@ nodes:
   "106_sekvens_6":
     prompt: "[Sekvens 6]"
     next: "133"
-    actions:
-      # Reset inventory after achievement in node 81
-      - "hide_inventory"
-      - "unhide_items_section"
   "133":
-    prompt: "En särskild kompass, som inte pekar åt norr?"
+    prompt: "En särskild kompass, som inte pekar åt norr? [Rödskägg drämmer till kompassen]"
     next: "146"
     actions:
       - target: "audio"
@@ -188,7 +188,7 @@ nodes:
       - node: "97_sekvens_5"
         description: "Guybrush har pratat med Stan men inte köpt väskan"
   "149_sekvens_7":
-    prompt: "[Sekvens 7]"
+    prompt: "[Sekvens 7], [Guybrush lägger ner saker i väskan]"
     next: "152"
     actions:
       - "show_inventory"
@@ -223,10 +223,11 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "hamnsyltan"
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "163_sekvens_8":
     prompt: "[Sekvens 8]"
     next: "165"
@@ -237,7 +238,11 @@ nodes:
           entityId: "loading_screen"
           stopOnDone: true
           target: 0
-          time: 3
+          time: 3      
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "hamnsyltan"
   "165":
     prompt: "Schh, nu är han strax här!"
     next: "182"
@@ -287,7 +292,7 @@ nodes:
     prompt: "[Sekvens 10]"
     next: "196"
   "196":
-    prompt: "Ja, här."
+    prompt: "Ja, här. [Välgöraren droppar vätska på kartan]"
     next: "201"
     actions:
       - target: "audio"
@@ -330,10 +335,19 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "217_sekvens_12":
     prompt: "[Sekvens 12]"
     next: "240"
     actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kyrkogården"
       - target: "video"
         cmd: "fade"
         params:
@@ -375,6 +389,11 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "250_sekvens_14":
     prompt: "[Sekvens 14]"
     next: "283"
@@ -386,6 +405,14 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kyrkogården"
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kobbe"
   "283":
     prompt: "Precis. Inte den skarpaste kniven, minsann."
     next: "814a_sekvens_59"
@@ -398,6 +425,11 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "285a_sekvens_15":
     prompt: "[Sekvens 15]"
     next: "286"
@@ -431,7 +463,7 @@ nodes:
     next: "296b"
     actions: ["show_inventory"]
   "296b":
-    prompt: "Jag har också den här utsökta värjan. Den har tillhört en äkta pirat!"
+    prompt: "[Guybrush funderar]"
     next:
       - node: "296b"
         description: "Guybrush köper linan"
@@ -471,7 +503,7 @@ nodes:
         params:
           item: varja
   "307b":
-    prompt: "[Välj vad Guybrush ska göra]"
+    prompt: "[Guybrush funderar]"
     next:
       # TODO: Använd state
       - node: "307b"
@@ -504,7 +536,7 @@ nodes:
     next: "322b"
     actions: ["show_inventory"]
   "322b":
-    prompt: "Jag har ett byte här som ska till en bättre behövande."
+    prompt: "[Guybrush funderar]"
     next:
       # TODO: Använd state
       - node: "296b"
@@ -553,9 +585,9 @@ nodes:
     actions: ["hide_inventory"]
   "341_sekvens_24":
     prompt: "[Sekvens 24]"
-    next: "346"
-  "346":
-    prompt: "[Guybrush sätter på repet på pilen]"
+    next: "345"
+  "345":
+    prompt: "Nåväl! [Guybrush sätter på repet på pilen]"
     next: "348"
     actions:
       - target: inventory
@@ -652,7 +684,7 @@ nodes:
     next: "371b"
     actions: ["show_inventory"]
   "371b":
-    prompt: "[Guybrush tänker]"
+    prompt: "[Guybrush funderar]"
     next:
       - node: "371b"
         description: "Guybrush plockar upp LeChucks svärd"
@@ -682,10 +714,6 @@ nodes:
           entityId: "linbana_loading_screen" 
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "klippan_med_lina"
   "376":
     prompt: "[Redo att visa kobben]"
     next: "381"
@@ -697,6 +725,10 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "klippan_med_lina"
       - target: "image"
         cmd: "create"
         assets:
@@ -745,10 +777,11 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "kobbe"
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "474a_sekvens_29":
     prompt: "[Sekvens 29]"
     next: "488a"
@@ -760,6 +793,10 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kobbe"
       - target: "image"
         cmd: "create"
         assets:
@@ -797,7 +834,7 @@ nodes:
     next: "493b"
     actions: ["show_inventory"]
   "493b":
-    prompt: "Gamla mamsen blir nog inge glad om du kommer utan en blomma. Sjas."
+    prompt: "[Guybrush tänker]"
     next:
       - node: "493b"
         description: "Guybrush köper blomman"
@@ -821,7 +858,12 @@ nodes:
   "504b":
     prompt: "[Plockar på sig skiffernyckel]"
     next: "506"
-    actions: ["show_inventory"]
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Skiffernyckel"
+        params:
+          item: skiffernyckel
   "506":
     prompt: "Du ska ha en slant för besväret."
     next: "507"
@@ -876,7 +918,7 @@ nodes:
     prompt: "[Sekvens 34]"
     next: "520"
   "520":
-    prompt: "Jaha. Det är en skiffer-nyckel."
+    prompt: "Jaha. Det är en skiffer-nyckel. [Öppnar dörren]"
     next: "521"
     actions:
       - target: inventory
@@ -984,30 +1026,34 @@ nodes:
     next: "542"
   "542":
     prompt: "Jag borde se om det finns något mer därinne"
-    next: "544"
+    next: "544a"
     actions:
       - target: inventory
         cmd: add
         desc: "Inventory: +Karta del 2"
         params:
           item: map_part2
-  "544":
+  "544a":
     prompt: "\"Graven. Fram. Baka - ost? Fram, vänster, bak...\""
+    next: "544b"
+    actions: ["show_inventory"]
+  "544b":
+    prompt: "[Guybrush funderar]"
     next:
       - node: "546_sekvens_41"
         description: "Guybrush försöker kombinera kartdelarna"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Karta del 1"
-            params:
-              item: map_part1
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Karta del 2"
-            params:
-              item: map_part2
-          - "hide_inventory"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Karta del 1"
+        params:
+          item: map_part1
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Karta del 2"
+        params:
+          item: map_part2
+      - "hide_inventory"
   "546_sekvens_41":
     prompt: "[Sekvens 41]"
     next: "564"
@@ -1070,10 +1116,11 @@ nodes:
             entityId: "loading_screen"
             layer: 1
             visible: true
-        - target: "image"
-          cmd: "destroy"
-          params:
-            entityId: "kyrkogården"
+            # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+            # fadeIn:
+            #   time: 1
+            #   from: 0
+            #   to: 1
       - node: "474a_sekvens_29"
         description: "Guybrush har inte hittat skatten"
   "574_sekvens_43":
@@ -1103,10 +1150,11 @@ nodes:
               entityId: "loading_screen"
               layer: 1
               visible: true
-          - target: "image"
-            cmd: "destroy"
-            params:
-              entityId: "kyrkogården"
+              # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+              # fadeIn:
+              #   time: 1
+              #   from: 0
+              #   to: 1
           - target: inventory
             cmd: remove
             desc: "Inventory: -Spade"
@@ -1135,10 +1183,10 @@ nodes:
     prompt: "Du gör bäst i att hålla dig undan, om du inte vill tänka på vad \"en av dina gravar\" skulle kunna betyda."
     next:
       # TODO: Använd state
-      - node: "756_sekvens_55"
-        description: "Skattjakten är Guybrushs andra prövning"
       - node: "659"
         description: "Skattjakten är Guybrushs första prövning"
+      - node: "756_sekvens_55"
+        description: "Skattjakten är Guybrushs andra prövning"
   "659":
     prompt: "Här ska det vara!"
     next: "663"
@@ -1166,7 +1214,7 @@ nodes:
     next: "695b"
     actions: ["show_inventory"]
   "695b":
-    prompt: "Jag borde hjälpa till! Vad ska jag göra?"
+    prompt: "[Guybrush funderar]"
     next:
       # TODO: Fler preppade varianter här?
       - node: "696"
@@ -1184,7 +1232,7 @@ nodes:
     next: "699"
     actions: ["hide_inventory"]
   "699":
-    prompt: "Tror du det hjälper att sticka mig med en dolk? Jag är den fruktade spökpiraten LeChuck!"
+    prompt: "Tror du det hjälper att sticka mig med en dolk? Jag är den fruktade spökpiraten LeChuck! [Elaine vigvattnar LeChuck]"
     next: "711"
     actions:
       - target: "audio"
@@ -1223,8 +1271,6 @@ nodes:
     prompt: "Puh! Tack så mycket. Jag trodde han skulle döda mig"
     next: "733"
     actions:
-      - "hide_items_section"
-      - "show_inventory"
       - target: inventory
         cmd: enable_achievement
         desc: "Inventory: Achivement: Who you gonna call"
@@ -1238,10 +1284,6 @@ nodes:
         description: "Guybrush håller på med skattjakten"
       - node: "369_sekvens_27"
         description: "Guybrush är på väg till fäktmästaren"
-    actions:
-      # Reset after node 713
-      - "hide_inventory"
-      - "unhide_items_section"
   "734_sekvens_51":
     prompt: "[Sekvens 51]"
     next:
@@ -1268,7 +1310,7 @@ nodes:
     prompt: "[Sekvens 55]"
     next: "761"
   "761":
-    prompt: "Elaine, min kära... Jag kan inte tro att du skulle vilja ha en vekling som den där?"
+    prompt: "Elaine, min kära... Jag kan inte tro att du skulle vilja ha en vekling som den där? [Elaine Skjuter LeChuck]"
     next: "789"
     actions:
       - target: "audio"
@@ -1278,7 +1320,7 @@ nodes:
         params:
           entityId: "skjuten_i_bröstet"    
   "789":
-    prompt: "Bra."
+    prompt: "Bra. [Elaine fångar pistolen och skjuter LeChuck i huvudet]"
     next: "791"
     actions:
       - target: "audio"
@@ -1291,8 +1333,6 @@ nodes:
     prompt: "Jaa!"
     next: "812"
     actions:
-      - "hide_items_section"
-      - "show_inventory"
       - target: inventory
         cmd: enable_achievement
         desc: "Inventory: Achievement: En pistol med en kula"
@@ -1306,10 +1346,6 @@ nodes:
         description: "De är på kyrkogården"
       - node: "369_sekvens_27"
         description: "De är på klippan"
-    actions:
-      # Reset after node 791
-      - "hide_inventory"
-      - "unhide_items_section"
   "814a_sekvens_59":
     prompt: "[Sekvens 59]"
     next: "814b"
@@ -1357,7 +1393,16 @@ nodes:
           time: 3
   "940_aktpaus":
     prompt: "[Aktpaus]"
+    next: "940b_aktpaus_slut"
+  "940b_aktpaus_slut":
+    prompt: "[Aktpaus slut]"
     next: "943_sekvens_61"
+    actions:
+      - target: "internal"
+        cmd: "print"
+        desc: "Teknik: Du där! Var det inte du som hade disketten?"
+        params:
+          text: "Du där! Var det inte du som hade disketten?"
   # Akt 2
   "943_sekvens_61":
     prompt: "[Sekvens 61]"
@@ -1402,7 +1447,7 @@ nodes:
         params:
           entityId: "inte_som_det_ser_ut"
   "993":
-    prompt: "[Elaine tar Guybrushs vapen och ställer dem åt sidan]"
+    prompt: "Jag kanske vill prata med min advokat [Elaine tar Guybrushs vapen och ställer dem åt sidan]"
     next: "1014"
     actions:
       - target: inventory
@@ -1475,17 +1520,11 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "marley_manor_light"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1097. Briggen.png"
-        params:
-          entityId: "briggen"
-          visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "1097_sekvens_66":
     prompt: "[Sekvens 66]"
     next: "1101"
@@ -1497,6 +1536,17 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "marley_manor_light"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1097. Briggen.png"
+        params:
+          entityId: "briggen"
+          visible: true
   "1101": # TODO: Den här biten är på gränsen till att behövas i opus, se om den kan undvaras/tryckas ihop
     prompt: "LeChuck har såklart låst in sig medan han slutför sin mörka ritual... Hur ska jag ta mig in?"
     next:
@@ -1558,11 +1608,11 @@ nodes:
         # TODO: Bli av med kulorna
   "1166_sekvens_74":
     prompt: "[Sekvens 74]"
-    next: "1180"
+    next: "1180a"
     # TODO: Stickreplik och få tårtan? Eller filen senare?
-  "1180":
-    prompt: "Och då tänkte jag att jag skulle besöka min hemliga välgörare som bor där..."
-    next: "1182_sekvens_75"
+  "1180a":
+    prompt: "Jo, alltså... [Guybrush fortsätter prata]"
+    next: "1180b"
     actions:
       - target: "image"
         cmd: "fade"
@@ -1571,6 +1621,16 @@ nodes:
           target: 0
           time: 3
           stopOnDone: true
+  "1180b":
+    prompt: "Och då tänkte jag att jag skulle besöka min hemliga välgörare som bor där..."
+    next: "1182_sekvens_75"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "1180. Tidshopp.wav"
+        params:
+          entityId: "tidshopp"
   "1182_sekvens_75":
     prompt: "[Sekvens 75]"
     next: "1195"
@@ -1614,13 +1674,11 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1213. LeChucks hytt mediterande LC.png"
-        params:
-          entityId: "hytt"
-          visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "1213_sekvens_76":
     prompt: "[Sekvens 76]"
     next: "1215"
@@ -1632,6 +1690,13 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1213. LeChucks hytt mediterande LC.png"
+        params:
+          entityId: "hytt"
+          visible: true
   "1215":
     prompt: "Vad gör vi nu?"
     next:
@@ -1673,11 +1738,9 @@ nodes:
           entityId: "hytt_efter"
           visible: true
   "1235_sekvens_80":
-    prompt: "[Sekvens 80]"
+    prompt: "[Sekvens 80], [Filmen slut]"
     next: "1241"
     actions:
-      - "hide_items_section"
-      - "show_inventory"
       - target: inventory
         cmd: enable_achievement
         desc: "Inventory: Achievement: Pang - Kniv i ryggen"
@@ -1693,9 +1756,6 @@ nodes:
           - path: "1242. Balladen om Elaine och LeChuck.mp3"
         params:
           entityId: "elaine_lechuck"
-      # Reset changes after node 1235_sekvens_80
-      - "hide_inventory"
-      - "unhide_items_section"
   "1276":
     prompt: "Men jag är inte pirat än! Vänta nu... du är kär i mig?"
     next: "1319a"
@@ -1723,10 +1783,6 @@ nodes:
     prompt: "[Går av scen]"
     next: "1321_sekvens_81"
     actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "hytt_efter"
       - target: "video"
         cmd: "create"
         assets:
@@ -1735,13 +1791,11 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1321. LeChucks skepp morgon.png"
-        params:
-          entityId: "lechucks_skepp_morgon"
-          visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "1321_sekvens_81":
     prompt: "[Sekvens 81]"
     next: "1327"
@@ -1753,6 +1807,17 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "hytt_efter"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1321. LeChucks skepp morgon.png"
+        params:
+          entityId: "lechucks_skepp_morgon"
+          visible: true
   "1327":
     prompt: "Här. [Räcker över flaskan]"
     next: "1334"
@@ -1795,10 +1860,6 @@ nodes:
     prompt: "[Lite senare]"
     next: "1379_sekvens_82"
     actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "lechucks_skepp_morgon"
       - target: "video"
         cmd: "create"
         assets:
@@ -1807,13 +1868,11 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1397. Deserted island.png"
-        params:
-          entityId: "deserted_island"
-          visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "1379_sekvens_82":
     prompt: "[Sekvens 82]"
     next: "1414a"
@@ -1825,12 +1884,23 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "lechucks_skepp_morgon"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1397. Deserted island.png"
+        params:
+          entityId: "deserted_island"
+          visible: true
   "1414a":
     prompt: "Men först: hur tar vi oss härifrån?"
     next: "1414b"
     actions: ["show_inventory"]
   "1414b":
-    prompt: "Men först: hur tar vi oss härifrån?"
+    prompt: "[De funderar]"
     next:
       - node: "1416_sekvens_83"
         description: "De försöker locka till sig ett skepp"
@@ -1852,7 +1922,7 @@ nodes:
     next: "1422b"
     actions: ["show_inventory"]
   "1422b":
-    prompt: "Då är bara frågan hur vi kommer över en sån..."
+    prompt: "[De funderar]"
     next:
       - node: "1422b"
         description: "De köper veden"
@@ -1987,7 +2057,7 @@ nodes:
     next: "1512"
   "1512":
     prompt: "Åh, det vet jag inte. Men jag kan ju försöka."
-    next: "1522"
+    next: "1519"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1997,7 +2067,7 @@ nodes:
           entityId: "spade_mot_kista"
   "1519":
     # Note: Skattkistan "kostar" -30 dubloner -> får 30 dubloner av att "köpa" den
-    prompt: "[Guybrush kommer in på scen med 30 dubloner]"
+    prompt: "Ja, den har jag ingen glädje av ändå. [Guybrush kommer in på scen med 30 dubloner]"
     next: "1522"
     actions:
       - "show_inventory"
@@ -2032,7 +2102,7 @@ nodes:
     next: "1537b"
     actions: ["show_inventory"]
   "1537b":
-    prompt: "[Guybrush och Elaine tänker]"
+    prompt: "[Guybrush och Elaine funderar]"
     next:
       - node: "1537b"
         description: "De köper veden"
@@ -2156,7 +2226,7 @@ nodes:
       - node: "1591"
         description: "De har redan veden"
   "1591":
-    prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar]"
+    prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar lite]"
     next: "1599"
     actions:
       - target: "image"
@@ -2199,13 +2269,11 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1612. Piratskeppet 0.png"
-        params:
-          entityId: "piratskeppet_0"
-          visible: true
+          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
+          # fadeIn:
+          #   time: 1
+          #   from: 0
+          #   to: 1
   "1612_sekvens_94":
     prompt: "[Sekvens 94]"
     next: "1624"
@@ -2217,6 +2285,13 @@ nodes:
           stopOnDone: true
           target: 0
           time: 3
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "1612. Piratskeppet 0.png"
+        params:
+          entityId: "piratskeppet_0"
+          visible: true
   "1624":
     prompt: "Och vem är du då, pojkvasker?"
     next: "1646"
@@ -2256,7 +2331,7 @@ nodes:
           item: hatt
   "1711":
     prompt: "Hämta en gryta!"
-    next: "1717"
+    next: "1715"
     actions:
       - target: "audio"
         cmd: "create"
@@ -2264,6 +2339,10 @@ nodes:
           - path: "1712. Receptet 0.wav"
         params:
           entityId: "receptet"
+  "1715":
+    prompt: "Låt det koka upp och rör sen runt tills skummet yr"
+    next: "1717"
+    actions: ["show_inventory"]
   "1717":
     prompt: "En citron! Åh, det fick ju jag för längesen."
     next: "1720"
@@ -2275,13 +2354,17 @@ nodes:
           item: citron
   "1720":
     prompt: "En dublon!"
-    next: "1732"
+    next: "1721"
     actions:
       - target: inventory
         cmd: change_money
         desc: "Inventory: -1 dublon"
         params:
           amount: -1
+  "1721":
+    prompt: "Lyssna till min röst och bli en avgrundens adept"
+    next: "1732a"
+    actions: ["hide_inventory"]
   "1732a":
     prompt: "Nej, du. Jag hoppas ni vet vad ni gör..."
     next: "1732b"
@@ -2317,10 +2400,10 @@ nodes:
           - path: "1740. Receptet 1 (efter blomman).wav"
         params:
           entityId: "receptet"
+      - "hide_inventory"
   "1747":
     prompt: "En färsk djävulsrot som har hela skalet kvar"
-    next: "1762"
-    actions: ["show_inventory"]
+    next: "1755"
   "1748":
     prompt: "Nånting som förvillar, som du hellre sluppit se"
     next: "1769"
@@ -2396,6 +2479,10 @@ nodes:
         params:
           entityId: "piratskeppet_5"
           visible: true
+  "1755":
+    prompt: "[De funderar]"
+    next: "1762"
+    actions: ["show_inventory"]
   "1762":
     prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
     next:
@@ -2407,7 +2494,6 @@ nodes:
             desc: "Inventory: -Djävulsrot"
             params:
               item: devils_root
-          - "hide_items_section"
           - target: inventory
             cmd: enable_achievement
             desc: "Inventory: Achievement: Roten till allt ont"
@@ -2415,7 +2501,6 @@ nodes:
               achievement: devils_root
       - node: "1748"
         description: "[De kommer på något som INTE är djävulsroten]"
-        actions: ["hide_inventory"]
     actions:
       - target: "audio"
         cmd: "create"
@@ -2423,11 +2508,11 @@ nodes:
           - path: "1762. Receptet 2 (efter roten).wav"
         params:
           entityId: "receptet"
+      - "hide_inventory"
   "1769":
-    prompt: "Något som förvillar, som du hellre sluppit se"
+    prompt: "Något som förvillar, som du hellre sluppit se. [De funderar]"
     next: "1773"
     actions:
-      - "unhide_items_section"
       - "show_inventory"
   "1773":
     prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
@@ -2451,7 +2536,7 @@ nodes:
           entityId: "receptet"
       - "hide_inventory"
   "1781":
-    prompt: "Jag vet inte!"
+    prompt: "Jag vet inte! [De funderar]"
     next: "1789"
     actions: ["show_inventory"]
   "1789":
@@ -2522,27 +2607,27 @@ nodes:
   "1804b":
     prompt: "[Guybrush och Elaine tänker]"
     next:
-    - node: "1753"
-      description: "De kommer på något annat än hatten"
-      actions:
-        - target: "audio"
-          cmd: "create"
-          assets:
-            - path: "1811. Receptet 6 (efter hatten).wav"
-          params:
-            entityId: "receptet"
-        - "hide_inventory"
-    - node: "1811"
-      description: "De kommer inte på något annat än hatten"
-      actions:
-        - target: "video"
-          cmd: "create"
-          assets:
-            - path: "1806-1. Kanon mot skeppet.mp4"
-          params:
-            entityId: "kanoneld_2"
-            layer: 1
-            visible: true
+      - node: "1753"
+        description: "De kommer på något annat än hatten"
+        actions:
+          - target: "audio"
+            cmd: "create"
+            assets:
+              - path: "1811. Receptet 6 (efter hatten).wav"
+            params:
+              entityId: "receptet"
+      - node: "1811"
+        description: "De kommer inte på något annat än hatten"
+        actions:
+          - target: "video"
+            cmd: "create"
+            assets:
+              - path: "1806-1. Kanon mot skeppet.mp4"
+            params:
+              entityId: "kanoneld_2"
+              layer: 1
+              visible: true
+    actions: ["hide_inventory"]
   "1811":
     prompt: "Hatten!"
     next: "1753"
@@ -2558,7 +2643,6 @@ nodes:
         desc: "Inventory: -Hatt"
         params:
           item: hatt
-      - "hide_inventory"
   "1818":
     prompt: "Då är det ju inte vår första kyss!"
     next: "1848"
@@ -2570,13 +2654,29 @@ nodes:
         params:
           entityId: "receptet"
   "1848":
-    prompt: "Och det älskande parets första kyss"
+    prompt: "Och det älskande parets första kyss [Sången tar slut]"
     next: "1851_sekvens_102"
     actions:
       - target: "image"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "piratskeppet_5"
+          time: 1
+          target: 0
+          stopOnDone: true
+  "1851_sekvens_102":
+    prompt: "[Skeppet har fadeat]"
+    next: "1858a"
+    actions:
+      - target: inventory
+        cmd: enable_achievement
+        desc: "Inventory: Achievement: Kärlekens kraft"
+        params:
+          achievement: lechuck_final
+  "1858a":
+    prompt: "[Efter en liten stund]"
+    next: "1858b"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
@@ -2584,56 +2684,27 @@ nodes:
         params:
           entityId: "stjärnhimmel"
           visible: true
-  "1851_sekvens_102":
-    prompt: "[Sekvens 102]"
-    next: "1858a"
-    actions:
-      - "hide_items_section"
-      - "show_inventory"
-      - target: inventory
-        cmd: enable_achievement
-        desc: "Inventory: Achievement: Kärlekens kraft"
-        params:
-          achievement: lechuck_final
-  "1858a":
-    prompt: "[Folk blir tackade]"
-    next: "1858b"
+  "1858b":
+    prompt: "[Nu är det slut]"
+    next: "1a"
     actions:
       - target: "image"
         cmd: "destroy"
         params:
           entityId: "stjärnhimmel"
-      # Reset inventory after node 1851_sekvens_102
-      - "hide_inventory"
-      - "unhide_items_section"
-  "1858b":
-    prompt: "[Nu är det slut]"
-    next: "1"
 action_templates:
   "show_inventory":
-    target: web
-    cmd: show
+    target: inventory
+    cmd: set_items_visibility
     desc: Visa inventory
     params:
-      entityId: inventory
+      visible: true
   "hide_inventory":
-    target: web
-    cmd: hide
+    target: inventory
+    cmd: set_items_visibility
     desc: Dölj inventory
     params:
-      entityId: inventory
-  "hide_items_section":
-    target: inventory
-    cmd: set_items_visibility
-    desc: Inaktivera items section
-    params:
       visible: false
-  "unhide_items_section":
-    target: inventory
-    cmd: set_items_visibility
-    desc: Återaktivera items section
-    params:
-      visible: true
   "buy_flower":
     target: inventory
     cmd: buy
