@@ -2697,3 +2697,15 @@ ui:
             height: 720
             visible: false
             layer: 10000
+    - title: Tekniska problem
+      hotkey:
+        key: m
+        modifiers:
+          - ctrl
+          - shift
+      actions:
+        - target: inventory
+          cmd: enable_achievement
+          desc: "Achievement: Tekniska problem"
+          params:
+            achievement: unknown
