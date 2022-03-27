@@ -134,6 +134,46 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
     return (key, Asset(path=path, data=data, checksum=checksum, targets=targets))
 
 
+def is_parametrized_action(action_dict) -> bool:
+    """
+    Helper function for load_actions, checks if action is a parametrized action,
+    based on the action dictionary containing data about it.
+
+    Parameters
+    ----------
+    action_dict
+        Dict for action, as found in the opus
+
+    Returns
+    -------
+    True if the given action is a parametrized one, False otherwise
+    """
+    return "actions" in action_dict and "parameters" in action_dict
+
+
+def get_action_desc(action: ActionTemplate) -> str:
+    """
+    Helper function for load_actions, retrieves the description
+    of an action based on its contents. If a description is not
+    explicitly set this method will construct one for it.
+
+    Parameters
+    ----------
+    action
+        Action from opus as parsed ActionTemplate
+
+    Returns
+    -------
+    The description of the action as a string
+    """
+    if action.desc:
+        return action.desc
+    elif "entityId" in action.params:
+        return f"{action.target}:{action.cmd} {action.params['entityId']}"
+    else:
+        return f"{action.target}:{action.cmd}"
+
+
 def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplate], Dict[str, dict]]:
     """
     Load actions, and pick out inlined assets.
@@ -147,17 +187,6 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
     -------
     Dict of actions, converted to ActionTemplates, and a dict of inlined assets
     """
-    def is_parametrized_action(action_dict) -> bool:
-        return "actions" in action_dict and "parameters" in action_dict
-
-    def get_action_desc(action: ActionTemplate) -> str:
-        if action.desc:
-            return action.desc
-        elif "entityId" in action.params:
-            return f"{action.target}:{action.cmd} {action.params['entityId']}"
-        else:
-            return f"{action.target}:{action.cmd}"
-
     parametrized_action_templates = dict(filter(lambda action_tuple: is_parametrized_action(action_tuple[1]), actions_dict.items()))
     param_action_template_indexes = {}
 
