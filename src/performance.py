@@ -48,7 +48,11 @@ class Performance(EventEmitter):
     def run_actions(self):
         """Runs the actions on the current node"""
         active_node = self._nodes[self.history[-1]]
-        for action_id in active_node.actions:
+        self.run_actions_by_id(active_node.actions)
+
+    def run_actions_by_id(self, actions: List[str]):
+        """Runs the given actions"""
+        for action_id in actions:
             self.emit("run-action", action_id)
 
     def choose_path(self, choice_index: int, run_actions: bool):

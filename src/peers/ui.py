@@ -148,6 +148,10 @@ class UI(EventEmitter):
             "data": {key: self._prepare_node_for_send(node) for key, node in self._opus.nodes.items()}
         }))
         await websocket.send(json.dumps({
+            "messageType": "uiconfig",
+            "data": asdict(self._opus.ui_config)
+        }))
+        await websocket.send(json.dumps({
             "messageType": "history",
             "data": self._history
         }))
@@ -185,6 +189,8 @@ class UI(EventEmitter):
                     self.emit("prev-node")
                 elif message_type == "run-actions":
                     self.emit("run-actions")
+                elif message_type == "run-actions-by-id":
+                    self.emit("run-actions-by-id", message_dict["actions"])
                 elif message_type == "component-action":
                     target = message_dict["target_component"]
                     cmd = message_dict["cmd"]
