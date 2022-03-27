@@ -45,6 +45,14 @@ class Performance(EventEmitter):
         else:
             print("Cannot go to prev node, history is too short")
 
+    def goto_node(self, node_id):
+        """Go to a node by a given id"""
+        if node_id not in self._nodes:
+            print("Tried to move to a non-existing node. Skipping...")
+            return
+        self.history.append(node_id)
+        self.emit("history-changed", self.history)
+
     def run_actions(self):
         """Runs the actions on the current node"""
         active_node = self._nodes[self.history[-1]]

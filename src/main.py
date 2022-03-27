@@ -75,6 +75,7 @@ class Core:
             "run-action", self._run_action_by_id)
 
         for component in self._components.values():
+            component.add_event_listener("goto-node", self._performance.goto_node)
             component.add_event_listener("effect-added", self._ui.effect_added)
             component.add_event_listener(
                 "effect-changed", self._ui.effect_changed)
