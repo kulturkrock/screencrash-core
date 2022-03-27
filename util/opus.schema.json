@@ -78,6 +78,9 @@
                 "$ref": "asset.schema.json#"
             },
             "required": ["script"]
+        },
+        "ui": {
+            "$ref": "ui.schema.json#"
         }
     },
     "additionalProperties": false,

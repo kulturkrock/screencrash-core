@@ -39,12 +39,16 @@ class MediaPeer(ComponentPeer):
     def handle_action(self, target_type: str, cmd: str, assets: List[Asset], params: Dict[str, Any]):
         """Process the given action."""
 
-        if cmd == "create" and "entityId" not in params:
-            params["entityId"] = get_random_string(16)
+        entityId = params.get("entityId")
+        if entityId is None:
+            if cmd == "create":
+                entityId = get_random_string(16)
+            else:
+                raise RuntimeError("Missing required parameter entityId")
 
         data = {
             "command": cmd,
-            "entityId": params["entityId"],
+            "entityId": entityId,
             "channel": 1,
             "type": target_type,
             "asset": assets[0].path if assets else None,

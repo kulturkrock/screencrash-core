@@ -59,11 +59,23 @@ class Node:
 
 
 @dataclass
+class UIShortcut:
+    title: str
+    actions: List[ActionTemplate]
+    hotkey: Optional[str] = None
+
+@dataclass
+class UIConfig:
+    shortcuts: List[UIShortcut]
+
+
+@dataclass
 class Opus:
     """An Opus has all the information required for a performance."""
     nodes: Dict[str, Node]
     action_templates: Dict[str, ActionTemplate]
     assets: Dict[str, Asset]
+    ui_config: UIConfig
     start_node: str
     script: bytes
 
@@ -75,11 +87,12 @@ async def load_opus(opus_path: Path, read_asset_data: bool, exit_on_validation_f
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
         nodes, inlined_actions_dict = await load_nodes(opus_dict["nodes"], parent / opus_dict["assets"]["script"]["path"])
-        action_templates, inlined_asset_dicts = load_actions(
-            {**opus_dict["action_templates"], **inlined_actions_dict})
+        ui_config, inlined_actions_dict_ui = await load_ui_config(opus_dict.get("ui"))
+        action_templates, inlined_assets_dict = load_actions(
+            {**opus_dict["action_templates"], **inlined_actions_dict, **inlined_actions_dict_ui})
         assets = dict(await asyncio.gather(
             *[load_asset(key, asset["path"], action_templates, opus_path, read_asset_data)
-              for key, asset in [*opus_dict["assets"].items(), *inlined_asset_dicts.items()]]
+              for key, asset in [*opus_dict["assets"].items(), *inlined_assets_dict.items()]]
         ))
         if assets.get("script") is None:
             raise RuntimeError(
@@ -89,7 +102,7 @@ async def load_opus(opus_path: Path, read_asset_data: bool, exit_on_validation_f
     async with aiofiles.open(parent / assets["script"].path, mode="rb") as f:
         script = await f.read()
 
-    opus = Opus(nodes, action_templates, assets, start_node, script)
+    opus = Opus(nodes, action_templates, assets, ui_config, start_node, script)
     validate_references(opus, exit_on_validation_failure)
     return opus
 
@@ -180,7 +193,7 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
 
     Parameters
     ----------
-    action_dicts
+    actions_dict
         Dict of actions, as found in the opus
 
     Returns
@@ -349,6 +362,41 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     return nodes, actions_dict
 
 
+def get_shortcut_key(hotkey: dict) -> str:
+    if hotkey:
+        if hotkey.get("modifiers"):
+            hotkey_key = hotkey["key"]
+            if "shift" in hotkey["modifiers"]:
+                hotkey_key = hotkey_key.upper()
+            return '+'.join(sorted(hotkey["modifiers"])) + '+' + hotkey_key
+        else:
+            return hotkey["key"]
+    return None
+
+async def load_ui_config(ui_config: Optional[Dict[str, Any]]) -> Tuple[UIConfig, Dict[str, dict]]:
+    if ui_config is None:
+        return UIConfig([])
+
+    shortcuts = []
+    actions_dict = {}
+    for i, shortcut_dict in enumerate(ui_config.get("shortcuts", [])):
+        title = shortcut_dict["title"]
+        hotkey = get_shortcut_key(shortcut_dict.get("hotkey"))
+        actions = []
+        for j, action in enumerate(shortcut_dict["actions"]):
+            if isinstance(action, str):
+                actions.append(action)
+            elif isinstance(action, dict):
+                action_id = f"ui_shortcut_{i}_action_{j}"
+                actions_dict[action_id] = action
+                actions.append(action_id)
+            else:
+                raise RuntimeError("Illegal action type in ui config shortcuts")
+        shortcuts.append(UIShortcut(title, actions, hotkey))
+
+    return (UIConfig(shortcuts), actions_dict)
+
+
 def validate_references(opus: Opus, exit_on_failure: bool):
     """
     Validate that we only refer to existing nodes, assets and actions.
@@ -426,6 +474,8 @@ def validate_references(opus: Opus, exit_on_failure: bool):
             for choice in node.next:
                 if choice.actions is not None:
                     referred_actions.update(set(choice.actions))
+    for shortcut in opus.ui_config.shortcuts:
+        referred_actions.update(set(shortcut.actions))
     actual_actions = set(opus.action_templates.keys())
     if referred_actions != actual_actions:
         nonexistent_actions = referred_actions - actual_actions
@@ -437,6 +487,23 @@ def validate_references(opus: Opus, exit_on_failure: bool):
         if unreferred_actions:
             print("Actions never referred to:")
             print('\n'.join(unreferred_actions))
+        if exit_on_failure:
+            print("Aborting!")
+            sys.exit(1)
+
+    # UI shortcuts
+    DISALLOWED_HOTKEYS = [
+        "ctrl+t", "ctrl+n", "ctrl+w", "ctrl+r",                         # Browser specific
+        "a", "s", " ", "Up", "ArrowUp", "Down", "ArrowDown", "Enter"    # UI specific
+    ]
+    used_disallowed_hotkeys = []
+    for shortcut in opus.ui_config.shortcuts:
+        if shortcut.hotkey in DISALLOWED_HOTKEYS:
+            used_disallowed_hotkeys.append(f"  {shortcut.title} ({shortcut.hotkey})")
+    if used_disallowed_hotkeys:
+        print("Malformed opus!")
+        print("Illegal hotkeys used:")
+        print("\n".join(used_disallowed_hotkeys))
         if exit_on_failure:
             print("Aborting!")
             sys.exit(1)

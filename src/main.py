@@ -61,6 +61,8 @@ class Core:
         self._ui.add_event_listener(
             "run-actions", self._performance.run_actions)
         self._ui.add_event_listener(
+            "run-actions-by-id", self._performance.run_actions_by_id)
+        self._ui.add_event_listener(
             "choose-path", self._performance.choose_path)
         self._ui.add_event_listener(
             "component-action", self._run_action_on_the_fly)
