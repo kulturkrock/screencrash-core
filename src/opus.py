@@ -134,7 +134,7 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
     return (key, Asset(path=path, data=data, checksum=checksum, targets=targets))
 
 
-def is_parametrized_action(action_dict) -> bool:
+def is_parametrized_action(action_dict: dict) -> bool:
     """
     Helper function for load_actions, checks if action is a parametrized action,
     based on the action dictionary containing data about it.
