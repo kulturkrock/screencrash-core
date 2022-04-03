@@ -215,12 +215,12 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
 
     actions = {}
     assets = {}
-    for key, action_dict in actions_dict.items():
-        if type(action_dict) == list:
+    for key, action_data in actions_dict.items():
+        if type(action_data) == list:
             # Composite action
             subactions = []
             action_index = param_action_template_indexes.get(key, 1)
-            for subaction_dict in action_dict:
+            for subaction_dict in action_data:
                 if type(subaction_dict) == str:
                     raise RuntimeError("Named actions are not allowed here. Yet.")
                 else:
@@ -231,11 +231,12 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
 
             desc = ", ".join([get_action_desc(action) for action in subactions])
             actions[key] = ActionTemplate(id=key, target="internal", cmd="nop", desc=desc, assets=[], params={}, subactions=subactions)
-        elif is_parametrized_action(action_dict):
+        elif is_parametrized_action(action_data):
             # These are only virtual until filled with parameters
             continue
-        elif "action" in action_dict:
+        elif "action" in action_data:
             # Parameterized action
+            action_dict = action_data
             template = parametrized_action_templates.get(action_dict["action"])
             if not template:
                 raise RuntimeError(f"Could not find parametrized action template {action_dict['action']}")
@@ -270,6 +271,7 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
             actions[key] = ActionTemplate(id=key, target="internal", cmd="nop", desc=desc, assets=[], params={}, subactions=subactions)
         else:
             # "Normal" action
+            action_dict = action_data
             actions[key] = create_action_and_inline_assets(action_dict, key, assets)
     return actions, assets
 
