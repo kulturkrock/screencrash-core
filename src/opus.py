@@ -1,13 +1,16 @@
+from __future__ import annotations
 import asyncio
 from dataclasses import dataclass, field
 import hashlib
 from typing import Any, Dict, List, Optional, Tuple, Union
+from copy import deepcopy
 from pathlib import Path
 import re
 import sys
 import aiofiles
 import fitz
 import yaml
+import jsonpath_ng
 
 # TODO: Autodiscover these instead of hard-coding them, in case
 # the script looks different in the future.
@@ -33,6 +36,7 @@ class ActionTemplate:
     desc: Optional[str] = None
     assets: List[str] = field(default_factory=list)
     params: Dict[str, Any] = field(default_factory=dict)
+    subactions: List[ActionTemplate] = field(default_factory=list)
 
 
 @dataclass
@@ -82,13 +86,13 @@ async def load_opus(opus_path: Path, read_asset_data: bool, exit_on_validation_f
     async with aiofiles.open(opus_path, mode="r", encoding="utf-8") as f:
         opus_string = await f.read()
         opus_dict = yaml.safe_load(opus_string)
-        nodes, inlined_action_dicts = await load_nodes(opus_dict["nodes"], parent / opus_dict["assets"]["script"]["path"])
-        ui_config, inlined_action_dicts_ui = await load_ui_config(opus_dict.get("ui"))
-        action_templates, inlined_asset_dicts = load_actions(
-            {**opus_dict["action_templates"], **inlined_action_dicts, **inlined_action_dicts_ui})
+        nodes, inlined_actions_dict = await load_nodes(opus_dict["nodes"], parent / opus_dict["assets"]["script"]["path"])
+        ui_config, inlined_actions_dict_ui = await load_ui_config(opus_dict.get("ui"))
+        action_templates, inlined_assets_dict = load_actions(
+            {**opus_dict["action_templates"], **inlined_actions_dict, **inlined_actions_dict_ui})
         assets = dict(await asyncio.gather(
             *[load_asset(key, asset["path"], action_templates, opus_path, read_asset_data)
-              for key, asset in [*opus_dict["assets"].items(), *inlined_asset_dicts.items()]]
+              for key, asset in [*opus_dict["assets"].items(), *inlined_assets_dict.items()]]
         ))
         if assets.get("script") is None:
             raise RuntimeError(
@@ -124,8 +128,16 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
     -------
     A list of tuples (key, asset)
     """
-    targets = set(
-        action.target for action in action_templates.values() if key in action.assets)
+    def fill_targets_from_action(action, result):
+        if key in action.assets:
+            result.add(action.target)
+        for subaction in action.subactions:
+            fill_targets_from_action(subaction, result)
+
+    targets = set()
+    for action in action_templates.values():
+        fill_targets_from_action(action, targets)
+
     data = None
     checksum = None
     if read_asset_data and not path.startswith("http://") and not path.startswith("https://"):
@@ -135,30 +147,119 @@ async def load_asset(key: str, path: str, action_templates: Dict[str, ActionTemp
     return (key, Asset(path=path, data=data, checksum=checksum, targets=targets))
 
 
-def load_actions(action_dicts: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplate], Dict[str, dict]]:
+def is_parametrized_action(action_dict: dict) -> bool:
+    """
+    Helper function for load_actions, checks if action is a parametrized action,
+    based on the action dictionary containing data about it.
+
+    Parameters
+    ----------
+    action_dict
+        Dict for action, as found in the opus
+
+    Returns
+    -------
+    True if the given action is a parametrized one, False otherwise
+    """
+    return "actions" in action_dict and "parameters" in action_dict
+
+
+def get_action_desc(action: ActionTemplate) -> str:
+    """
+    Helper function for load_actions, retrieves the description
+    of an action based on its contents. If a description is not
+    explicitly set this method will construct one for it.
+
+    Parameters
+    ----------
+    action
+        Action from opus as parsed ActionTemplate
+
+    Returns
+    -------
+    The description of the action as a string
+    """
+    if action.desc:
+        return action.desc
+    elif "entityId" in action.params:
+        return f"{action.target}:{action.cmd} {action.params['entityId']}"
+    else:
+        return f"{action.target}:{action.cmd}"
+
+
+def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplate], Dict[str, dict]]:
     """
     Load actions, and pick out inlined assets.
 
     Parameters
     ----------
-    action_dicts
+    actions_dict
         Dict of actions, as found in the opus
 
     Returns
     -------
     Dict of actions, converted to ActionTemplates, and a dict of inlined assets
     """
+    parametrized_action_templates = dict(filter(lambda action_tuple: is_parametrized_action(action_tuple[1]), actions_dict.items()))
+    param_action_template_indexes = {}
+
     actions = {}
     assets = {}
-    for key, action_dict in action_dicts.items():
-        typed_action_dict = action_dict.copy()
-        if "assets" in typed_action_dict:
-            for i, asset in enumerate(typed_action_dict["assets"]):
-                if isinstance(asset, dict):
-                    asset_id = f"{key}_asset_{i}"
-                    assets[asset_id] = asset
-                    typed_action_dict["assets"][i] = asset_id
-        actions[key] = ActionTemplate(id=key, **typed_action_dict)
+    for key, action_dict in actions_dict.items():
+        if is_parametrized_action(action_dict):
+            # These are only virtual until filled with parameters
+            continue
+        elif "action" in action_dict:
+            # Parameterized action
+            template = parametrized_action_templates.get(action_dict["action"])
+            if not template:
+                raise RuntimeError(f"Could not find parametrized action template {action_dict['action']}")
+            subactions_list = deepcopy(template.get("actions"))
+            for parameter, change_list in template.get("parameters", {}).items():
+                parameter_var = f"${parameter}"
+                for change_order in change_list:
+                    expr = jsonpath_ng.parse(change_order["path"])
+                    orig_value = expr.find(subactions_list)
+                    if len(orig_value) > 0:
+                        if type(orig_value[0].value) == str and parameter_var in orig_value[0].value:
+                            new_value = orig_value[0].value.replace(parameter_var, str(action_dict["parameters"][parameter]))
+                        else:
+                            new_value = action_dict["parameters"][parameter]
+                    else:
+                        raise RuntimeError(f"Invalid JSON path for parameter: {change_order['path']}")
+                    expr.update(subactions_list, new_value)
+
+            subactions = []
+            action_index = param_action_template_indexes.get(action_dict["action"], 1)
+            for subaction_dict in subactions_list:
+                if type(subaction_dict) == str:
+                    subaction_name = subaction_dict
+                    subactions.append(ActionTemplate(**actions[subaction_name].__dict__))
+                else:
+                    typed_subaction_dict = deepcopy(subaction_dict)
+                    subaction_key = f"{action_dict['action']}_{action_index}"
+                    if "assets" in typed_subaction_dict:
+                        for i, asset in enumerate(typed_subaction_dict["assets"]):
+                            if isinstance(asset, dict):
+                                asset_id = f"{subaction_key}_asset_{i}"
+                                assets[asset_id] = asset
+                                typed_subaction_dict["assets"][i] = asset_id
+                    subactions.append(ActionTemplate(id=subaction_key, **typed_subaction_dict))
+                action_index += 1
+            param_action_template_indexes[action_dict["action"]] = action_index
+
+            desc = ", ".join([get_action_desc(action) for action in subactions])
+            actions[key] = ActionTemplate(id=key, target="internal", cmd="nop", desc=desc, assets=[], params={}, subactions=subactions)
+        else:
+            # "Normal" action
+            typed_action_dict = deepcopy(action_dict)
+            if "assets" in typed_action_dict:
+                for i, asset in enumerate(typed_action_dict["assets"]):
+                    if isinstance(asset, dict):
+                        asset_id = f"{key}_asset_{i}"
+                        assets[asset_id] = asset
+                        typed_action_dict["assets"][i] = asset_id
+            actions[key] = ActionTemplate(id=key, **typed_action_dict)
     return actions, assets
 
 
@@ -237,7 +338,7 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
     # Convert nodes from dicts to Node objects, and pick out all inlined actions.
     # We make up action IDs.
     nodes = {}
-    action_dicts = {}
+    actions_dict = {}
     for key, node in nodes_dict.items():
         typed_node = node.copy()
         if isinstance(typed_node.get("next"), list):
@@ -246,18 +347,19 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
                     for j, action in enumerate(choice["actions"]):
                         if isinstance(action, dict):
                             action_id = f"{key}_choice_{i}_action_{j}"
-                            action_dicts[action_id] = action
+                            actions_dict[action_id] = action
                             choice["actions"][j] = action_id
                 typed_node["next"][i] = NodeChoice(**choice)
         if "actions" in typed_node:
             for i, action in enumerate(typed_node["actions"]):
                 if isinstance(action, dict):
                     action_id = f"{key}_action_{i}"
-                    action_dicts[action_id] = action
+                    actions_dict[action_id] = action
                     typed_node["actions"][i] = action_id
+
         nodes[key] = Node(**typed_node)
 
-    return nodes, action_dicts
+    return nodes, actions_dict
 
 
 def get_shortcut_key(hotkey: dict) -> str:
@@ -276,7 +378,7 @@ async def load_ui_config(ui_config: Optional[Dict[str, Any]]) -> Tuple[UIConfig,
         return UIConfig([])
 
     shortcuts = []
-    action_dicts = {}
+    actions_dict = {}
     for i, shortcut_dict in enumerate(ui_config.get("shortcuts", [])):
         title = shortcut_dict["title"]
         hotkey = get_shortcut_key(shortcut_dict.get("hotkey"))
@@ -286,13 +388,13 @@ async def load_ui_config(ui_config: Optional[Dict[str, Any]]) -> Tuple[UIConfig,
                 actions.append(action)
             elif isinstance(action, dict):
                 action_id = f"ui_shortcut_{i}_action_{j}"
-                action_dicts[action_id] = action
+                actions_dict[action_id] = action
                 actions.append(action_id)
             else:
                 raise RuntimeError("Illegal action type in ui config shortcuts")
         shortcuts.append(UIShortcut(title, actions, hotkey))
 
-    return (UIConfig(shortcuts), action_dicts)
+    return (UIConfig(shortcuts), actions_dict)
 
 
 def validate_references(opus: Opus, exit_on_failure: bool):
@@ -352,9 +454,22 @@ def validate_references(opus: Opus, exit_on_failure: bool):
 
     # Actions
     referred_actions = set()
+    def update_referred_action(action: ActionTemplate):
+        if action:
+            referred_actions.add(action.id)
+            for subaction in action.subactions:
+                if subaction.id in opus.action_templates:
+                    # Don't add autogenerated subactions
+                    update_referred_action(subaction)
+
     for node in opus.nodes.values():
         if node.actions is not None:
-            referred_actions.update(set(node.actions))
+            for action_name in node.actions:
+                action = opus.action_templates.get(action_name)
+                if action:
+                    update_referred_action(action)
+                else:
+                    referred_actions.add(action_name) # add even if not exists
         if isinstance(node.next, list):
             for choice in node.next:
                 if choice.actions is not None:
