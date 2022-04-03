@@ -33,7 +33,7 @@ nodes:
           usePercentage: false
           x: 260
           y: 150
-          width: 1400
+          width: 1500
           height: 720
           visible: false
           layer: 10000
@@ -2764,7 +2764,7 @@ ui:
             usePercentage: false
             x: 260
             y: 150
-            width: 1400
+            width: 1500
             height: 720
             visible: false
             layer: 10000
