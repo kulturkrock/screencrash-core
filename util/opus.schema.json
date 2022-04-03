@@ -22,6 +22,14 @@
                         "$ref": "action.schema.json#"
                     },
                     {
+                        "title": "Action list",
+                        "description": "List of multiple actions",
+                        "items": {
+                            "$ref": "action.schema.json#"
+                        },
+                        "minItems": 1
+                    },
+                    {
                         "title": "Parametrized action",
                         "description": "Action which accepts some dynamic elements",
                         "type": "object",

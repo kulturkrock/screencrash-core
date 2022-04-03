@@ -302,6 +302,21 @@
             },
             "required": ["target", "cmd", "params"],
             "additionalProperties": false
+        },
+        {
+            "title": "Inventory: Clear active item animations",
+            "description": "Clears active item animations. Could be nice to do before set_items_visibility(false)",
+            "properties": {
+                "target": { "const": "inventory" },
+                "cmd": { "const": "clear_item_animations" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                }
+            },
+            "required": ["target", "cmd"],
+            "additionalProperties": false
         }
     ]
 }

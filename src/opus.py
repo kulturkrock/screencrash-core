@@ -187,6 +187,16 @@ def get_action_desc(action: ActionTemplate) -> str:
         return f"{action.target}:{action.cmd}"
 
 
+def create_action_and_inline_assets(action_dict: Dict[str, dict], key: str, assets: Dict[str, str]) -> ActionTemplate:
+    typed_action_dict = deepcopy(action_dict)
+    if "assets" in typed_action_dict:
+        for i, asset in enumerate(typed_action_dict["assets"]):
+            if isinstance(asset, dict):
+                asset_id = f"{key}_asset_{i}"
+                assets[asset_id] = asset
+                typed_action_dict["assets"][i] = asset_id
+    return ActionTemplate(id=key, **typed_action_dict)
+
 def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplate], Dict[str, dict]]:
     """
     Load actions, and pick out inlined assets.
@@ -206,7 +216,22 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
     actions = {}
     assets = {}
     for key, action_dict in actions_dict.items():
-        if is_parametrized_action(action_dict):
+        if type(action_dict) == list:
+            # Composite action
+            subactions = []
+            action_index = param_action_template_indexes.get(key, 1)
+            for subaction_dict in action_dict:
+                if type(subaction_dict) == str:
+                    raise RuntimeError("Named actions are not allowed here. Yet.")
+                else:
+                    subaction_key = f"{key}_{action_index}"
+                    subactions.append(create_action_and_inline_assets(subaction_dict, subaction_key, assets))
+                action_index += 1
+            param_action_template_indexes[key] = action_index
+
+            desc = ", ".join([get_action_desc(action) for action in subactions])
+            actions[key] = ActionTemplate(id=key, target="internal", cmd="nop", desc=desc, assets=[], params={}, subactions=subactions)
+        elif is_parametrized_action(action_dict):
             # These are only virtual until filled with parameters
             continue
         elif "action" in action_dict:
@@ -236,15 +261,8 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
                     subaction_name = subaction_dict
                     subactions.append(ActionTemplate(**actions[subaction_name].__dict__))
                 else:
-                    typed_subaction_dict = deepcopy(subaction_dict)
                     subaction_key = f"{action_dict['action']}_{action_index}"
-                    if "assets" in typed_subaction_dict:
-                        for i, asset in enumerate(typed_subaction_dict["assets"]):
-                            if isinstance(asset, dict):
-                                asset_id = f"{subaction_key}_asset_{i}"
-                                assets[asset_id] = asset
-                                typed_subaction_dict["assets"][i] = asset_id
-                    subactions.append(ActionTemplate(id=subaction_key, **typed_subaction_dict))
+                    subactions.append(create_action_and_inline_assets(subaction_dict, subaction_key, assets))
                 action_index += 1
             param_action_template_indexes[action_dict["action"]] = action_index
 
@@ -252,14 +270,7 @@ def load_actions(actions_dict: Dict[str, dict]) -> Tuple[Dict[str, ActionTemplat
             actions[key] = ActionTemplate(id=key, target="internal", cmd="nop", desc=desc, assets=[], params={}, subactions=subactions)
         else:
             # "Normal" action
-            typed_action_dict = deepcopy(action_dict)
-            if "assets" in typed_action_dict:
-                for i, asset in enumerate(typed_action_dict["assets"]):
-                    if isinstance(asset, dict):
-                        asset_id = f"{key}_asset_{i}"
-                        assets[asset_id] = asset
-                        typed_action_dict["assets"][i] = asset_id
-            actions[key] = ActionTemplate(id=key, **typed_action_dict)
+            actions[key] = create_action_and_inline_assets(action_dict, key, assets)
     return actions, assets
 
 

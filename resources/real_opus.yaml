@@ -34,7 +34,7 @@ nodes:
           x: 260
           y: 150
           width: 1500
-          height: 720
+          height: 930
           visible: false
           layer: 10000
   "1b":
@@ -2700,11 +2700,14 @@ action_templates:
     params:
       visible: true
   "hide_inventory":
-    target: inventory
-    cmd: set_items_visibility
-    desc: Dölj inventory
-    params:
-      visible: false
+    - target: inventory
+      cmd: clear_item_animations
+      desc: Rensa item animations
+    - target: inventory
+      cmd: set_items_visibility
+      desc: Dölj inventory
+      params:
+        visible: false
   "buy_flower":
     target: inventory
     cmd: buy
@@ -2765,7 +2768,7 @@ ui:
             x: 260
             y: 150
             width: 1500
-            height: 720
+            height: 930
             visible: false
             layer: 10000
     - title: Tekniska problem
