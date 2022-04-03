@@ -188,7 +188,7 @@ class UI(EventEmitter):
                 elif message_type == "prev-node":
                     self.emit("prev-node")
                 elif message_type == "goto-node":
-                    self.emit("goto-node", params["node"])
+                    self.emit("goto-node", message_dict["node"])
                 elif message_type == "run-actions":
                     self.emit("run-actions")
                 elif message_type == "run-actions-by-id":
