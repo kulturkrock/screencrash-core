@@ -28,7 +28,5 @@ class InternalPeer(ComponentPeer):
         """Process the given action."""
         if cmd == "print":
             print(params.get("text", "[print command found no text to print]"))
-        elif cmd == "goto-node":
-            self.emit("goto-node", params["node"])
         else:
             super().handle_action(target_type, cmd, assets, params)
