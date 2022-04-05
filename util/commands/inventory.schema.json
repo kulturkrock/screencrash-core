@@ -250,6 +250,33 @@
             "additionalProperties": false
         },
         {
+            "title": "Inventory: Undo achievement",
+            "description": "Undo achievement. This will not trigger a visual change",
+            "properties": {
+                "target": { "const": "inventory" },
+                "cmd": { "const": "undo_achievement" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action do",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "achievement": {
+                            "title": "Achievement name",
+                            "description": "Achivement name as given in inventory-data.json",
+                            "type": "string"
+                        }
+                    },
+                    "required": ["achievement"],
+                    "additionalProperties": false
+                }
+            },
+            "required": ["target", "cmd", "params"],
+            "additionalProperties": false
+        },
+        {
             "title": "Inventory: Set currency",
             "description": "Set display currency",
             "properties": {
