@@ -150,12 +150,6 @@ nodes:
         description: "Guybrush har redan pratat med piraterna"
       - node: "104"
         description: "Guybrush har inte pratat med piraterna"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Grogg"
-        params:
-          item: grogg
   "104":
     prompt: "Välkommen åter! Tack för att du handlar hos Stans Väskor och Vätskor."
     next:
@@ -190,9 +184,9 @@ nodes:
       - "show_inventory"
       - target: inventory
         cmd: add
-        desc: "Inventory: +Anteckningar +Fjäderpenna +Karta +Kompass"
+        desc: "Inventory: +Anteckningar +Fjäderpenna +Karta +Kompass +Grogg"
         params:
-          items: notes,featherpen,map_part1,kompass
+          items: notes,featherpen,map_part1,kompass,grogg
   "152":
     next: "155"
     prompt: Herr Threepwood, förresten!
@@ -971,12 +965,6 @@ nodes:
         description: "Skattjakten är den första prövningen"
       - node: "734_sekvens_51"
         description: "Skattjakten är den andra prövningen"
-        actions:
-          - target: inventory
-            cmd: add
-            desc: "Inventory: +Skelettben"
-            params:
-              item: skelettben
     actions:
       - target: "audio"
         cmd: "create"
@@ -984,6 +972,11 @@ nodes:
           - path: "522. sarkofag1_guybrush_kampar.wav"
         params:
           entityId: "sarkofag"
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Skelettben"
+        params:
+          item: skelettben
   "523_sekvens_35":
     prompt: "[Sekvens 35]"
     next:
