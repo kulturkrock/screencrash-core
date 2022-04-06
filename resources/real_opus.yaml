@@ -80,7 +80,6 @@ nodes:
         params:
           entityId: "stjärnhimmel"
   "30a":
-    # TODO: Justera fade-tid eller stickreplik så att vi fadear ut lagom till sången
     prompt: "Men han kommer nog behöva lite hjälp på traven!"
     next: "30b"
     actions:
@@ -120,7 +119,6 @@ nodes:
   "90":
     prompt: "Vad sägs till exempel om den här utmärkt praktiska saken, äkta läder, bara tre dubloner?"
     next:
-      # TODO: Använd state
       - node: "97_sekvens_5"
         description: "Guybrush har pratat med kaptenerna"
       - node: "91"
@@ -148,7 +146,6 @@ nodes:
   "103":
     prompt: "Ha! Jag är bra på det här."
     next:
-      # TODO: Använd state
       - node: "149_sekvens_7"
         description: "Guybrush har redan pratat med piraterna"
       - node: "104"
@@ -180,7 +177,6 @@ nodes:
   "146":
     prompt: "Då utropar vi dig till pirat, på min kaptensheder."
     next:
-      # TODO: Använd state
       - node: "149_sekvens_7"
         description: "Guybrush har köpt väskan"
       - node: "82_sekvens_3"
@@ -223,11 +219,10 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "163_sekvens_8":
     prompt: "[Sekvens 8]"
     next: "165"
@@ -273,7 +268,6 @@ nodes:
     next: "192"
     prompt: "...den här. Och den här."
     actions:
-      - "show_inventory"
       - target: inventory
         cmd: add
         desc: "Inventory: +Gummikyckling +Citron"
@@ -282,12 +276,10 @@ nodes:
   "192":
     prompt: "Ja"
     next:
-      # TODO: Använd state
       - node: "202_sekvens_11"
         description: "Detta är Guybrushs första prövning"
       - node: "242_sekvens_13"
         description: "Detta är Guybrushs andra prövning"
-    actions: ["hide_inventory"]
   "193_sekvens_10":
     prompt: "[Sekvens 10]"
     next: "196"
@@ -304,7 +296,6 @@ nodes:
   "201":
     prompt: "Och ett visdomsord: ett väl utfört arbete är sin egen belöning! Det var allt."
     next:
-      # TODO: Använd state
       - node: "202_sekvens_11"
         description: "Detta är Guybrushs första prövning"
       - node: "242_sekvens_13"
@@ -321,7 +312,6 @@ nodes:
   "216":
     prompt: "Ooh boy."
     next:
-      # TODO: Använd state
       - node: "285a_sekvens_15"
         description: "Guybrush valde att fäktas först"
       - node: "474a_sekvens_29"
@@ -335,11 +325,10 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "217_sekvens_12":
     prompt: "[Sekvens 12]"
     next: "240"
@@ -348,6 +337,10 @@ nodes:
         cmd: "destroy"
         params:
           entityId: "kyrkogården"
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kobbe"
       - target: "video"
         cmd: "fade"
         params:
@@ -358,7 +351,6 @@ nodes:
   "240":
     prompt: "Jag ska nog kunna ge dig lite hjälp på traven."
     next:
-      # TODO: Använd state
       - node: "185_sekvens_9"
         description: "Dags att besegra fäktmästaren"
       - node: "193_sekvens_10"
@@ -375,7 +367,6 @@ nodes:
   "249":
     prompt: "Jag är inte så säker på att vi sett det sista av LeChuck..."
     next:
-      # TODO: Använd state
       - node: "567_sekvens_42"
         description: "Guybrush ska till skatten"
       - node: "285a_sekvens_15"
@@ -389,11 +380,10 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "250_sekvens_14":
     prompt: "[Sekvens 14]"
     next: "283"
@@ -425,11 +415,10 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "285a_sekvens_15":
     prompt: "[Sekvens 15]"
     next: "286"
@@ -488,14 +477,23 @@ nodes:
   "301":
     prompt: "Tre dubloner"
     next:
-      # TODO: Använd state
       - node: "307b"
         description: "Guybrush har inte råd med svärdet"
       - node: "307a"
         description: "Guybrush har råd med svärdet"
   "307a":
-    next: "307b"
     prompt: "Varsågod. Vassa änden bortåt, så ja. [Kan ev. höftas]"
+    next: 
+      - node: "307b"
+        description: "Guybrush har redan ett svärd"
+        actions:
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Dual-wield"
+            params:
+              achievement: twoswords
+      - node: "307b"
+        description: "Detta är Guybrushs första svärd"
     actions:
       - target: inventory
         cmd: buy
@@ -505,7 +503,6 @@ nodes:
   "307b":
     prompt: "[Guybrush funderar]"
     next:
-      # TODO: Använd state
       - node: "307b"
         description: "Guybrush köper linan"
         actions:
@@ -514,7 +511,7 @@ nodes:
             desc: "Inventory: Köp rep (203m)"
             params:
               item: rep
-      - node: "371a" # Manus säger sekvens 28, men det stämmer inte (alltid?)
+      - node: "371a"
         description: "Guybrush är redo att åka linbana"
         actions: ["hide_inventory"]
       - node: "309_sekvens_21"
@@ -526,7 +523,6 @@ nodes:
   "309_sekvens_21":
     prompt: "[Sekvens 21]"
     next:
-      # TODO: Använd state
       - node: "324_sekvens_22"
         description: "Guybrush har redan pratat med banditen en gång"
       - node: "322a"
@@ -538,7 +534,6 @@ nodes:
   "322b":
     prompt: "[Guybrush funderar]"
     next:
-      # TODO: Använd state
       - node: "296b"
         description: "Guybrush köper linan"
         actions:
@@ -561,7 +556,6 @@ nodes:
   "333":
     prompt: "Ja, det här vill du inte missa!"
     next:
-      # TODO: Använd state
       - node: "334_sekvens_23"
         description: "Guybrush har inte linan"
       - node: "341_sekvens_24"
@@ -569,20 +563,15 @@ nodes:
   "334_sekvens_23":
     prompt: "[Sekvens 23]"
     next: "339"
-    actions: ["show_inventory"]
   "339":
     prompt: "Varsågod!"
-    next: "340"
+    next: "341_sekvens_24"
     actions:
       - target: inventory
         cmd: buy
         desc: "Inventory: Köp repet"
         params:
           item: rep
-  "340":
-    prompt: "[Dölj inventory]"
-    next: "341_sekvens_24"
-    actions: ["hide_inventory"]
   "341_sekvens_24":
     prompt: "[Sekvens 24]"
     next: "345"
@@ -639,7 +628,6 @@ nodes:
   "360":
     prompt: "Ingen orsak!"
     next:
-      # TODO: Använd state
       - node: "365_sekvens_25"
         description: "Stan har inte presenterat sin affär"
       - node: "362a"
@@ -649,7 +637,7 @@ nodes:
     next: "362b"
     actions: ["show_inventory"]
   "362b":
-    prompt: "Men det verkar fasligt långt att klättra. Kommer jag aldrig orka."
+    prompt: "[Guybrush funderar]"
     next:
       - node: "298_sekvens_20"
         description: "Guybrush köper värjan"
@@ -665,7 +653,6 @@ nodes:
   "367b":
     prompt: "En gummikyckling med en talja mitt på. Perfekt!"
     next:
-      # TODO: Använd state
       - node: "647_sekvens_44"
         description: "Fäktningen är den första prövningen"
       - node: "734_sekvens_51"
@@ -694,6 +681,19 @@ nodes:
             desc: "Inventory: +LeChucks svärd"
             params:
               item: lechuck_sword
+      - node: "371b"
+        description: "Guybrush plockar upp LeChucks svärd (har redan ett)"
+        actions:
+          - target: inventory
+            cmd: add
+            desc: "Inventory: +LeChucks svärd"
+            params:
+              item: lechuck_sword
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Dual-wield"
+            params:
+              achievement: twoswords
       - node: "298_sekvens_20"
         description: "Guybrush köper värjan"
       - node: "373a_sekvens_28"
@@ -738,7 +738,7 @@ nodes:
           visible: true
   "381":
     prompt: "Okej. Låt oss få det här överstökat."
-    next: "468a"
+    next: "452"
     actions:
       - target: "audio"
         cmd: "create"
@@ -746,11 +746,20 @@ nodes:
           - path: "382. Duellen.mp3"
         params:
           entityId: "duellen"
-  "468a":
-    prompt: "Du måste säga att det var en jämn match!"
-    next: "468b"
-    actions: ["show_inventory"]
-  "468b":
+  "452":
+    prompt: "Nåd! Jag ger mig."
+    next:
+      - node: "468"
+        description: "Guybrush använde LeChucks svärd"
+        actions:
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Svärd och svartkonst"
+            params:
+              achievement: lechucks_sword
+      - node: "468"
+        description: "Guybrush använde ett vanligt svärd"
+  "468":
     prompt: "Jag vill inte bli utskrattad. [Räcker över medaljen]"
     next: "470"
     actions:
@@ -762,13 +771,11 @@ nodes:
   "470":
     prompt: "Ha! Lycka till med resten av inträdesproven, Guybrush!"
     next:
-      # TODO: Använd state
       - node: "217_sekvens_12"
         description: "Detta var Guybrushs första prövning"
       - node: "250_sekvens_14"
         description: "Detta var Guybrushs andra prövning"
     actions:
-      - "hide_inventory"
       - target: "video"
         cmd: "create"
         assets:
@@ -777,11 +784,10 @@ nodes:
           entityId: "loading_screen" 
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "474a_sekvens_29":
     prompt: "[Sekvens 29]"
     next: "488a"
@@ -809,11 +815,20 @@ nodes:
     next: "488b"
     actions: ["show_inventory"]
   "488b":
-    prompt: "[Guybrush tänker]"
+    prompt: "[Guybrush funderar]"
     next:
       - node: "488b"
         description: "Guybrush köper blomman"
         actions: ["buy_flower"]
+      - node: "488b"
+        description: "Guybrush köper blomman (och har redan en)"
+        actions: 
+          - "buy_flower"
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Röda och vita rosen"
+            params:
+              achievement: twoflowers
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
         actions: ["hide_inventory"]
@@ -839,6 +854,15 @@ nodes:
       - node: "493b"
         description: "Guybrush köper blomman"
         actions: ["buy_flower"]
+      - node: "493b"
+        description: "Guybrush köper blomman (och har redan en)"
+        actions: 
+          - "buy_flower"
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Röda och vita rosen"
+            params:
+              achievement: twoflowers
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
         actions: ["hide_inventory"]
@@ -850,13 +874,9 @@ nodes:
         actions: ["hide_inventory"]
   "495_sekvens_31":
     prompt: "[Sekvens 31]"
-    next: "504a"
-  "504a":
-    prompt: "Vad raskt det går för dig. Du har så långa ben du."
-    next: "504b"
-    actions: ["show_inventory"]
-  "504b":
-    prompt: "[Plockar på sig skiffernyckel]"
+    next: "504"
+  "504":
+    prompt: "Det vore snällt. Den ska dit bort. [Guybrush plockar på sig skiffernyckel]"
     next: "506"
     actions:
       - target: inventory
@@ -866,19 +886,32 @@ nodes:
           item: skiffernyckel
   "506":
     prompt: "Du ska ha en slant för besväret."
-    next: "507"
+    next: "507a"
     actions:
       - target: inventory
         cmd: change_money
         desc: "Inventory: +5 dubloner"
         params:
           amount: +5
-  "507":
+  "507a":
     prompt: "Oj, 5 dubloner, tack så mycket."
+    next: "507b"
+    actions: ["show_inventory"]
+  "507b":
+    prompt: "[Guybrush funderar]"
     next:
-      - node: "507"
+      - node: "507b"
         description: "Guybrush köper blomman"
         actions: ["buy_flower"]
+      - node: "507b"
+        description: "Guybrush köper blomman (och har redan en)"
+        actions: 
+          - "buy_flower"
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Röda och vita rosen"
+            params:
+              achievement: twoflowers
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
         actions: ["hide_inventory"]
@@ -909,7 +942,6 @@ nodes:
   "518":
     prompt: "Nej, såklart."
     next:
-      # TODO: Använd state
       - node: "519_sekvens_34"
         description: "Guybrush har nyckeln"
       - node: "495_sekvens_31"
@@ -935,7 +967,6 @@ nodes:
   "521":
     prompt: "Usch, vad dammigt! Få se, vad har vi här..."
     next:
-      # TODO: Använd state
       - node: "647_sekvens_44"
         description: "Skattjakten är den första prövningen"
       - node: "734_sekvens_51"
@@ -956,7 +987,6 @@ nodes:
   "523_sekvens_35":
     prompt: "[Sekvens 35]"
     next:
-      # TODO: Använd state
       - node: "532_sekvens_39"
         description: "Guybrush har redan pratat med Stan på kyrkogården"
         actions: ["show_inventory"]
@@ -967,11 +997,20 @@ nodes:
     next: "530b"
     actions: ["show_inventory"]
   "530b":
-    prompt: "[Guybrush tänker]"
+    prompt: "[Guybrush funderar]"
     next:
       - node: "530b"
         description: "Guybrush köper blomman"
         actions: ["buy_flower"]
+      - node: "530b"
+        description: "Guybrush köper blomman (och har redan en)"
+        actions: 
+          - "buy_flower"
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Röda och vita rosen"
+            params:
+              achievement: twoflowers
       - node: "532_sekvens_39"
         description: "Guybrush frågar om spaden"
       - node: "490_sekvens_30"
@@ -1002,10 +1041,18 @@ nodes:
   "540":
     prompt: "Okej, du är hård, men jag kan respektera det. Tre dubloner. [Kan ev. höftas]"
     next:
-      # TODO: Dear lord använd state
       - node: "540"
         description: "Guybrush köper blomman"
         actions: ["buy_flower"]
+      - node: "540"
+        description: "Guybrush köper blomman (och har redan en)"
+        actions: 
+          - "buy_flower"
+          - target: inventory
+            cmd: enable_achievement
+            desc: "Inventory: Achievement: Röda och vita rosen"
+            params:
+              achievement: twoflowers
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
         actions: ["hide_inventory"]
@@ -1060,7 +1107,6 @@ nodes:
   "564":
     prompt: "Inga problem! Det låter riktigt roligt. Få se här..."
     next:
-      # TODO: Använd state
       - node: "574_sekvens_43"
         description: "Guybrush har spaden"
       - node: "532_sekvens_39"
@@ -1104,7 +1150,6 @@ nodes:
   "573":
     prompt: "[LeChuck skrattar]"
     next:
-      # TODO: Använd state
       - node: "217_sekvens_12"
         description: "Guybrush har redan hittat skatten"
         actions:
@@ -1116,16 +1161,15 @@ nodes:
             entityId: "loading_screen"
             layer: 1
             visible: true
-            # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-            # fadeIn:
-            #   time: 1
-            #   from: 0
-            #   to: 1
+            fadeIn:
+              time: 1
+              from: 0
+              to: 1
       - node: "474a_sekvens_29"
         description: "Guybrush har inte hittat skatten"
   "574_sekvens_43":
     prompt: "[Sekvens 43]"
-    next: "615"
+    next: "615a"
     actions:
       - target: "audio"
         cmd: "create"
@@ -1133,10 +1177,23 @@ nodes:
           - path: "574. Skattjakten.mp3"
         params:
           entityId: "skattjakten"
-  "615":
+  "615a":
     prompt: "[Guybrush håller upp T-shirten]"
+    next: "615b"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Spade"
+        params:
+          item: spade
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Tröja"
+        params:
+          item: tshirt
+  "615b":
+    prompt: "[Direkt efter]"
     next:
-      # TODO: Använd state
       - node: "567_sekvens_42"
         description: "Detta var Guybrushs första prövning"
       - node: "250_sekvens_14"
@@ -1150,28 +1207,16 @@ nodes:
               entityId: "loading_screen"
               layer: 1
               visible: true
-              # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-              # fadeIn:
-              #   time: 1
-              #   from: 0
-              #   to: 1
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Spade"
-            params:
-              item: spade
-          - target: inventory
-            cmd: add
-            desc: "Inventory: +Tröja"
-            params:
-              item: tshirt
+              fadeIn:
+                time: 1
+                from: 0
+                to: 1
   "647_sekvens_44":
     prompt: "[Sekvens 44]"
     next: "651"
   "651":
     prompt: "Fast det kanske var på grund av brännjärnet, hehe..."
     next:
-      # TODO: Använd state
       - node: "652_sekvens_45"
         description: "De är på kyrkogården"
       - node: "665_sekvens_46"
@@ -1182,7 +1227,6 @@ nodes:
   "656":
     prompt: "Du gör bäst i att hålla dig undan, om du inte vill tänka på vad \"en av dina gravar\" skulle kunna betyda."
     next:
-      # TODO: Använd state
       - node: "659"
         description: "Skattjakten är Guybrushs första prövning"
       - node: "756_sekvens_55"
@@ -1243,8 +1287,7 @@ nodes:
           entityId: "vigvatten_sizzle"
   "711":
     prompt: "Äckel-krusen, domino, fugitte party advarsel!"
-    next: 
-      # TODO: Använd state
+    next:
       - node: "713"
         description: "Vi är på klippan"
         actions:
@@ -1279,7 +1322,6 @@ nodes:
   "733":
     prompt: "Var var jag?"
     next:
-      # TODO: Använd state
       - node: "541_sekvens_40"
         description: "Guybrush håller på med skattjakten"
       - node: "369_sekvens_27"
@@ -1301,7 +1343,6 @@ nodes:
   "754":
     prompt: "Bakom dig!"
     next:
-      # TODO: Använd state
       - node: "652_sekvens_45"
         description: "De är på kyrkogården"
       - node: "756_sekvens_55"
@@ -1341,7 +1382,6 @@ nodes:
   "812":
     prompt: "Var var jag?"
     next:
-      # TODO: Använd state
       - node: "541_sekvens_40"
         description: "De är på kyrkogården"
       - node: "369_sekvens_27"
@@ -1520,11 +1560,10 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "1097_sekvens_66":
     prompt: "[Sekvens 66]"
     next: "1101"
@@ -1547,7 +1586,7 @@ nodes:
         params:
           entityId: "briggen"
           visible: true
-  "1101": # TODO: Den här biten är på gränsen till att behövas i opus, se om den kan undvaras/tryckas ihop
+  "1101":
     prompt: "LeChuck har såklart låst in sig medan han slutför sin mörka ritual... Hur ska jag ta mig in?"
     next:
       - node: "1102_sekvens_67"
@@ -1577,16 +1616,9 @@ nodes:
   "1126_sekvens_69":
     prompt: "[Sekvens 69]"
     next: "1139"
-    actions:
-      - target: "internal"
-        cmd: "print"
-        desc: "Nice"
-        params:
-          text: "Nice"
   "1139":
     prompt: "Jag förstår."
     next:
-      # TODO: Använd state
       - node: "1107_sekvens_68"
         description: "Fången har inte berättat om sitt brott än"
       - node: "1140_sekvens_70"
@@ -1599,17 +1631,13 @@ nodes:
     next:
       - node: "1166_sekvens_74"
         description: "Elaine erbjuder/blir av med pistolen"
-        # TODO: Bli av med pistolen
       - node: "1166_sekvens_74"
         description: "Elaine erbjuder/blir av med krutet"
-        # TODO: Bli av med krutet
       - node: "1166_sekvens_74"
         description: "Elaine erbjuder/blir av med kulorna"
-        # TODO: Bli av med kulorna
   "1166_sekvens_74":
     prompt: "[Sekvens 74]"
     next: "1180a"
-    # TODO: Stickreplik och få tårtan? Eller filen senare?
   "1180a":
     prompt: "Jo, alltså... [Guybrush fortsätter prata]"
     next: "1180b"
@@ -1619,7 +1647,7 @@ nodes:
         params:
           entityId: "briggen"
           target: 0
-          time: 3
+          time: 7
           stopOnDone: true
   "1180b":
     prompt: "Och då tänkte jag att jag skulle besöka min hemliga välgörare som bor där..."
@@ -1637,12 +1665,8 @@ nodes:
   "1195":
     prompt: "Hur skall jag kunna besegra LeChuck nu?"
     next:
-      - node: "1204"
+      - node: "1205"
         description: "Guybrush undersöker eller petar på något i hyddan"
-  "1204":
-    prompt: "Men vad skall du göra mot LeChuck? Du är bara en skalle."
-    next: "1205"
-    actions: ["show_inventory"]
   "1205":
     prompt: "Plocka upp det så går vi och stoppar LeChuck."
     next: "1207"
@@ -1653,7 +1677,7 @@ nodes:
         params:
           item: recept
   "1207":
-    prompt: "[Plockar upp Murray]"
+    prompt: "Precis vad jag behöver! [Plockar upp Murray]"
     next: "1210"
     actions:
       - target: inventory
@@ -1665,7 +1689,6 @@ nodes:
     prompt: "Tåga nu mot LeChuck för att verkställa min hämnd!"
     next: "1213_sekvens_76"
     actions:
-      - "hide_inventory"
       - target: "video"
         cmd: "create"
         assets:
@@ -1674,11 +1697,10 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "1213_sekvens_76":
     prompt: "[Sekvens 76]"
     next: "1215"
@@ -1700,7 +1722,6 @@ nodes:
   "1215":
     prompt: "Vad gör vi nu?"
     next:
-      # TODO: State. Kan bara ta avgudastaty en gång.
       - node: "1228_sekvens_79"
         description: "Ritualdolken kommer på tal"
       - node: "1215"
@@ -1791,11 +1812,10 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "1321_sekvens_81":
     prompt: "[Sekvens 81]"
     next: "1327"
@@ -1820,22 +1840,40 @@ nodes:
           visible: true
   "1327":
     prompt: "Här. [Räcker över flaskan]"
-    next: "1334"
+    next: "1329"
     actions:
       - target: inventory
         cmd: remove
         desc: "Inventory: -Flaska"
         params:
           item: flaska
+  "1329":
+    prompt: "Hostmedicin. [Guybrush plockar fram Murray]"
+    next: "1334"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Murray"
+        params:
+          item: skull
   "1334":
     prompt: "Åh, här. [Räcker över receptet]"
-    next: "1373"
+    next: "1367"
     actions:
       - target: inventory
         cmd: remove
         desc: "Inventory: -Recept"
         params:
           item: recept
+  "1367":
+    prompt: "Surra fast henne igen! [Guybrush smyger ner Murray i väskan]"
+    next: "1373"
+    actions:
+      - target: inventory
+        cmd: add
+        desc: "Inventory: +Murray"
+        params:
+          item: skull
   "1373":
     prompt: "Se så yngel, du hörde kapten. Hehe. [Kastar Guybrushs väska överbord]"
     next: "1377a"
@@ -1868,11 +1906,10 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "1379_sekvens_82":
     prompt: "[Sekvens 82]"
     next: "1414a"
@@ -1912,7 +1949,6 @@ nodes:
   "1416_sekvens_83":
     prompt: "[Sekvens 83]"
     next:
-      # TODO: Använd state
       - node: "1422a"
         description: "De har inte förstoringsglaset"
       - node: "1587_sekvens_93"
@@ -1955,7 +1991,6 @@ nodes:
   "1449":
     prompt: "Stan? Har du något långt och vasst tillhygge?"
     next:
-      # TODO: Använd state
       - node: "1450_sekvens_85"
         description: "Guybrush köpte aldrig värjan"
       - node: "1497_sekvens_87"
@@ -2028,7 +2063,6 @@ nodes:
   "1495":
     prompt: "Trevligt. Jag är strax tillbaka, jag ska bara gräva upp en skatt."
     next:
-      # TODO: Använd state
       - node: "1508_sekvens_88"
         description: "Guybrush har spaden"
       - node: "1497_sekvens_87"
@@ -2068,21 +2102,24 @@ nodes:
   "1519":
     # Note: Skattkistan "kostar" -30 dubloner -> får 30 dubloner av att "köpa" den
     prompt: "Ja, den har jag ingen glädje av ändå. [Guybrush kommer in på scen med 30 dubloner]"
-    next: "1522"
+    next: "1522a"
     actions:
-      - "show_inventory"
       - target: inventory
         cmd: buy
         desc: "Inventory: \"Köp\" skattkista (+30 dubloner)"
         params:
           item: skattkista
-  "1522":
+  "1522a":
     prompt: "Vi kommer säkert på nåt!"
+    next: "1522b"
+    actions: ["show_inventory"]
+  "1522b":
+    prompt: "[De funderar]"
     next:
-      - node: "1522"
+      - node: "1522b"
         description: "De köper veden"
         actions: ["buy_ved"]
-      - node: "1522"
+      - node: "1522b"
         description: "De köper burken"
         actions: ["buy_surstromming"]
       - node: "1416_sekvens_83"
@@ -2195,19 +2232,21 @@ nodes:
   "1583":
     prompt: "Jag köpte den på Stans Glas och Glass imorse, jag."
     next:
-      # TODO: Använd state
       - node: "1587_sekvens_93"
         description: "De har kommit på idén med elden"
-      - node: "1585"
+      - node: "1585a"
         description: "De har inte kommit på idén med elden"
-        actions: ["show_inventory"]
-  "1585":
+  "1585a":
     prompt: "Så vad gör vi nu?"
+    next: "1585b"
+    actions: ["show_inventory"]
+  "1585b":
+    prompt: "[De funderar]"
     next:
-      - node: "1585"
+      - node: "1585b"
         description: "De köper veden"
         actions: ["buy_ved"]
-      - node: "1585"
+      - node: "1585b"
         description: "De köper burken"
         actions: ["buy_surstromming"]
       - node: "1416_sekvens_83"
@@ -2219,7 +2258,6 @@ nodes:
   "1587_sekvens_93":
     prompt: "[Sekvens 93]"
     next:
-      # TODO: Använd state
       - node: "1591"
         description: "De har inte veden än"
         actions: ["buy_ved"]
@@ -2269,11 +2307,10 @@ nodes:
           entityId: "loading_screen"
           layer: 1
           visible: true
-          # Skippa tills vi löser https://github.com/kulturkrock/screencrash-components/issues/98
-          # fadeIn:
-          #   time: 1
-          #   from: 0
-          #   to: 1
+          fadeIn:
+            time: 1
+            from: 0
+            to: 1
   "1612_sekvens_94":
     prompt: "[Sekvens 94]"
     next: "1624"
@@ -2313,15 +2350,15 @@ nodes:
           item: medalj
   "1657":
     prompt: "Han stal den här - och det var inte lätt, för LeChuck var ute efter den också. [Kastar den till Rödskägg]"
-    next: "1666"
+    next: "1674"
     actions:
       - target: inventory
         cmd: remove
         desc: "Inventory: -Avgudastaty"
         params:
           item: avgudastaty
-  "1666":
-    prompt: "[Rödskägg får en hatt inlangad från byxan och ger den till Guybrush]"
+  "1674":
+    prompt: "När vi har räddat staden så får vita och gå på vår dejt. Blunda. [Elaine sätter hatten på Guybrush]"
     next: "1711"
     actions:
       - target: inventory
@@ -2342,7 +2379,6 @@ nodes:
   "1715":
     prompt: "Låt det koka upp och rör sen runt tills skummet yr"
     next: "1717"
-    actions: ["show_inventory"]
   "1717":
     prompt: "En citron! Åh, det fick ju jag för längesen."
     next: "1720"
@@ -2354,37 +2390,31 @@ nodes:
           item: citron
   "1720":
     prompt: "En dublon!"
-    next: "1721"
+    next: "1732a"
     actions:
       - target: inventory
         cmd: change_money
         desc: "Inventory: -1 dublon"
         params:
           amount: -1
-  "1721":
-    prompt: "Lyssna till min röst och bli en avgrundens adept"
-    next: "1732a"
-    actions: ["hide_inventory"]
   "1732a":
     prompt: "Nej, du. Jag hoppas ni vet vad ni gör..."
     next: "1732b"
     actions: ["show_inventory"]
   "1732b":
-    prompt: "[Guybrush och Elaine tänker]"
+    prompt: "[Guybrush och Elaine funderar]"
     next:
       - node: "1740"
-        description: "De kommer på att Guybrush har en blomma (eller flera)"
+        description: "De använder en vanlig blomma"
         actions:
           - target: inventory
             cmd: remove
             desc: "Inventory: -Blomma"
             params:
               item: blomma
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Blomma"
-            params:
-              item: blomma
+      - node: "1740"
+        description: "De använder en ros"
+        actions:
           - target: inventory
             cmd: remove
             desc: "Inventory: -Ros"
