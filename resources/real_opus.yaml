@@ -1345,18 +1345,32 @@ nodes:
     next: "761"
   "761":
     prompt: "Elaine, min kära... Jag kan inte tro att du skulle vilja ha en vekling som den där? [Elaine Skjuter LeChuck]"
-    next: "789"
+    next: "784"
     actions:
       - target: "audio"
         cmd: "create"
         assets:
           - path: "762. pistol1 chest hit.wav"
         params:
-          entityId: "skjuten_i_bröstet"    
+          entityId: "skjuten_i_bröstet"
+  "784":
+    prompt: "Du och jag ska beundra den fina utsikten tillsammans. Precis som förr. [Elaine och LeChuck går förbi Guybrush]"
+    next: "789"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "785. Tension music.wav"
+        params:
+          entityId: "tension_music"
   "789":
     prompt: "Bra. [Elaine fångar pistolen och skjuter LeChuck i huvudet]"
     next: "791"
     actions:
+      - target: "audio"
+        cmd: "destroy"
+        params:
+          entityId: "tension_music"
       - target: "audio"
         cmd: "create"
         assets:
@@ -2352,16 +2366,25 @@ nodes:
           item: avgudastaty
   "1674":
     prompt: "När vi har räddat staden så får vita och gå på vår dejt. Blunda. [Elaine sätter hatten på Guybrush]"
-    next: "1711"
+    next: "1699"
     actions:
       - target: inventory
         cmd: add
         desc: "Inventory: +Hatt"
         params:
           item: hatt
+  "1699":
+    prompt: "Åh, det är... [Plockar fram Murray]"
+    next: "1711"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Murray"
+        params:
+          item: skull
   "1711":
     prompt: "Hämta en gryta!"
-    next: "1715"
+    next: "1717"
     actions:
       - target: "audio"
         cmd: "create"
@@ -2369,9 +2392,6 @@ nodes:
           - path: "1712. Receptet 0.wav"
         params:
           entityId: "receptet"
-  "1715":
-    prompt: "Låt det koka upp och rör sen runt tills skummet yr"
-    next: "1717"
   "1717":
     prompt: "En citron! Åh, det fick ju jag för längesen."
     next: "1720"
@@ -2413,6 +2433,7 @@ nodes:
             desc: "Inventory: -Ros"
             params:
               item: ros
+    actions: ["hide_inventory"]
   "1740":
     prompt: "Äsch! Börja om från början!"
     next: "1747"
@@ -2423,7 +2444,6 @@ nodes:
           - path: "1740. Receptet 1 (efter blomman).wav"
         params:
           entityId: "receptet"
-      - "hide_inventory"
   "1747":
     prompt: "En färsk djävulsrot som har hela skalet kvar"
     next: "1755"
@@ -2538,7 +2558,7 @@ nodes:
     actions:
       - "show_inventory"
   "1773":
-    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de lägger i något annat]"
+    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de kommer på något annat]"
     next:
       - node: "1749"
         description: "[De kommer på kompassen]"
@@ -2563,7 +2583,7 @@ nodes:
     next: "1789"
     actions: ["show_inventory"]
   "1789":
-    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de lägger i något annat än grogg]"
+    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de kommer på något annat än grogg]"
     next:
       - node: "1751"
         description: "[De kommer på groggen]"
@@ -2630,17 +2650,8 @@ nodes:
   "1804b":
     prompt: "[Guybrush och Elaine tänker]"
     next:
-      - node: "1753"
-        description: "De kommer på något annat än hatten"
-        actions:
-          - target: "audio"
-            cmd: "create"
-            assets:
-              - path: "1811. Receptet 6 (efter hatten).wav"
-            params:
-              entityId: "receptet"
       - node: "1811"
-        description: "De kommer inte på något annat än hatten"
+        description: "De får ropet 'hatten', eller kommer inte på något"
         actions:
           - target: "video"
             cmd: "create"
@@ -2650,9 +2661,18 @@ nodes:
               entityId: "kanoneld_2"
               layer: 1
               visible: true
+      - node: "1753"
+        description: "De kommer på något annat än hatten"
+        actions:
+          - target: "audio"
+            cmd: "create"
+            assets:
+              - path: "1811. Receptet 6 (efter hatten).wav"
+            params:
+              entityId: "receptet"
     actions: ["hide_inventory"]
   "1811":
-    prompt: "Hatten!"
+    prompt: "Hatten! [Tillräcklig paus för att fortsätta låten]"
     next: "1753"
     actions:
       - target: "audio"
