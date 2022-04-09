@@ -590,10 +590,14 @@ nodes:
           entityId: "pilen_flyger"
           layer: 1
           visible: true
+      # EXPERIMENTAL
       - target: "image"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "klippan_utan_lina"
+          time: 1
+          target: 0
+          stopOnDone: true
       - target: "image"
         cmd: "create"
         assets:
@@ -601,6 +605,9 @@ nodes:
         params:
           entityId: "klippan_med_lina"
           visible: true
+          fadeIn:
+            time: 1
+            to: 1
   "352":
     prompt: "...oj, det var mitt sista mynt."
     next: "358"
@@ -1049,15 +1056,16 @@ nodes:
       - node: "540"
         description: "Guybrush köper blomman"
         actions: ["buy_flower"]
-      - node: "540"
-        description: "Guybrush köper blomman (och har redan en)"
-        actions: 
-          - "buy_flower"
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Röda och vita rosen"
-            params:
-              achievement: twoflowers
+      # Utkommenterat för att inte ha fler än sju val
+      # - node: "540"
+      #   description: "Guybrush köper blomman (och har redan en)"
+      #   actions: 
+      #     - "buy_flower"
+      #     - target: inventory
+      #       cmd: enable_achievement
+      #       desc: "Inventory: Achievement: Röda och vita rosen"
+      #       params:
+      #         achievement: twoflowers
       - node: "540"
         description: "Guybrush köper ljuset"
         actions: ["buy_candle"]
@@ -1761,10 +1769,14 @@ nodes:
     prompt: "Han är redan död. [Går av scen]"
     next: "1235_sekvens_80"
     actions:
+       # EXPERIMENTAL
       - target: "image"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "hytt"
+          time: 1
+          target: 0
+          stopOnDone: true
       - target: "video"
         cmd: "create"
         assets:
@@ -1780,6 +1792,9 @@ nodes:
         params:
           entityId: "hytt_efter"
           visible: true
+          fadeIn:
+            time: 1
+            to: 1
   "1235_sekvens_80":
     prompt: "[Sekvens 80], [Filmen slut]"
     next: "1241"
@@ -2289,10 +2304,6 @@ nodes:
     prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar lite]"
     next: "1599"
     actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "deserted_island"
       - target: "video"
         cmd: "create"
         assets:
@@ -2314,6 +2325,10 @@ nodes:
     prompt: "Välkomna till Stans Bitar av Båtar!"
     next: "1612_sekvens_94"
     actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "deserted_island"
       - target: "video"
         cmd: "fade"
         params:
@@ -2747,7 +2762,7 @@ nodes:
         params:
           achievement: lechuck_final
   "1858a":
-    prompt: "[Efter en liten stund]"
+    prompt: "[Efter en liten stund, när ljuset tänds]"
     next: "1858b"
     actions:
       - target: "image"
