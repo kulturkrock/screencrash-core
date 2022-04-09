@@ -33,12 +33,12 @@ nodes:
           usePercentage: false
           x: 260
           y: 150
-          width: 1500
+          width: 1660
           height: 930
           visible: false
           layer: 10000
   "1b":
-    prompt: "[Redo att visa stjärnhimmel]"
+    prompt: "[Visa stjärnhimmel]"
     next: "2"
     actions:
       - target: "image"
@@ -54,7 +54,7 @@ nodes:
         params:
           entityId: inventory
   "2":
-    prompt: "[Redo att spela mystisk musik]"
+    prompt: "[Ridån har gått upp]"
     next: "5"
     actions:
       - target: "audio"
@@ -65,7 +65,7 @@ nodes:
           entityId: "mystisk_musik_hamnsyltan"
           loops: 0
   "5":
-    prompt: "Mörk magi är lite av min egen specialitet, förstår ni."
+    prompt: "Det hela börjar här på hamnkrogen Skummet och Rasket"
     next: "30a"
     actions:
       - target: "image"
@@ -91,7 +91,7 @@ nodes:
           time: 5
           stopOnDone: true
   "30b":
-    prompt: "Ge honom lite förslag! [Liten paus]"
+    prompt: "Ge honom lite förslag! [...] Då kan spelet börja!"
     next: "81"
     actions:
       - target: "audio"
@@ -202,7 +202,7 @@ nodes:
         params:
           entityId: "olycksbådande_vind"
   "161":
-    prompt: "Ja, då var vi av med honom! [Piraterna skrattar]"
+    prompt: "Ja, då var vi av med honom! [Piraterna har skrattat lite]"
     next: "163_sekvens_8"
     actions:
       - target: "video"
@@ -218,7 +218,7 @@ nodes:
             from: 0
             to: 1
   "163_sekvens_8":
-    prompt: "[Sekvens 8]"
+    prompt: "[Sekvens 8], [MVG och Murray på scen, korgen av]"
     next: "165"
     actions:
       - target: "video"
@@ -278,7 +278,7 @@ nodes:
     prompt: "[Sekvens 10]"
     next: "196"
   "196":
-    prompt: "Ja, här. [Välgöraren droppar vätska på kartan]"
+    prompt: "Ja, här. [Välgöraren doppar kartan i kitteln]"
     next: "201"
     actions:
       - target: "audio"
@@ -324,7 +324,7 @@ nodes:
             from: 0
             to: 1
   "217_sekvens_12":
-    prompt: "[Sekvens 12]"
+    prompt: "[Sekvens 12], [MVG, Murray och Guybrush på scen, korgen av Murray]"
     next: "240"
     actions:
       - target: "image"
@@ -379,7 +379,7 @@ nodes:
             from: 0
             to: 1
   "250_sekvens_14":
-    prompt: "[Sekvens 14]"
+    prompt: "[Sekvens 14], [MVG och Murray på scen, korg av murray]"
     next: "283"
     actions:
       - target: "video"
@@ -414,7 +414,7 @@ nodes:
             from: 0
             to: 1
   "285a_sekvens_15":
-    prompt: "[Sekvens 15]"
+    prompt: "[Sekvens 15], [Bandit står på scen, Stan på plats]"
     next: "286"
     actions:
       - target: "video"
@@ -709,7 +709,7 @@ nodes:
           layer: 1
           visible: true
   "376":
-    prompt: "[Redo att visa kobben]"
+    prompt: "[Redo att visa kobben: Linan är helt borta, Carla på scen]"
     next: "381"
     actions:
       - target: "video"
@@ -783,7 +783,7 @@ nodes:
             from: 0
             to: 1
   "474a_sekvens_29":
-    prompt: "[Sekvens 29]"
+    prompt: "[Sekvens 29], [Dörren, gravstenar och stenhög på plats, Arvid, Stan på scen]"
     next: "488a"
     actions:
       - target: "video"
@@ -823,6 +823,9 @@ nodes:
             desc: "Inventory: Achievement: Röda och vita rosen"
             params:
               achievement: twoflowers
+      - node: "488b"
+        description: "Guybrush köper ljuset"
+        actions: ["buy_candle"]
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
         actions: ["hide_inventory"]
@@ -857,6 +860,9 @@ nodes:
             desc: "Inventory: Achievement: Röda och vita rosen"
             params:
               achievement: twoflowers
+      - node: "493b"
+        description: "Guybrush köper ljuset"
+        actions: ["buy_candle"]
       - node: "495_sekvens_31"
         description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
         actions: ["hide_inventory"]
@@ -906,6 +912,9 @@ nodes:
             desc: "Inventory: Achievement: Röda och vita rosen"
             params:
               achievement: twoflowers
+      - node: "507b"
+        description: "Guybrush köper ljuset"
+        actions: ["buy_candle"]
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
         actions: ["hide_inventory"]
@@ -1004,6 +1013,9 @@ nodes:
             desc: "Inventory: Achievement: Röda och vita rosen"
             params:
               achievement: twoflowers
+      - node: "530b"
+        description: "Guybrush köper ljuset"
+        actions: ["buy_candle"]
       - node: "532_sekvens_39"
         description: "Guybrush frågar om spaden"
       - node: "490_sekvens_30"
@@ -1046,6 +1058,9 @@ nodes:
             desc: "Inventory: Achievement: Röda och vita rosen"
             params:
               achievement: twoflowers
+      - node: "540"
+        description: "Guybrush köper ljuset"
+        actions: ["buy_candle"]
       - node: "490_sekvens_30"
         description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
         actions: ["hide_inventory"]
@@ -1113,7 +1128,7 @@ nodes:
         params:
           item: skelettben
   "567_sekvens_42":
-    prompt: "[Sekvens 42]"
+    prompt: "[Sekvens 42], [Dörr, gravstenar, ev. stenhög på plats, Arvid ute]"
     next: "571"
     actions:
       - target: "video"
@@ -1161,7 +1176,7 @@ nodes:
       - node: "474a_sekvens_29"
         description: "Guybrush har inte hittat skatten"
   "574_sekvens_43":
-    prompt: "[Sekvens 43]"
+    prompt: "[Nu!], [Sekvens 43]"
     next: "615a"
     actions:
       - target: "audio"
@@ -1304,7 +1319,7 @@ nodes:
               layer: 1
               visible: true
   "713":
-    prompt: "Puh! Tack så mycket. Jag trodde han skulle döda mig"
+    prompt: "[Medan bakgrunden kommer tillbaka]"
     next: "733"
     actions:
       - target: inventory
@@ -1394,7 +1409,7 @@ nodes:
       - node: "369_sekvens_27"
         description: "De är på klippan"
   "814a_sekvens_59":
-    prompt: "[Sekvens 59]"
+    prompt: "[Sekvens 59], [Alla av scen]"
     next: "814b"
     actions:
       - target: "video"
@@ -1428,7 +1443,7 @@ nodes:
         params:
           entityId: "lechucks_skepp"
   "933":
-    prompt: "Då tar vi paus i 20 minuter!"
+    prompt: "[Ridå dragen]"
     next: "940_aktpaus"
     actions:
       - target: "video"
@@ -1494,7 +1509,7 @@ nodes:
         params:
           entityId: "inte_som_det_ser_ut"
   "993":
-    prompt: "Jag kanske vill prata med min advokat [Elaine tar Guybrushs vapen och ställer dem åt sidan]"
+    prompt: "Ge mig ditt vapen [Elaine tar Guybrushs vapen och ställer dem åt sidan]"
     next: "1014"
     actions:
       - target: inventory
@@ -1572,7 +1587,7 @@ nodes:
             from: 0
             to: 1
   "1097_sekvens_66":
-    prompt: "[Sekvens 66]"
+    prompt: "[Sekvens 66], [Fången, tårtan och dörren på plats, Erik av scen]"
     next: "1101"
     actions:
       - target: "video"
@@ -1709,7 +1724,7 @@ nodes:
             from: 0
             to: 1
   "1213_sekvens_76":
-    prompt: "[Sekvens 76]"
+    prompt: "[Sekvens 76], [Piedestal på plats, Rebecka, Arvid, dörr och tårta av scen]"
     next: "1215"
     actions:
       - target: "video"
@@ -1824,7 +1839,7 @@ nodes:
             from: 0
             to: 1
   "1321_sekvens_81":
-    prompt: "[Sekvens 81]"
+    prompt: "[Sekvens 81], [Tunnan och MVG på scen, alla andra av]"
     next: "1327"
     actions:
       - target: "video"
@@ -1918,7 +1933,7 @@ nodes:
             from: 0
             to: 1
   "1379_sekvens_82":
-    prompt: "[Sekvens 82]"
+    prompt: "[Sekvens 82], [Scen tom, Stan på plats]"
     next: "1414a"
     actions:
       - target: "video"
@@ -2319,7 +2334,7 @@ nodes:
             from: 0
             to: 1
   "1612_sekvens_94":
-    prompt: "[Sekvens 94]"
+    prompt: "[Sekvens 94], [Tunnan och kaptenerna är det enda på scen]"
     next: "1624"
     actions:
       - target: "video"
@@ -2452,10 +2467,6 @@ nodes:
     next: "1769"
     actions:
       - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_0"
-      - target: "image"
         cmd: "create"
         assets:
           - path: "1763. Piratskeppet med LCs skepp 1.png"
@@ -2469,7 +2480,7 @@ nodes:
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "piratskeppet_1"
+          entityId: "piratskeppet_0"
       - target: "image"
         cmd: "create"
         assets:
@@ -2484,7 +2495,7 @@ nodes:
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "piratskeppet_2"
+          entityId: "piratskeppet_1"
       - target: "image"
         cmd: "create"
         assets:
@@ -2499,7 +2510,7 @@ nodes:
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "piratskeppet_3"
+          entityId: "piratskeppet_2"
       - target: "image"
         cmd: "create"
         assets:
@@ -2514,7 +2525,7 @@ nodes:
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "piratskeppet_4"
+          entityId: "piratskeppet_3"
       - target: "image"
         cmd: "create"
         assets:
@@ -2524,13 +2535,13 @@ nodes:
           visible: true
   "1755":
     prompt: "[De funderar]"
-    next: "1762"
+    next: "1757"
     actions: ["show_inventory"]
-  "1762":
-    prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
+  "1757":
+    prompt: "[De lägger något i grytan]"
     next:
-      - node: "1748"
-        description: "[De kommer på djävulsroten]"
+      - node: "1762"
+        description: "De kommer på djävulsroten"
         actions:
           - target: inventory
             cmd: remove
@@ -2542,8 +2553,12 @@ nodes:
             desc: "Inventory: Achievement: Roten till allt ont"
             params:
               achievement: devils_root
-      - node: "1748"
-        description: "[De kommer på något som INTE är djävulsroten]"
+      - node: "1762"
+        description: "De kommer på något som INTE är djävulsroten"
+    actions: ["hide_inventory"]
+  "1762":
+    prompt: "Vad kommer sen?"
+    next: "1748"
     actions:
       - target: "audio"
         cmd: "create"
@@ -2551,25 +2566,28 @@ nodes:
           - path: "1762. Receptet 2 (efter roten).wav"
         params:
           entityId: "receptet"
-      - "hide_inventory"
   "1769":
     prompt: "Något som förvillar, som du hellre sluppit se. [De funderar]"
-    next: "1773"
+    next: "1770"
     actions:
       - "show_inventory"
-  "1773":
-    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de kommer på något annat]"
+  "1770":
+    prompt: "[De funderar]"
     next:
-      - node: "1749"
-        description: "[De kommer på kompassen]"
+      - node: "1773"
+        description: "De kommer på kompassen"
         actions:
           - target: inventory
             cmd: remove
             desc: "Inventory: -Kompass"
             params:
               item: kompass
-      - node: "1749"
-        description: "[De kommer på något som INTE är kompassen]"
+      - node: "1773"
+        description: "De kommer på något som INTE är kompassen"
+    actions: ["hide_inventory"]
+  "1773":
+    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller höfta]"
+    next: "1749"
     actions:
       - target: "audio"
         cmd: "create"
@@ -2577,24 +2595,27 @@ nodes:
           - path: "1773. Receptet 3 (efter kompassen).wav"
         params:
           entityId: "receptet"
-      - "hide_inventory"
   "1781":
-    prompt: "Jag vet inte! [De funderar]"
-    next: "1789"
+    prompt: "Jag vet inte!"
+    next: "1782"
     actions: ["show_inventory"]
-  "1789":
-    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de kommer på något annat än grogg]"
+  "1782":
+    prompt: "[De funderar]"
     next:
-      - node: "1751"
-        description: "[De kommer på groggen]"
+      - node: "1789"
+        description: "De kommer på groggen"
         actions:
           - target: inventory
             cmd: remove
             desc: "Inventory: -Grogg"
             params:
               item: grogg
-      - node: "1751"
-        description: "[De kommer på något som INTE är groggen]"
+      - node: "1789"
+        description: "De kommer på något som INTE är groggen"
+    actions: ["hide_inventory"]
+  "1789":
+    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller höfta]"
+    next: "1751"
     actions:
       - target: "audio"
         cmd: "create"
@@ -2602,7 +2623,6 @@ nodes:
           - path: "1789. Receptet 4 (efter groggen).wav"
         params:
           entityId: "receptet"
-      - "hide_inventory"
   "1791":
     prompt: "Ett förräderi? Hur tusan lägger man det i en gryta?"
     next: "1794a"
@@ -2632,8 +2652,9 @@ nodes:
               item: planka
       - node: "1800"
         description: "[De kommer på något som INTE är plankan]"
+    actions: ["hide_inventory"]
   "1800":
-    prompt: "Jaha, den ja! [Eller om de kommer på något annat än plankan]"
+    prompt: "Jaha, den ja! [Eller höfta]"
     next: "1752"
     actions:
       - target: "audio"
@@ -2642,7 +2663,6 @@ nodes:
           - path: "1800. Receptet 5 (efter plankan).wav"
         params:
           entityId: "receptet"
-      - "hide_inventory"
   "1804":
     prompt: "Nej, det är snart klart! Nånting du fick tag på allde's nyss!"
     next: "1804b"
@@ -2650,7 +2670,7 @@ nodes:
   "1804b":
     prompt: "[Guybrush och Elaine tänker]"
     next:
-      - node: "1811"
+      - node: "1811a"
         description: "De får ropet 'hatten', eller kommer inte på något"
         actions:
           - target: "video"
@@ -2661,18 +2681,29 @@ nodes:
               entityId: "kanoneld_2"
               layer: 1
               visible: true
-      - node: "1753"
+      - node: "1811b"
         description: "De kommer på något annat än hatten"
         actions:
-          - target: "audio"
+          - target: "video"
             cmd: "create"
             assets:
-              - path: "1811. Receptet 6 (efter hatten).wav"
+              - path: "1806-1. Kanon mot skeppet.mp4"
             params:
-              entityId: "receptet"
+              entityId: "kanoneld_2"
+              layer: 1
+              visible: true
     actions: ["hide_inventory"]
-  "1811":
-    prompt: "Hatten! [Tillräcklig paus för att fortsätta låten]"
+  "1811a":
+    prompt: "Hatten!"
+    next: "1811b"
+    actions:
+      - target: inventory
+        cmd: remove
+        desc: "Inventory: -Hatt"
+        params:
+          item: hatt
+  "1811b":
+    prompt: "[Redo att starta låten]"
     next: "1753"
     actions:
       - target: "audio"
@@ -2681,11 +2712,6 @@ nodes:
           - path: "1811. Receptet 6 (efter hatten).wav"
         params:
           entityId: "receptet"
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Hatt"
-        params:
-          item: hatt
   "1818":
     prompt: "Då är det ju inte vår första kyss!"
     next: "1848"
@@ -2700,6 +2726,10 @@ nodes:
     prompt: "Och det älskande parets första kyss [Sången tar slut]"
     next: "1851_sekvens_102"
     actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "piratskeppet_4"
       - target: "image"
         cmd: "fade"
         params:
@@ -2757,6 +2787,12 @@ action_templates:
     desc: "Inventory: Köp blomman"
     params:
       item: blomma
+  "buy_candle":
+    target: inventory
+    cmd: buy
+    desc: "Inventory: Köp ljuset"
+    params:
+      item: ljus
   "buy_ved":
     target: inventory
     cmd: buy
@@ -2810,7 +2846,7 @@ ui:
             usePercentage: false
             x: 260
             y: 150
-            width: 1500
+            width: 1660
             height: 930
             visible: false
             layer: 10000
