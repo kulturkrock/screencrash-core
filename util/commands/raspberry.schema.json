@@ -1,0 +1,24 @@
+{
+    "$id": "https://kulturkrock.se/commands/raspberry.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Raspberry commands in Opus",
+    "description": "A raspberry command in an Opus to use for Screencrash",
+    "type": "object",
+    "oneOf": [
+        {
+            "title": "Ping",
+            "description": "Temporary command to test scaffolding",
+            "properties": {
+                "target": { "const": "raspberry" },
+                "cmd": { "const": "ping" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action does",
+                    "type": "string"
+                }
+            },
+            "required": ["target", "cmd"],
+            "additionalProperties": false
+        }
+    ]
+}
