@@ -6,11 +6,26 @@
     "type": "object",
     "oneOf": [
         {
-            "title": "Ping",
-            "description": "Temporary command to test scaffolding",
+            "title": "On",
+            "description": "Turn on LED",
             "properties": {
                 "target": { "const": "raspberry" },
-                "cmd": { "const": "ping" },
+                "cmd": { "const": "on" },
+                "desc": {
+                    "title": "Description",
+                    "description": "Description of what this action does",
+                    "type": "string"
+                }
+            },
+            "required": ["target", "cmd"],
+            "additionalProperties": false
+        },
+        {
+            "title": "Off",
+            "description": "Turn off LED",
+            "properties": {
+                "target": { "const": "raspberry" },
+                "cmd": { "const": "off" },
                 "desc": {
                     "title": "Description",
                     "description": "Description of what this action does",
