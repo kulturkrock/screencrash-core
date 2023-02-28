@@ -13,7 +13,7 @@ from performance import Performance
 from peers.internal import InternalPeer
 from peers.media import MediaPeer
 from peers.ui import UI
-from peers.raspberry import RaspberryPeer
+from peers.ledController import LedControllerPeer
 
 
 class Core:
@@ -48,7 +48,7 @@ class Core:
             "internal": InternalPeer(sync_assets),
             "media": MediaPeer(sync_assets),
             "inventory": InventoryPeer(sync_assets),
-            "raspberry": RaspberryPeer(),
+            "ledController": LedControllerPeer(),
         }
         self._setup_events()
         self._distribute_assets()

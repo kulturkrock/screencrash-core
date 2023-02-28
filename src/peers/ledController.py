@@ -4,24 +4,21 @@ from opus import Asset
 from peers.component import ComponentPeer
 
 
-class RaspberryPeer(ComponentPeer):
+class LedControllerPeer(ComponentPeer):
     """
-    Handles communication with raspberry component.
+    Handles communication with ledController component.
 
     Parameters
     ----------
     """
 
     def __init__(self):
-        super().__init__(["raspberry"], False)
+        super().__init__(["ledController"], False)
 
     def handle_component_message(
         self, component_id: str, message_type: str, message: object
     ):
-        if message_type == "pong":
-            print("got a pong")
-        else:
-            super().handle_component_message(message_type, message)
+        super().handle_component_message(message_type, message)
 
     def handle_component_disconnect(self, component_id):
         super().handle_component_disconnect(component_id)
