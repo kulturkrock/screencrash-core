@@ -185,6 +185,8 @@ class UI(EventEmitter):
                     choice_index = message_dict["choiceIndex"]
                     run_actions = message_dict.get("runActions", True)
                     self.emit("choose-path", choice_index, run_actions)
+                elif message_type == "clear-history":
+                    self.emit("clear-history")
                 elif message_type == "prev-node":
                     self.emit("prev-node")
                 elif message_type == "goto-node":

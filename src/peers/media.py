@@ -1,4 +1,5 @@
 from typing import Any, List, Dict
+import random
 from opus import Asset
 
 from peers.component import ComponentPeer
@@ -20,6 +21,7 @@ class MediaPeer(ComponentPeer):
     def __init__(self, sync_assets: bool):
         super().__init__(["image", "video", "web", "audio"], sync_assets)
         self._available_target_types = {}
+        self._storages_random_cmds = {}
 
     def handle_component_message(self, component_id: str, message_type: str, message: object):
         if message_type == "effect-added":
@@ -41,17 +43,32 @@ class MediaPeer(ComponentPeer):
 
         entityId = params.get("entityId")
         if entityId is None:
-            if cmd == "create":
+            if cmd == "create" or cmd == "create_random":
                 entityId = get_random_string(16)
             else:
                 raise RuntimeError("Missing required parameter entityId")
+
+        asset = assets[0].path if assets else None
+        if cmd == "create_random":
+            storage_id = params["storageId"]
+            if storage_id not in self._storages_random_cmds:
+                self._storages_random_cmds[storage_id] = []
+            available_assets = list(map(lambda a: a.path, filter(lambda a: a.path not in self._storages_random_cmds[storage_id], assets)))
+            if not available_assets:
+                self._storages_random_cmds[storage_id] = []
+                available_assets = assets.copy()
+            random_asset = random.choice(available_assets)
+            self._storages_random_cmds[storage_id].append(random_asset)
+            asset = random_asset
+            cmd = "create"
+
 
         data = {
             "command": cmd,
             "entityId": entityId,
             "channel": 1,
             "type": target_type,
-            "asset": assets[0].path if assets else None,
+            "asset": asset,
         }
         data.update(params)
         self.send_command(data)
