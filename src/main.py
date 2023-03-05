@@ -59,6 +59,7 @@ class Core:
         self._ui.add_event_listener("next-node", self._performance.next_node)
         self._ui.add_event_listener("prev-node", self._performance.prev_node)
         self._ui.add_event_listener("goto-node", self._performance.goto_node)
+        self._ui.add_event_listener("clear-history", self._performance.clear_history)
         self._ui.add_event_listener(
             "run-actions", self._performance.run_actions)
         self._ui.add_event_listener(

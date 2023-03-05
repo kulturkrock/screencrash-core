@@ -23,6 +23,12 @@ class Performance(EventEmitter):
         self._nodes = opus.nodes
         self.history = [opus.start_node]
 
+    def clear_history(self):
+        first_node = self.history[0]
+        self.history.clear()
+        self.history.append(first_node)
+        self.emit("history-changed", self.history)
+
     def next_node(self, run_actions: bool):
         """Go to the next node."""
         current_node = self._nodes[self.history[-1]]
