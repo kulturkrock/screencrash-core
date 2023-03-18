@@ -14,6 +14,7 @@ from peers.internal import InternalPeer
 from peers.media import MediaPeer
 from peers.ui import UI
 from peers.ledController import LedControllerPeer
+from peers.myggcheck import MyggCheckPeer
 
 
 class Core:
@@ -49,6 +50,7 @@ class Core:
             "media": MediaPeer(sync_assets),
             "inventory": InventoryPeer(sync_assets),
             "ledController": LedControllerPeer(),
+            "myggcheck": MyggCheckPeer(),
         }
         self._setup_events()
         self._distribute_assets()
