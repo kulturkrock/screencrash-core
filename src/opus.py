@@ -12,11 +12,6 @@ import fitz
 import yaml
 import jsonpath_ng
 
-# TODO: Autodiscover these instead of hard-coding them, in case
-# the script looks different in the future.
-LEFT_PAGE_LINE_NUMBER_END = (48, 49)
-RIGHT_PAGE_LINE_NUMBER_END = (62, 63)
-
 
 @dataclass
 class Asset:
@@ -307,6 +302,7 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
                 pass  # lineNumber is not mandatory
 
     doc = fitz.open(script_path)
+    first_page_line_number_end, second_page_line_number_end = find_line_number_ends(doc)
     # Get all node keys where we need to discover the location.
     node_keys = [
         key for key, value in nodes_dict.items()
@@ -332,8 +328,8 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
                 key, line_number = next_pair
                 found = [
                     rect for rect in page.search_for(str(line_number))
-                    if (LEFT_PAGE_LINE_NUMBER_END[0] < rect.x1 < LEFT_PAGE_LINE_NUMBER_END[1])
-                    or (RIGHT_PAGE_LINE_NUMBER_END[0] < rect.x1 < RIGHT_PAGE_LINE_NUMBER_END[1])
+                    if (first_page_line_number_end[0] < rect.x1 < first_page_line_number_end[1])
+                    or (second_page_line_number_end[0] < rect.x1 < second_page_line_number_end[1])
                 ]
                 if len(found) == 0:
                     # We won't find anything more on this page, since the wanted line numbers are sorted
@@ -374,6 +370,35 @@ async def load_nodes(nodes_dict: Dict[str, dict], script_path: Path) -> Tuple[Di
 
     return nodes, actions_dict
 
+def find_line_number_ends(doc: fitz.Document) -> Tuple[Tuple[float, float], Tuple[float, float]]:
+    # Find the x coordinates where the line numbers end by finding enough
+    # numbers on the pages. Skip one-digit numbers since they appear in
+    # larger numbers too often. We select the most common end coordinates,
+    # so there can be some anomalies.
+    line_numbers_to_find = list(range(10, 100))
+    all_found_number_rects = []
+    line_number = line_numbers_to_find.pop(0)
+    for page in doc:
+        while True:
+            found_instances = page.search_for(str(line_number))
+            all_found_number_rects.extend(found_instances)
+            if len(found_instances) > 0 and len(line_numbers_to_find) > 0:
+                line_number = line_numbers_to_find.pop(0)
+            else:
+                break
+        if len(line_numbers_to_find) == 0:
+            break
+    end_coords = [rect.x1 for rect in all_found_number_rects]
+    most_common = max(set(end_coords), key=end_coords.count)
+    all_except_most_common = [x for x in end_coords if x != most_common]
+    second_most_common = max(set(all_except_most_common), key=all_except_most_common.count)
+
+    # Return ranges for the end-coordinates of numbers on odd and even pages.
+    # The order does not matter.
+    return (
+        (most_common - 0.5, most_common + 0.5),
+        (second_most_common - 0.5, second_most_common + 0.5)
+    )
 
 def get_shortcut_key(hotkey: dict) -> str:
     if hotkey:
