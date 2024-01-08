@@ -1,2828 +1,936 @@
-startNode: "1a"
+startNode: "1"
 nodes:
-  "1a":
-    prompt: "[Starta inventory]"
+  "1":
+    prompt: "[Redo att börja]"
     next: "1b"
     actions:
-      - target: inventory
-        cmd: setup
-        desc: Starta inventory
+      - target: "image"
+        cmd: "create"
         assets:
-          - path: "inventory-data.zip"
+          - path: "0000 Hyrulien.png"
         params:
-          color: "#a51d16"
-      - target: inventory
-        cmd: set_items_visibility
-        desc: Inaktivera items section
-        params:
-          visible: false
-      - target: inventory
-        cmd: change_money
-        desc: Sätt pengar till 2
-        params:
-          amount: 2
-      - target: web
-        cmd: create
-        desc: Lägg till inventory på skärmen
-        assets:
-          - path: "http://localhost:4218"
-        params:
-          # Inventory size is set to 1400x720
-          entityId: inventory
-          displayName: "Inventory"
-          usePercentage: false
-          x: 260
-          y: 150
-          width: 1500
-          height: 930
-          visible: false
-          layer: 10000
+          entityId: "hyrulien"
+          layer: 0
+          visible: true
   "1b":
-    prompt: "[Redo att visa stjärnhimmel]"
-    next: "2"
+    prompt: "[Ridån har gått upp]"
+    next: "36"
     actions:
-      - target: "image"
+      - target: "video"
         cmd: "create"
         assets:
-          - path: "1. Night sky.png"
+          - path: "0001 Ouvertyr part1.webm"
         params:
-          entityId: "stjärnhimmel"
+          entityId: "ouvertyr"
+          layer: 2
           visible: true
-      - target: web
-        cmd: show
-        desc: Visa inventory
+          looping: 0
+          seamless: true
+          mimeCodec: 'video/webm; codecs="vp9, opus"'
+      - target: "video"
+        cmd: "set_volume"
         params:
-          entityId: inventory
-  "2":
-    prompt: "[Redo att spela mystisk musik]"
-    next: "5"
-    actions:
+          entityId: "ouvertyr"
+          volume: 0
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0020 Ouvertyr loop1.webm"
+        params:
+          entityId: "ouvertyr"
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "2. Mystisk_musik_hamnsyltan_sorl.wav"
+          - path: "0001 Ouvertyr part1.wav"
         params:
-          entityId: "mystisk_musik_hamnsyltan"
-          loops: 0
-  "5":
-    prompt: "Mörk magi är lite av min egen specialitet, förstår ni."
-    next: "30a"
-    actions:
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "5. Hamnsyltan.png"
-        params:
-          entityId: "hamnsyltan"
-          visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "stjärnhimmel"
-  "30a":
-    prompt: "Men han kommer nog behöva lite hjälp på traven!"
-    next: "30b"
-    actions:
+          entityId: "ouvertyr_audio"
+          looping: 0
+          seamless: true
       - target: "audio"
-        cmd: "fade"
-        params:
-          entityId: "mystisk_musik_hamnsyltan"
-          target: 0
-          time: 5
-          stopOnDone: true
-  "30b":
-    prompt: "Ge honom lite förslag! [Liten paus]"
-    next: "81"
-    actions:
-      - target: "audio"
-        cmd: "create"
+        cmd: "set_next_file"
         assets:
-          - path: "32. Guybrushs piratsang.wav"
+          - path: "0020 Ouvertyr loop1.wav"
         params:
-          entityId: "guybrushs_piratsång"
-  "81":
-    prompt: "Det här är er chans. Vad tycker du han ska göra?"
-    next:
-      - node: "82_sekvens_3"
-        description: "Prata med Stan"
-      - node: "106_sekvens_6"
-        description: "Prata med pirater"
+          entityId: "ouvertyr_audio"
+  "36":
+    prompt: "Låt oss be till Nayru... [TODO: Mycket tidigare]"
+    next: "36b"
     actions:
-      - target: inventory
-        cmd: enable_achievement
-        desc: "Inventory: Achievement: En röst i mörkret"
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0036 Ouvertyr part2.webm"
         params:
-          achievement: spirit_guidance
-  "82_sekvens_3":
-    prompt: "[Sekvens 3]"
+          entityId: "ouvertyr"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0036 Ouvertyr part2.wav"
+        params:
+          entityId: "ouvertyr_audio"
+  "36b":
+    prompt: "[Vampen har slutat]"
+    next: "61"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0051 Ouvertyr loop2.webm"
+        params:
+          entityId: "ouvertyr"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0051 Ouvertyr loop2.wav"
+        params:
+          entityId: "ouvertyr_audio"
+  "61":
+    prompt: "Och låt oss be till Farore... [TODO: Mycket tidigare]"
+    next: "61b"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0061 Ouvertyr part3.webm"
+        params:
+          entityId: "ouvertyr"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0061 Ouvertyr part3.wav"
+        params:
+          entityId: "ouvertyr_audio"
+  "61b":
+    prompt: "[Vampen har slutat]"
     next: "90"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0077 Ouvertyr loop3.webm"
+        params:
+          entityId: "ouvertyr"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0077 Ouvertyr loop3.wav"
+        params:
+          entityId: "ouvertyr_audio"
   "90":
-    prompt: "Vad sägs till exempel om den här utmärkt praktiska saken, äkta läder, bara tre dubloner?"
-    next:
-      - node: "97_sekvens_5"
-        description: "Guybrush har pratat med kaptenerna"
-      - node: "91"
-        description: "Guybrush har inte pratat med kaptenerna"
-  "91":
-    prompt: "Hmm. Tre dubloner - jag har bara fem. Behöver jag en väska?"
-    next:
-      - node: "92_sekvens_4"
-        description: "Guybrush köper inte väskan"
-      - node: "97_sekvens_5"
-        description: "Guybrush köper väskan"
-  "92_sekvens_4":
-    prompt: "[Sekvens 4]"
-    next: "95"
-  "95":
-    prompt: "Om du ångrar dig är det bara att komma tillbaka. Stans Väskor och Vätskor, till er tjänst."
-    next:
-      - node: "97_sekvens_5"
-        description: "Guybrush ångrar sig och köper väskan"
-      - node: "106_sekvens_6"
-        description: "Guybrush pratar med piraterna"
-  "97_sekvens_5":
-    prompt: "[Sekvens 5]"
-    next: "103"
-  "103":
-    prompt: "Ha! Jag är bra på det här."
-    next:
-      - node: "149_sekvens_7"
-        description: "Guybrush har redan pratat med piraterna"
-      - node: "104"
-        description: "Guybrush har inte pratat med piraterna"
-  "104":
-    prompt: "Välkommen åter! Tack för att du handlar hos Stans Väskor och Vätskor."
-    next:
-      - node: "106_sekvens_6"
-        description: "Guybrush pratar med piraterna"
-  "106_sekvens_6":
-    prompt: "[Sekvens 6]"
-    next: "133"
-  "133":
-    prompt: "En särskild kompass, som inte pekar åt norr? [Rödskägg drämmer till kompassen]"
-    next: "146"
+    prompt: "Och låt Diin, styrkans gudinna... [TODO: Mycket tidigare]"
+    next: "118"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0090 Ouvertyr part4.webm"
+        params:
+          entityId: "ouvertyr"
+      - target: "video"
+        cmd: "set_loops"
+        params:
+          entityId: "ouvertyr"
+          looping: 1
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0090 Ouvertyr part4.wav"
+        params:
+          entityId: "ouvertyr_audio"
+      - target: "audio"
+        cmd: "set_loops"
+        params:
+          entityId: "ouvertyr_audio"
+          looping: 1
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0107 Vardagsrum.png"
+        params:
+          entityId: "vardagsrum"
+          layer: 0
+          visible: true
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "hyrulien"
+  "118":
+    prompt: "Kan ni göra illusioner? [Nayru gör gester]"
+    next: "144"
     actions:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "134. kompass_trasig.wav"
+          - path: "0118 summon fejkdiin.wav"
         params:
-          entityId: "kompassen_krossas"
-  "146":
-    prompt: "Då utropar vi dig till pirat, på min kaptensheder."
-    next:
-      - node: "149_sekvens_7"
-        description: "Guybrush har köpt väskan"
-      - node: "82_sekvens_3"
-        description: "Guybrush har inte pratat med Stan"
-      - node: "97_sekvens_5"
-        description: "Guybrush har pratat med Stan men inte köpt väskan"
-  "149_sekvens_7":
-    prompt: "[Sekvens 7], [Guybrush lägger ner saker i väskan]"
-    next: "152"
-    actions:
-      - "show_inventory"
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Anteckningar +Fjäderpenna +Karta +Kompass +Grogg"
-        params:
-          items: notes,featherpen,map_part1,kompass,grogg
-  "152":
-    next: "155"
-    prompt: Herr Threepwood, förresten!
-    actions: ["hide_inventory"]
-  "155":
-    prompt: "\"Möt mig uppe på kullen vid midnatt.\" Signerat \"en hemlig välgörare\"..."
-    next: "161"
+          entityId: "summon_fejkdiin"
+  "144":
+    prompt: "Det är inte som att det finns så mycket annat att göra. [Nayru avslutar förtrollningen]"
+    next: "174a"
     actions:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "156. wind_thunder.wav"
+          - path: "0144 dismiss fejkdiin.wav"
         params:
-          entityId: "olycksbådande_vind"
-  "161":
-    prompt: "Ja, då var vi av med honom! [Piraterna skrattar]"
-    next: "163_sekvens_8"
+          entityId: "dismiss_fejkdiin"
+  "174a":
+    prompt: "Ja, då kör vi! [Farore och Nayru går av scen]"
+    next: "174b"
     actions:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "161. Loading screen 0.mp4"
+          - path: "0174-1 startmeny_loading1a.mp4"
         params:
-          entityId: "loading_screen"
+          entityId: "startmeny_loading1a"
           layer: 1
           visible: true
+          destroyOnEnd: false
+  "174b":
+    prompt: "[Lite omriggning]"
+    next: "174c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0174-2 loading1b.mp4"
+        params:
+          entityId: "loading1b"
+          layer: 2
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "vardagsrum"
+  "174c":
+    prompt: "[Lite omriggning till]"
+    next: "174d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0174-3 loading1c.mp4"
+        params:
+          entityId: "loading1c"
+          layer: 3
+          visible: true
+          destroyOnEnd: false
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "startmeny_loading1a"
+  "174d":
+    prompt: "[Ännu mer omriggning]"
+    next: "174e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0174-4 loading1d.mp4"
+        params:
+          entityId: "loading1d"
+          layer: 5
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0175 Tronsal.png"
+        params:
+          entityId: "tronsal"
+          layer: 4
+          visible: true
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading1b"
+  "174e":
+    prompt: "[Tronsalen synlig, rensa lite]"
+    next: "197"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading1c"
+  "197":
+    prompt: "... det är för svårt! [Nayru visar sig]"
+    next: "263"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0197 Tronsal_bla.png"
+        params:
+          layer: 5
           fadeIn:
-            time: 1
             from: 0
-            to: 1
-  "163_sekvens_8":
-    prompt: "[Sekvens 8]"
-    next: "165"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3      
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "hamnsyltan"
-  "165":
-    prompt: "Schh, nu är han strax här!"
-    next: "182"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "166. knackning.wav"
-        params:
-          entityId: "knackning"
-  "182":
-    prompt: "Så vilken ska vi börja med, fäktningen eller skatten?"
-    next:
-      - node: "185_sekvens_9"
-        description: "Guybrush väljer fäktning"
-      - node: "193_sekvens_10"
-        description: "Guybrush väljer skatten"
-        actions:
-        - target: inventory
-          cmd: change_money
-          desc: "Inventory: -1 dublon"
-          params:
-            amount: -1
-  "185_sekvens_9":
-    prompt: "[Sekvens 9]"
-    next: "189"
-  "189":
-    next: "192"
-    prompt: "...den här. Och den här."
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Gummikyckling +Citron"
-        params:
-          items: gummikyckling,citron
-  "192":
-    prompt: "Ja"
-    next:
-      - node: "202_sekvens_11"
-        description: "Detta är Guybrushs första prövning"
-      - node: "242_sekvens_13"
-        description: "Detta är Guybrushs andra prövning"
-  "193_sekvens_10":
-    prompt: "[Sekvens 10]"
-    next: "196"
-  "196":
-    prompt: "Ja, här. [Välgöraren droppar vätska på kartan]"
-    next: "201"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "197. map_sizzle.wav"
-        params:
-          entityId: "kartan_fräser"
-  "201":
-    prompt: "Och ett visdomsord: ett väl utfört arbete är sin egen belöning! Det var allt."
-    next:
-      - node: "202_sekvens_11"
-        description: "Detta är Guybrushs första prövning"
-      - node: "242_sekvens_13"
-        description: "Detta är Guybrushs andra prövning"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Flaska"
-        params:
-          item: flaska
-  "202_sekvens_11":
-    prompt: "[Sekvens 11]"
-    next: "216"
-  "216":
-    prompt: "Ooh boy."
-    next:
-      - node: "285a_sekvens_15"
-        description: "Guybrush valde att fäktas först"
-      - node: "474a_sekvens_29"
-        description: "Guybrush valde att leta efter skatten först"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "216. Loading screen 1.mp4"
-        params:
-          entityId: "loading_screen" 
-          layer: 1
-          visible: true
-          fadeIn:
             time: 1
-            from: 0
             to: 1
-  "217_sekvens_12":
-    prompt: "[Sekvens 12]"
-    next: "240"
+          visible: true
+          entityId: "tronsal_bla"
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0197 Vishet.mp3"
+        params:
+          entityId: "vishet"
+  "263":
+    prompt: "Jag avslöjar mer när tiden är inne [Nayru går av scen]"
+    next: "266a"
     actions:
       - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "kyrkogården"
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "kobbe"
-      - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading_screen"
-          stopOnDone: true
+          entityId: "tronsal_bla"
           target: 0
-          time: 3
-  "240":
-    prompt: "Jag ska nog kunna ge dig lite hjälp på traven."
-    next:
-      - node: "185_sekvens_9"
-        description: "Dags att besegra fäktmästaren"
-      - node: "193_sekvens_10"
-        description: "Dags att hitta skatten"
-        actions:
-          - target: inventory
-            cmd: change_money
-            desc: "Inventory: -1 dublon"
-            params:
-              amount: -1
-  "242_sekvens_13":
-    prompt: "[Sekvens 13]"
-    next: "249"
-  "249":
-    prompt: "Jag är inte så säker på att vi sett det sista av LeChuck..."
-    next:
-      - node: "567_sekvens_42"
-        description: "Guybrush ska till skatten"
-      - node: "285a_sekvens_15"
-        description: "Guybrush ska till fäktningen"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "249. Loading screen 3.mp4"
-        params:
-          entityId: "loading_screen" 
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "250_sekvens_14":
-    prompt: "[Sekvens 14]"
-    next: "283"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "kyrkogården"
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "kobbe"
-  "283":
-    prompt: "Precis. Inte den skarpaste kniven, minsann."
-    next: "814a_sekvens_59"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "283. Loading screen 1.mp4"
-        params:
-          entityId: "loading_screen" 
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "285a_sekvens_15":
-    prompt: "[Sekvens 15]"
-    next: "286"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "285. Klippan utan lina.png"
-        params:
-          entityId: "klippan_utan_lina"
-          visible: true
-  "286":
-    prompt: "Och var kan jag hitta ett svärd?"
-    next:
-      - node: "288_sekvens_16"
-        description: "Guybrush pratar med Stan"
-      - node: "309_sekvens_21"
-        description: "Guybrush pratar med banditen"
-  "288_sekvens_16":
-    prompt: "[Sekvens 16]"
-    next: "296a"
-  "296a":
-    prompt: "Jag har också den här utsökta värjan. Den har tillhört en äkta pirat!"
-    next: "296b"
-    actions: ["show_inventory"]
-  "296b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "296b"
-        description: "Guybrush köper linan"
-        actions:
-          - target: inventory
-            cmd: buy
-            desc: "Inventory: Köp rep (203m)"
-            params:
-              item: rep
-      - node: "298_sekvens_20"
-        description: "Guybrush frågar om svärdet"
-      - node: "309_sekvens_21"
-        description: "Guybrush pratar med banditen"
-        actions: ["hide_inventory"]
-      - node: "367a_sekvens_26"
-        description: "Guybrush försöker använda gummikycklingen"
-        actions: ["hide_inventory"]
-  "298_sekvens_20":
-    # All nodes leading here should keep inventory open
-    prompt: "[Sekvens 20]"
-    next: "301"
-  "301":
-    prompt: "Tre dubloner"
-    next:
-      - node: "307b"
-        description: "Guybrush har inte råd med svärdet"
-      - node: "307a"
-        description: "Guybrush har råd med svärdet"
-  "307a":
-    prompt: "Varsågod. Vassa änden bortåt, så ja. [Kan ev. höftas]"
-    next: 
-      - node: "307b"
-        description: "Guybrush har redan ett svärd"
-        actions:
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Dual-wield"
-            params:
-              achievement: twoswords
-      - node: "307b"
-        description: "Detta är Guybrushs första svärd"
-    actions:
-      - target: inventory
-        cmd: buy
-        desc: "Inventory: Köp värja"
-        params:
-          item: varja
-  "307b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "307b"
-        description: "Guybrush köper linan"
-        actions:
-          - target: inventory
-            cmd: buy
-            desc: "Inventory: Köp rep (203m)"
-            params:
-              item: rep
-      - node: "371a"
-        description: "Guybrush är redo att åka linbana"
-        actions: ["hide_inventory"]
-      - node: "309_sekvens_21"
-        description: "Guybrush pratar med banditen"
-        actions: ["hide_inventory"]
-      - node: "367a_sekvens_26"
-        description: "Guybrush försöker använda gummikycklingen"
-        actions: ["hide_inventory"]
-  "309_sekvens_21":
-    prompt: "[Sekvens 21]"
-    next:
-      - node: "324_sekvens_22"
-        description: "Guybrush har redan pratat med banditen en gång"
-      - node: "322a"
-        description: "Guybrush har inte pratat med banditen förut"
-  "322a":
-    prompt: "Jag har ett byte här som ska till en bättre behövande."
-    next: "322b"
-    actions: ["show_inventory"]
-  "322b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "296b"
-        description: "Guybrush köper linan"
-        actions:
-          - target: inventory
-            cmd: buy
-            desc: "Inventory: Köp rep (203m)"
-            params:
-              item: rep
-      - node: "288_sekvens_16"
-        description: "Guybrush pratar med Stan (första gången)"
-        actions: ["hide_inventory"]
-      - node: "298_sekvens_20"
-        description: "Guybrush går för att köpa värjan"
-      - node: "324_sekvens_22"
-        description: "Guybrush intresserar sig för bågen"
-        actions: ["hide_inventory"]
-  "324_sekvens_22":
-    prompt: "[Sekvens 22]"
-    next: "333"
-  "333":
-    prompt: "Ja, det här vill du inte missa!"
-    next:
-      - node: "334_sekvens_23"
-        description: "Guybrush har inte linan"
-      - node: "341_sekvens_24"
-        description: "Guybrush har linan"
-  "334_sekvens_23":
-    prompt: "[Sekvens 23]"
-    next: "339"
-  "339":
-    prompt: "Varsågod!"
-    next: "341_sekvens_24"
-    actions:
-      - target: inventory
-        cmd: buy
-        desc: "Inventory: Köp repet"
-        params:
-          item: rep
-  "341_sekvens_24":
-    prompt: "[Sekvens 24]"
-    next: "345"
-  "345":
-    prompt: "Nåväl! [Guybrush sätter på repet på pilen]"
-    next: "348"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Rep"
-        params:
-          item: rep
-  "348":
-    prompt: "Säg adjö till dina dubloner!"
-    next: "352"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "349-1. Pilen.mp4"
-        params:
-          entityId: "pilen_flyger"
-          layer: 1
-          visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "klippan_utan_lina"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "349-2. Klippan med lina.png"
-        params:
-          entityId: "klippan_med_lina"
-          visible: true
-  "352":
-    prompt: "...oj, det var mitt sista mynt."
-    next: "358"
-    actions:
-      - target: inventory
-        cmd: change_money
-        desc: "Inventory: -1 dublon"
-        params:
-          amount: -1
-  "358":
-    prompt: "Här, bygg dig ett nytt liv."
-    next: "360"
-    actions:
-      - target: inventory
-        cmd: change_money
-        desc: "Inventory: +5 dubloner"
-        params:
-          amount: +5
-  "360":
-    prompt: "Ingen orsak!"
-    next:
-      - node: "365_sekvens_25"
-        description: "Stan har inte presenterat sin affär"
-      - node: "362a"
-        description: "Stan har redan presenterat sin affär"
-  "362a":
-    prompt: "Men det verkar fasligt långt att klättra. Kommer jag aldrig orka."
-    next: "362b"
-    actions: ["show_inventory"]
-  "362b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "298_sekvens_20"
-        description: "Guybrush köper värjan"
-      - node: "367a_sekvens_26"
-        description: "Guybrush försöker använda gummikycklingen"
-        actions: ["hide_inventory"]
-  "365_sekvens_25":
-    prompt: "[Sekvens 25]"
-    next: "296a"
-  "367a_sekvens_26":
-    prompt: "[Sekvens 26]"
-    next: "367b"
-  "367b":
-    prompt: "En gummikyckling med en talja mitt på. Perfekt!"
-    next:
-      - node: "647_sekvens_44"
-        description: "Fäktningen är den första prövningen"
-      - node: "734_sekvens_51"
-        description: "Fäktningen är den andra prövningen"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Gummikyckling"
-        params:
-          item: gummikyckling
-  "369_sekvens_27":
-    prompt: "[Sekvens 27]"
-    next: "371a"
-  "371a":
-    prompt: "Såja! Hmm, är allt klart nu?"
-    next: "371b"
-    actions: ["show_inventory"]
-  "371b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "371b"
-        description: "Guybrush plockar upp LeChucks svärd"
-        actions:
-          - target: inventory
-            cmd: add
-            desc: "Inventory: +LeChucks svärd"
-            params:
-              item: lechuck_sword
-      - node: "371b"
-        description: "Guybrush plockar upp LeChucks svärd (har redan ett)"
-        actions:
-          - target: inventory
-            cmd: add
-            desc: "Inventory: +LeChucks svärd"
-            params:
-              item: lechuck_sword
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Dual-wield"
-            params:
-              achievement: twoswords
-      - node: "298_sekvens_20"
-        description: "Guybrush köper värjan"
-      - node: "373a_sekvens_28"
-        description: "Guybrush åker linbana"
-        actions: ["hide_inventory"]
-  "373a_sekvens_28":
-    prompt: "[Sekvens 28]"
-    next: "373b"
-  "373b":
-    prompt: "Okej, alla med. Fäktmästare Carla, här kommer jaaaaaaag!"
-    next: "376"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "375-1. Linbanan_into_loading_screen.mp4"
-        params:
-          entityId: "linbana_loading_screen" 
-          layer: 1
-          visible: true
-  "376":
-    prompt: "[Redo att visa kobben]"
-    next: "381"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "linbana_loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "klippan_med_lina"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "375-2. Carlas kobbe.png"
-        params:
-          entityId: "kobbe"
-          visible: true
-  "381":
-    prompt: "Okej. Låt oss få det här överstökat."
-    next: "452"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "382. Duellen.mp3"
-        params:
-          entityId: "duellen"
-  "452":
-    prompt: "Nåd! Jag ger mig."
-    next:
-      - node: "468"
-        description: "Guybrush använde LeChucks svärd"
-        actions:
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Svärd och svartkonst"
-            params:
-              achievement: lechucks_sword
-      - node: "468"
-        description: "Guybrush använde ett vanligt svärd"
-  "468":
-    prompt: "Jag vill inte bli utskrattad. [Räcker över medaljen]"
-    next: "470"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Medalj"
-        params:
-          item: medalj
-  "470":
-    prompt: "Ha! Lycka till med resten av inträdesproven, Guybrush!"
-    next:
-      - node: "217_sekvens_12"
-        description: "Detta var Guybrushs första prövning"
-      - node: "250_sekvens_14"
-        description: "Detta var Guybrushs andra prövning"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "472. Loading screen 2.mp4"
-        params:
-          entityId: "loading_screen" 
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "474a_sekvens_29":
-    prompt: "[Sekvens 29]"
-    next: "488a"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "kobbe"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "474. Kyrkogarden.png"
-        params:
-          entityId: "kyrkogården"
-          visible: true
-  "488a":
-    prompt: "Gör du det."
-    next: "488b"
-    actions: ["show_inventory"]
-  "488b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "488b"
-        description: "Guybrush köper blomman"
-        actions: ["buy_flower"]
-      - node: "488b"
-        description: "Guybrush köper blomman (och har redan en)"
-        actions: 
-          - "buy_flower"
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Röda och vita rosen"
-            params:
-              achievement: twoflowers
-      - node: "490_sekvens_30"
-        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
-        actions: ["hide_inventory"]
-      - node: "509_sekvens_32"
-        description: "Guybrush plockar fram en blomma"
-        actions: ["hide_inventory"]
-      - node: "495_sekvens_31"
-        description: "Guybrush pratar med dödgrävaren"
-        actions: ["hide_inventory"]
-      - node: "523_sekvens_35"
-        description: "Guybrush pratar med Stan"
-        actions: ["hide_inventory"]
-  "490_sekvens_30":
-    prompt: "[Sekvens 30]"
-    next: "493a"
-  "493a":
-    prompt: "Gamla mamsen blir nog inge glad om du kommer utan en blomma. Sjas."
-    next: "493b"
-    actions: ["show_inventory"]
-  "493b":
-    prompt: "[Guybrush tänker]"
-    next:
-      - node: "493b"
-        description: "Guybrush köper blomman"
-        actions: ["buy_flower"]
-      - node: "493b"
-        description: "Guybrush köper blomman (och har redan en)"
-        actions: 
-          - "buy_flower"
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Röda och vita rosen"
-            params:
-              achievement: twoflowers
-      - node: "495_sekvens_31"
-        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
-        actions: ["hide_inventory"]
-      - node: "509_sekvens_32"
-        description: "Guybrush plockar fram en blomma"
-        actions: ["hide_inventory"]
-      - node: "523_sekvens_35"
-        description: "Guybrush pratar med Stan"
-        actions: ["hide_inventory"]
-  "495_sekvens_31":
-    prompt: "[Sekvens 31]"
-    next: "504"
-  "504":
-    prompt: "Det vore snällt. Den ska dit bort. [Guybrush plockar på sig skiffernyckel]"
-    next: "506"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Skiffernyckel"
-        params:
-          item: skiffernyckel
-  "506":
-    prompt: "Du ska ha en slant för besväret."
-    next: "507a"
-    actions:
-      - target: inventory
-        cmd: change_money
-        desc: "Inventory: +5 dubloner"
-        params:
-          amount: +5
-  "507a":
-    prompt: "Oj, 5 dubloner, tack så mycket."
-    next: "507b"
-    actions: ["show_inventory"]
-  "507b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "507b"
-        description: "Guybrush köper blomman"
-        actions: ["buy_flower"]
-      - node: "507b"
-        description: "Guybrush köper blomman (och har redan en)"
-        actions: 
-          - "buy_flower"
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Röda och vita rosen"
-            params:
-              achievement: twoflowers
-      - node: "490_sekvens_30"
-        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
-        actions: ["hide_inventory"]
-      - node: "509_sekvens_32"
-        description: "Guybrush plockar fram en blomma"
-        actions: ["hide_inventory"]
-      - node: "515_sekvens_33"
-        description: "Guybrush undersöker mausoleet (har redan visat blomman)"
-        actions: ["hide_inventory"]
-      - node: "523_sekvens_35"
-        description: "Guybrush pratar med Stan"
-        actions: ["hide_inventory"]
-  "509_sekvens_32":
-    prompt: "[Sekvens_32]"
-    next: "513"
-  "513":
-    prompt: "Tack, jag tittar på egen hand."
-    next:
-      - node: "495_sekvens_31"
-        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
-      - node: "515_sekvens_33"
-        description: "Guybrush undersöker mausoleet"
-      - node: "523_sekvens_35"
-        description: "Guybrush pratar med Stan"
-  "515_sekvens_33":
-    prompt: "[Sekvens 33]"
-    next: "518"
-  "518":
-    prompt: "Nej, såklart."
-    next:
-      - node: "519_sekvens_34"
-        description: "Guybrush har nyckeln"
-      - node: "495_sekvens_31"
-        description: "Guybrush har inte nyckeln"
-  "519_sekvens_34":
-    prompt: "[Sekvens 34]"
-    next: "520"
-  "520":
-    prompt: "Jaha. Det är en skiffer-nyckel. [Öppnar dörren]"
-    next: "521"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Skiffernyckel"
-        params:
-          item: skiffernyckel
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "521. mausoleum_door.wav"
-        params:
-          entityId: "mausoleum_dörr"
-  "521":
-    prompt: "Usch, vad dammigt! Få se, vad har vi här..."
-    next:
-      - node: "647_sekvens_44"
-        description: "Skattjakten är den första prövningen"
-      - node: "734_sekvens_51"
-        description: "Skattjakten är den andra prövningen"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "522. sarkofag1_guybrush_kampar.wav"
-        params:
-          entityId: "sarkofag"
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Skelettben"
-        params:
-          item: skelettben
-  "523_sekvens_35":
-    prompt: "[Sekvens 35]"
-    next:
-      - node: "532_sekvens_39"
-        description: "Guybrush har redan pratat med Stan på kyrkogården"
-        actions: ["show_inventory"]
-      - node: "530a"
-        description: "Guybrush har inte pratat med Stan på kyrkogården"
-  "530a":
-    prompt: "Vad får det lov att vara?"
-    next: "530b"
-    actions: ["show_inventory"]
-  "530b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "530b"
-        description: "Guybrush köper blomman"
-        actions: ["buy_flower"]
-      - node: "530b"
-        description: "Guybrush köper blomman (och har redan en)"
-        actions: 
-          - "buy_flower"
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Röda och vita rosen"
-            params:
-              achievement: twoflowers
-      - node: "532_sekvens_39"
-        description: "Guybrush frågar om spaden"
-      - node: "490_sekvens_30"
-        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
-        actions: ["hide_inventory"]
-      - node: "509_sekvens_32"
-        description: "Guybrush plockar fram en blomma"
-        actions: ["hide_inventory"]
-      - node: "495_sekvens_31"
-        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
-        actions: ["hide_inventory"]
-      - node: "515_sekvens_33"
-        description: "Guybrush undersöker mausoleet (har redan visat blomman)"
-        actions: ["hide_inventory"]
-  "532_sekvens_39":
-    prompt: "[Sekvens 39]"
-    next:
-      - node: "540"
-        description: "Guybrush har råd med spaden"
-        actions:
-          - target: inventory
-            cmd: buy
-            desc: "Inventory: Köp spade"
-            params:
-              item: spade
-      - node: "540"
-        description: "Guybrush har inte råd med spaden"
-  "540":
-    prompt: "Okej, du är hård, men jag kan respektera det. Tre dubloner. [Kan ev. höftas]"
-    next:
-      - node: "540"
-        description: "Guybrush köper blomman"
-        actions: ["buy_flower"]
-      - node: "540"
-        description: "Guybrush köper blomman (och har redan en)"
-        actions: 
-          - "buy_flower"
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Röda och vita rosen"
-            params:
-              achievement: twoflowers
-      - node: "490_sekvens_30"
-        description: "Guybrush försöker göra något inne på kyrkogården utan att ha en blomma"
-        actions: ["hide_inventory"]
-      - node: "509_sekvens_32"
-        description: "Guybrush plockar fram en blomma"
-        actions: ["hide_inventory"]
-      - node: "495_sekvens_31"
-        description: "Guybrush pratar med dödgrävaren (har inte burit stenen)"
-        actions: ["hide_inventory"]
-      - node: "515_sekvens_33"
-        description: "Guybrush undersöker mausoleet (har redan visat blomman)"
-        actions: ["hide_inventory"]
-      - node: "574_sekvens_43"
-        description: "Guybrush håller på att följa kartan"
-        actions: ["hide_inventory"]
-  "541_sekvens_40":
-    prompt: "[Sekvens 40]"
-    next: "542"
-  "542":
-    prompt: "Jag borde se om det finns något mer därinne"
-    next: "544a"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Karta del 2"
-        params:
-          item: map_part2
-  "544a":
-    prompt: "\"Graven. Fram. Baka - ost? Fram, vänster, bak...\""
-    next: "544b"
-    actions: ["show_inventory"]
-  "544b":
-    prompt: "[Guybrush funderar]"
-    next:
-      - node: "546_sekvens_41"
-        description: "Guybrush försöker kombinera kartdelarna"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Karta del 1"
-        params:
-          item: map_part1
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Karta del 2"
-        params:
-          item: map_part2
-      - "hide_inventory"
-  "546_sekvens_41":
-    prompt: "[Sekvens 41]"
-    next: "564"
-  "564":
-    prompt: "Inga problem! Det låter riktigt roligt. Få se här..."
-    next:
-      - node: "574_sekvens_43"
-        description: "Guybrush har spaden"
-      - node: "532_sekvens_39"
-        description: "Guybrush har inte spaden"
-        actions: ["show_inventory"]
-    actions:
-      # Note: Här lägger Guybrush ifrån sig benet
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Skelettben"
-        params:
-          item: skelettben
-  "567_sekvens_42":
-    prompt: "[Sekvens 42]"
-    next: "571"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "474. Kyrkogarden.png"
-        params:
-          entityId: "kyrkogården"
-          visible: true
-  "571":
-    prompt: "Hoppas det här funkar nu, annars kommer han döda mig..."
-    next: "573"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "572. Muller_mystiska_trummor_kyrkogard.wav"
-        params:
-          entityId: "muller_mystiska_trummor"
-  "573":
-    prompt: "[LeChuck skrattar]"
-    next:
-      - node: "217_sekvens_12"
-        description: "Guybrush har redan hittat skatten"
-        actions:
-        - target: "video"
-          cmd: "create"
-          assets:
-            - path: "573. Loading screen 2.mp4"
-          params:
-            entityId: "loading_screen"
-            layer: 1
-            visible: true
-            fadeIn:
-              time: 1
-              from: 0
-              to: 1
-      - node: "474a_sekvens_29"
-        description: "Guybrush har inte hittat skatten"
-  "574_sekvens_43":
-    prompt: "[Sekvens 43]"
-    next: "615a"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "574. Skattjakten.mp3"
-        params:
-          entityId: "skattjakten"
-  "615a":
-    prompt: "[Guybrush håller upp T-shirten]"
-    next: "615b"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Spade"
-        params:
-          item: spade
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Tröja"
-        params:
-          item: tshirt
-  "615b":
-    prompt: "[Direkt efter]"
-    next:
-      - node: "567_sekvens_42"
-        description: "Detta var Guybrushs första prövning"
-      - node: "250_sekvens_14"
-        description: "Detta var Guybrushs andra prövning"
-        actions:
-          - target: "video"
-            cmd: "create"
-            assets:
-              - path: "616. Loading screen 2.mp4"
-            params:
-              entityId: "loading_screen"
-              layer: 1
-              visible: true
-              fadeIn:
-                time: 1
-                from: 0
-                to: 1
-  "647_sekvens_44":
-    prompt: "[Sekvens 44]"
-    next: "651"
-  "651":
-    prompt: "Fast det kanske var på grund av brännjärnet, hehe..."
-    next:
-      - node: "652_sekvens_45"
-        description: "De är på kyrkogården"
-      - node: "665_sekvens_46"
-        description: "De är på klippan"
-  "652_sekvens_45":
-    prompt: "[Sekvens 45]"
-    next: "656"
-  "656":
-    prompt: "Du gör bäst i att hålla dig undan, om du inte vill tänka på vad \"en av dina gravar\" skulle kunna betyda."
-    next:
-      - node: "659"
-        description: "Skattjakten är Guybrushs första prövning"
-      - node: "756_sekvens_55"
-        description: "Skattjakten är Guybrushs andra prövning"
-  "659":
-    prompt: "Här ska det vara!"
-    next: "663"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "660. sarkofag2_locket_dunsar.wav"
-        params:
-          entityId: "sarkofag2"
-  "663":
-    prompt: "Ta hit honom, och hämta dolken!"
-    next: "673_sekvens_47"
-  "665_sekvens_46":
-    prompt: "[Sekvens 46]"
-    next: "671"
-  "671":
-    prompt: "Aj aj, kapten!"
-    next: "673_sekvens_47"
-  "673_sekvens_47":
-    prompt: "[Sekvens 47]"
-    next: "695a"
-  "695a":
-    prompt: "Jag borde hjälpa till! Vad ska jag göra?"
-    next: "695b"
-    actions: ["show_inventory"]
-  "695b":
-    prompt: "[Guybrush funderar]"
-    next:
-      # TODO: Fler preppade varianter här?
-      - node: "696"
-        description: "Guybrush får LeChucks uppmärksamhet med citronen"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Citron"
-            params:
-              item: citron
-      - node: "696"
-        description: "Guybrush får LeChucks uppmärksamhet"
-  "696":
-    prompt: "Lägg dig inte i pojkspoling"
-    next: "699"
-    actions: ["hide_inventory"]
-  "699":
-    prompt: "Tror du det hjälper att sticka mig med en dolk? Jag är den fruktade spökpiraten LeChuck! [Elaine vigvattnar LeChuck]"
-    next: "711"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "700. vigvatten_sizzle.wav"
-        params:
-          entityId: "vigvatten_sizzle"
-  "711":
-    prompt: "Äckel-krusen, domino, fugitte party advarsel!"
-    next:
-      - node: "713"
-        description: "Vi är på klippan"
-        actions:
-          - target: "video"
-            cmd: "create"
-            assets:
-              - path: "712-1A. Exorcism klippan.mp4"
-            params:
-              entityId: "exorcism_klippan"
-              layer: 1
-              visible: true
-      - node: "713"
-        description: "Vi är på kyrkogården"
-        actions:
-          - target: "video"
-            cmd: "create"
-            assets:
-              - path: "712-1B. Exorcism kyrkogarden.mp4"
-            params:
-              entityId: "exorcism_kyrkogården"
-              layer: 1
-              visible: true
-  "713":
-    prompt: "Puh! Tack så mycket. Jag trodde han skulle döda mig"
-    next: "733"
-    actions:
-      - target: inventory
-        cmd: enable_achievement
-        desc: "Inventory: Achivement: Who you gonna call"
-        params:
-          achievement: lechuck_ghost
-  "733":
-    prompt: "Var var jag?"
-    next:
-      - node: "541_sekvens_40"
-        description: "Guybrush håller på med skattjakten"
-      - node: "369_sekvens_27"
-        description: "Guybrush är på väg till fäktmästaren"
-  "734_sekvens_51":
-    prompt: "[Sekvens 51]"
-    next:
-      - node: "754"
-        description: "Vi är på kyrkogården [Elaine kommer in på scen]"
-        actions:
-          - target: "audio"
-            cmd: "create"
-            assets:
-              - path: "736. sarkofag2_locket_dunsar.wav"
-            params:
-              entityId: "sarkofag2_alt"
-      - node: "754"
-        description: "Vi är på klippan"
-  "754":
-    prompt: "Bakom dig!"
-    next:
-      - node: "652_sekvens_45"
-        description: "De är på kyrkogården"
-      - node: "756_sekvens_55"
-        description: "De är på klippan"
-  "756_sekvens_55":
-    prompt: "[Sekvens 55]"
-    next: "761"
-  "761":
-    prompt: "Elaine, min kära... Jag kan inte tro att du skulle vilja ha en vekling som den där? [Elaine Skjuter LeChuck]"
-    next: "784"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "762. pistol1 chest hit.wav"
-        params:
-          entityId: "skjuten_i_bröstet"
-  "784":
-    prompt: "Du och jag ska beundra den fina utsikten tillsammans. Precis som förr. [Elaine och LeChuck går förbi Guybrush]"
-    next: "789"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "785. Tension music.wav"
-        params:
-          entityId: "tension_music"
-  "789":
-    prompt: "Bra. [Elaine fångar pistolen och skjuter LeChuck i huvudet]"
-    next: "791"
-    actions:
-      - target: "audio"
-        cmd: "destroy"
-        params:
-          entityId: "tension_music"
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "790. pistol2 headshot.wav"
-        params:
-          entityId: "headshot" 
-  "791":
-    prompt: "Jaa!"
-    next: "812"
-    actions:
-      - target: inventory
-        cmd: enable_achievement
-        desc: "Inventory: Achievement: En pistol med en kula"
-        params:
-          achievement: lechuck_zombie
-  "812":
-    prompt: "Var var jag?"
-    next:
-      - node: "541_sekvens_40"
-        description: "De är på kyrkogården"
-      - node: "369_sekvens_27"
-        description: "De är på klippan"
-  "814a_sekvens_59":
-    prompt: "[Sekvens 59]"
-    next: "814b"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "814-1. LeChucks skepp.png"
-        params:
-          entityId: "lechucks_skepp"
-          visible: true
-  "814b":
-    prompt: "[Redo att spela musik]"
-    next: "933"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "814-2. LeChucks begravning.mp4"
-        params:
-          entityId: "lechucks_begravning"
-          layer: 1
-          visible: true
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "lechucks_skepp"
-  "933":
-    prompt: "Då tar vi paus i 20 minuter!"
-    next: "940_aktpaus"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "lechucks_begravning"
-          stopOnDone: true
-          target: 0
-          time: 3
-  "940_aktpaus":
-    prompt: "[Aktpaus]"
-    next: "940b_aktpaus_slut"
-  "940b_aktpaus_slut":
-    prompt: "[Aktpaus slut]"
-    next: "943_sekvens_61"
-    actions:
-      - target: "internal"
-        cmd: "print"
-        desc: "Teknik: Du där! Var det inte du som hade disketten?"
-        params:
-          text: "Du där! Var det inte du som hade disketten?"
-  # Akt 2
-  "943_sekvens_61":
-    prompt: "[Sekvens 61]"
-    next: "947"
-    actions:
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "943. Marley Manor dark.png"
-        params:
-          entityId: "marley_manor_dark"
-          visible: true
-  "947":
-    prompt: "Hmm, den är låst. Var kan han ha nyckeln tro?"
-    next: "952"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "948-1. lampknapp.wav"
-        params:
-          entityId: "lampknapp"   
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "marley_manor_dark"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "948-2. Marley Manor light.gif"
-        params:
-          entityId: "marley_manor_light"
-          visible: true
-  "952":
-    prompt: "Guybrush?"
-    next: "993"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "953. Inte som det ser ut.wav"
-        params:
-          entityId: "inte_som_det_ser_ut"
-  "993":
-    prompt: "Jag kanske vill prata med min advokat [Elaine tar Guybrushs vapen och ställer dem åt sidan]"
-    next: "1014"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Värja"
-        params:
-          item: varja
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -LeChucks svärd"
-        params:
-          item: lechuck_sword
-  "1014":
-    prompt: "Och rör inte finsilvret!"
-    next: "1015_sekvens_62"
-  "1015_sekvens_62":
-    prompt: "[Sekvens 62]"
-    next: "1031"
-  "1031":
-    prompt: "Åh, jag tänker inte förstöra överraskningen. Men jag behöver den här, tack så mycket. [Låser upp glaskupan]"
-    next: "1037"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1032. Unlock glass display avgudabild.wav"
-        params:
-          entityId: "unlock_glass"
-  "1037":
-    prompt: "Ja, vad ska jag göra?"
-    next:
-      - node: "1039_sekvens_63"
-        description: "Elaine pratar med Largo"
-  "1039_sekvens_63":
-    prompt: "[Sekvens 63]"
-    next: "1050"
-  "1050":
-    prompt: "J-jaså du, spöke? Så du bor där i förrådet?"
-    next: "1067"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1051. klockan_ett_spoktimmen.wav"
-        params:
-          entityId: "klockan_ett"
-  "1067":
-    prompt: "Vänta bara tills LeChuck-"
-    next: "1069_sekvens_64"
-  "1069_sekvens_64":
-    prompt: "[Sekvens 64]"
-    next: "1078"
-  "1078":
-    prompt: "Om du inte kan hjälpa mig ur det här repet så vill jag inte höra mer från dig, Guybrush!"
-    next:
-      - node: "1080_sekvens_65"
-        description: "Guybrush sticker ut en kniv genom dörrspringan"
-  "1080_sekvens_65":
-    prompt: "[Sekvens 65]"
-    next: "1095"
-  "1095":
-    prompt: "Vi ses!"
-    next: "1097_sekvens_66"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1095. Loading screen 2.mp4"
-        params:
-          entityId: "loading_screen"
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "1097_sekvens_66":
-    prompt: "[Sekvens 66]"
-    next: "1101"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "marley_manor_light"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1097. Briggen.png"
-        params:
-          entityId: "briggen"
-          visible: true
-  "1101":
-    prompt: "LeChuck har såklart låst in sig medan han slutför sin mörka ritual... Hur ska jag ta mig in?"
-    next:
-      - node: "1102_sekvens_67"
-        description: "Elaine gör något som väcker fången"
-      - node: "1107_sekvens_68"
-        description: "Elaine pratar med fången"
-  "1102_sekvens_67":
-    prompt: "[Sekvens 67]"
-    next: "1105"
-  "1105":
-    prompt: "Nähä nä. Joho."
-    next:
-      - node: "1107_sekvens_68"
-        description: "Elaine frågar om fången själv"
-      - node: "1126_sekvens_69"
-        description: "Elaine frågar om tårtan"
-  "1107_sekvens_68":
-    prompt: "[Sekvens 68]"
-    next: "1124"
-  "1124":
-    prompt: "Mot ordningsmakten"
-    next:
-      - node: "1126_sekvens_69"
-        description: "Elaine frågar om tårtan (första gången)"
-      - node: "1140_sekvens_70"
-        description: "Elaine frågar om hon kan få tårtan"
-  "1126_sekvens_69":
-    prompt: "[Sekvens 69]"
-    next: "1139"
-  "1139":
-    prompt: "Jag förstår."
-    next:
-      - node: "1107_sekvens_68"
-        description: "Fången har inte berättat om sitt brott än"
-      - node: "1140_sekvens_70"
-        description: "Elaine vill ha tårtan"
-  "1140_sekvens_70":
-    prompt: "[Sekvens 70]"
-    next: "1147"
-  "1147":
-    prompt: "Jodå! Så jag får nog be att få nåt i utbyte mot den hära tårtan."
-    next:
-      - node: "1166_sekvens_74"
-        description: "Elaine erbjuder/blir av med pistolen"
-      - node: "1166_sekvens_74"
-        description: "Elaine erbjuder/blir av med krutet"
-      - node: "1166_sekvens_74"
-        description: "Elaine erbjuder/blir av med kulorna"
-  "1166_sekvens_74":
-    prompt: "[Sekvens 74]"
-    next: "1180a"
-  "1180a":
-    prompt: "Jo, alltså... [Guybrush fortsätter prata]"
-    next: "1180b"
-    actions:
-      - target: "image"
-        cmd: "fade"
-        params:
-          entityId: "briggen"
-          target: 0
-          time: 7
-          stopOnDone: true
-  "1180b":
-    prompt: "Och då tänkte jag att jag skulle besöka min hemliga välgörare som bor där..."
-    next: "1182_sekvens_75"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1180. Tidshopp.wav"
-        params:
-          entityId: "tidshopp"
-  "1182_sekvens_75":
-    prompt: "[Sekvens 75]"
-    next: "1195"
-  "1195":
-    prompt: "Hur skall jag kunna besegra LeChuck nu?"
-    next:
-      - node: "1205"
-        description: "Guybrush undersöker eller petar på något i hyddan"
-  "1205":
-    prompt: "Plocka upp det så går vi och stoppar LeChuck."
-    next: "1207"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Recept"
-        params:
-          item: recept
-  "1207":
-    prompt: "Precis vad jag behöver! [Plockar upp Murray]"
-    next: "1210"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory +Murray"
-        params:
-          item: skull
-  "1210":
-    prompt: "Tåga nu mot LeChuck för att verkställa min hämnd!"
-    next: "1213_sekvens_76"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1211. Loading screen 3.mp4"
-        params:
-          entityId: "loading_screen"
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "1213_sekvens_76":
-    prompt: "[Sekvens 76]"
-    next: "1215"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1213. LeChucks hytt mediterande LC.png"
-        params:
-          entityId: "hytt"
-          visible: true
-  "1215":
-    prompt: "Vad gör vi nu?"
-    next:
-      - node: "1228_sekvens_79"
-        description: "Ritualdolken kommer på tal"
-      - node: "1215"
-        description: "[Guybrush tar avgudabilden]"
-        actions:
-          - target: inventory
-            cmd: add
-            desc: "Inventory: +Avgudastaty"
-            params:
-              item: avgudastaty
-  "1228_sekvens_79":
-    prompt: "[Sekvens 79]"
-    next: "1232"
-  "1232":
-    prompt: "Han är redan död. [Går av scen]"
-    next: "1235_sekvens_80"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "hytt"
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1234-1. Knivhugget.mp4"
-        params:
-          entityId: "knivhugget"
-          layer: 1
-          visible: true
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1234-2. LeChucks hytt efter knivhugg.png"
-        params:
-          entityId: "hytt_efter"
-          visible: true
-  "1235_sekvens_80":
-    prompt: "[Sekvens 80], [Filmen slut]"
-    next: "1241"
-    actions:
-      - target: inventory
-        cmd: enable_achievement
-        desc: "Inventory: Achievement: Pang - Kniv i ryggen"
-        params:
-          achievement: lechuck_demon
-  "1241":
-    prompt: "När du säger det så..."
-    next: "1276"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1242. Balladen om Elaine och LeChuck.mp3"
-        params:
-          entityId: "elaine_lechuck"
-  "1276":
-    prompt: "Men jag är inte pirat än! Vänta nu... du är kär i mig?"
-    next: "1319a"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1277. Inte som det ser ut repris.wav"
-        params:
-          entityId: "inte_som_det_ser_ut_repris"
-  "1319a":
-    prompt: "Mm. [Stoppar avgudabild i väskan]"
-    next:
-      - node: "1319b"
-        description: "[Guybrush har inte avgudastatyn]"
-        actions:
-          - target: inventory
-            cmd: add
-            desc: "Inventory: +Avgudastaty"
-            params:
-              item: "avgudastaty"
-      - node: "1319b"
-        description: "[Guybrush har redan avgudastatyn]"
-  "1319b":
-    prompt: "[Går av scen]"
-    next: "1321_sekvens_81"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1320. Loading screen 1.mp4"
-        params:
-          entityId: "loading_screen"
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "1321_sekvens_81":
-    prompt: "[Sekvens 81]"
-    next: "1327"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "hytt_efter"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1321. LeChucks skepp morgon.png"
-        params:
-          entityId: "lechucks_skepp_morgon"
-          visible: true
-  "1327":
-    prompt: "Här. [Räcker över flaskan]"
-    next: "1329"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Flaska"
-        params:
-          item: flaska
-  "1329":
-    prompt: "Hostmedicin. [Guybrush plockar fram Murray]"
-    next: "1334"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Murray"
-        params:
-          item: skull
-  "1334":
-    prompt: "Åh, här. [Räcker över receptet]"
-    next: "1367"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Recept"
-        params:
-          item: recept
-  "1367":
-    prompt: "Surra fast henne igen! [Guybrush smyger ner Murray i väskan]"
-    next: "1373"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Murray"
-        params:
-          item: skull
-  "1373":
-    prompt: "Se så yngel, du hörde kapten. Hehe. [Kastar Guybrushs väska överbord]"
-    next: "1377a"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1374. plums_vaskan.wav"
-        params:
-          entityId: "plums_vaskan"
-  "1377a":
-    prompt: "Jag heter Guybrush! Elaine- [Blir petad och faller av plankan]"
-    next: "1377b"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1378-1. plask_guybrush.wav"
-        params:
-          entityId: "plask_guybrush"
-  "1377b":
-    prompt: "[Lite senare]"
-    next: "1379_sekvens_82"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1378-2. Loading screen 2.mp4"
-        params:
-          entityId: "loading_screen"
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "1379_sekvens_82":
-    prompt: "[Sekvens 82]"
-    next: "1414a"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "lechucks_skepp_morgon"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1397. Deserted island.png"
-        params:
-          entityId: "deserted_island"
-          visible: true
-  "1414a":
-    prompt: "Men först: hur tar vi oss härifrån?"
-    next: "1414b"
-    actions: ["show_inventory"]
-  "1414b":
-    prompt: "[De funderar]"
-    next:
-      - node: "1416_sekvens_83"
-        description: "De försöker locka till sig ett skepp"
-      - node: "1424_sekvens_84"
-        description: "De ser sig om och letar efter något"
-      - node: "1524_sekvens_89"
-        description: "De frågar Stan om hans varor"
-    actions: ["hide_inventory"]
-  "1416_sekvens_83":
-    prompt: "[Sekvens 83]"
-    next:
-      - node: "1422a"
-        description: "De har inte förstoringsglaset"
-      - node: "1587_sekvens_93"
-        description: "De har förstoringsglaset"
-  "1422a":
-    prompt: "Då är bara frågan hur vi kommer över en sån..."
-    next: "1422b"
-    actions: ["show_inventory"]
-  "1422b":
-    prompt: "[De funderar]"
-    next:
-      - node: "1422b"
-        description: "De köper veden"
-        actions: ["buy_ved"]
-      - node: "1422b"
-        description: "De köper burken"
-        actions: ["buy_surstromming"]
-      - node: "1539_sekvens_90"
-        description: "De pratar med Herman"
-        actions: ["hide_inventory"]
-      - node: "1524_sekvens_89"
-        description: "De frågar Stan om hans varor"
-        actions: ["hide_inventory"]
-      - node: "1424_sekvens_84"
-        description: "De ser sig om och letar efter något (har inte hittat skatten)"
-        actions: ["hide_inventory"]
-  "1424_sekvens_84":
-    prompt: "[Sekvens 84]"
-    next: "1442"
-  "1442":
-    prompt: "Ja! Jag går och kollar! [Går av scen]"
-    next: "1449"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1443. Seagull 1.wav"
-        params:
-          entityId: "mås"
-  "1449":
-    prompt: "Stan? Har du något långt och vasst tillhygge?"
-    next:
-      - node: "1450_sekvens_85"
-        description: "Guybrush köpte aldrig värjan"
-      - node: "1497_sekvens_87"
-        description: "Stan har inte svärdet"
-  "1450_sekvens_85":
-    prompt: "[Sekvens 85]"
-    next: "1458"
-  "1458":
-    prompt: "Ett nöje att göra affärer med er. [Ger Guybrush värjan]"
-    next: "1459_sekvens_86"
-    actions:
-      - target: inventory
-        cmd: buy
-        desc: "Inventory: Köp värja"
-        params:
-          item: varja
-  "1459_sekvens_86":
-    prompt: "[Sekvens 86]"
-    next: "1462"
-  "1462":
-    prompt: "A-ha! Hej där, din hönshjärna - hur mås?"
-    next: "1464"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1463. Seagull 2.wav"
-        params:
-          entityId: "mås"
-  "1464":
-    prompt: "En sandkrabba hade varit en mer avskräckande väktare!"
-    next: "1475"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1465. Seagull 3.wav"
-        params:
-          entityId: "mås"
-  "1475":
-    prompt: "Du är lite klipsk du!"
-    next: "1487"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1476. Seagull 4.wav"
-        params:
-          entityId: "mås"
-  "1487":
-    prompt: "Min guvernörsstolthet dragen i smutsen sådär, va!"
-    next: "1489"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1488. Seagull 5.wav"
-        params:
-          entityId: "mås"
-  "1489":
-    prompt: "Att du ens kallar dig fågel - du når knappt upp till \"mittemellan\"!"
-    next: "1495"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1490. Seagull 6 dead.wav"
-        params:
-          entityId: "mås"
-  "1495":
-    prompt: "Trevligt. Jag är strax tillbaka, jag ska bara gräva upp en skatt."
-    next:
-      - node: "1508_sekvens_88"
-        description: "Guybrush har spaden"
-      - node: "1497_sekvens_87"
-        description: "Guybrush har inte spaden"
-  "1497_sekvens_87":
-    prompt: "[Sekvens 87]"
-    next: "1505"
-  "1505":
-    prompt: "Åh, är herrn intresserad av en större väska? [Räcker över spaden]"
-    next: "1507"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Spade"
-        params:
-          item: spade
-  "1507":
-    prompt: "Som ni vill. Välkommen åter till Stans Väskor och- jag menar, Stans Bitar av Båtar!"
-    next:
-      - node: "1459_sekvens_86"
-        description: "Guybrush har inte fäktats med måsen"
-      - node: "1508_sekvens_88"
-        description: "Guybrush har fäktats med måsen"
-  "1508_sekvens_88":
-    prompt: "[Sekvens 88]"
-    next: "1512"
-  "1512":
-    prompt: "Åh, det vet jag inte. Men jag kan ju försöka."
-    next: "1519"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1513. Spade_mot_kista.wav"
-        params:
-          entityId: "spade_mot_kista"
-  "1519":
-    # Note: Skattkistan "kostar" -30 dubloner -> får 30 dubloner av att "köpa" den
-    prompt: "Ja, den har jag ingen glädje av ändå. [Guybrush kommer in på scen med 30 dubloner]"
-    next: "1522a"
-    actions:
-      - target: inventory
-        cmd: buy
-        desc: "Inventory: \"Köp\" skattkista (+30 dubloner)"
-        params:
-          item: skattkista
-  "1522a":
-    prompt: "Vi kommer säkert på nåt!"
-    next: "1522b"
-    actions: ["show_inventory"]
-  "1522b":
-    prompt: "[De funderar]"
-    next:
-      - node: "1522b"
-        description: "De köper veden"
-        actions: ["buy_ved"]
-      - node: "1522b"
-        description: "De köper burken"
-        actions: ["buy_surstromming"]
-      - node: "1416_sekvens_83"
-        description: "De försöker locka till sig ett skepp"
-        actions: ["hide_inventory"]
-      - node: "1524_sekvens_89"
-        description: "De frågar Stan om hans varor"
-        actions: ["hide_inventory"]
-      - node: "1539_sekvens_90"
-        description: "De pratar med Herman"
-        actions: ["hide_inventory"]
-  "1524_sekvens_89":
-    prompt: "[Sekvens 89]"
-    next: "1537a"
-  "1537a":
-    prompt: "Hmm. Är det något vi behöver köpa?"
-    next: "1537b"
-    actions: ["show_inventory"]
-  "1537b":
-    prompt: "[Guybrush och Elaine funderar]"
-    next:
-      - node: "1537b"
-        description: "De köper veden"
-        actions: ["buy_ved"]
-      - node: "1537b"
-        description: "De köper burken"
-        actions: ["buy_surstromming"]
-      - node: "1539_sekvens_90"
-        description: "De pratar med Herman"
-        actions: ["hide_inventory"]
-      - node: "1416_sekvens_83"
-        description: "De spanar efter skepp, eller vill tända en eld"
-        actions: ["hide_inventory"]
-      - node: "1424_sekvens_84"
-        description: "De ser sig om eller letar efter något (och inte hittat skatten)"
-        actions: ["hide_inventory"]
-      - node: "1559_sekvens_91"
-        description: "De försöker använda surströmmingen på apan"
-        actions: ["hide_inventory"]
-  "1539_sekvens_90":
-    prompt: "[Sekvens 90]"
-    next: "1557a"
-  "1557a":
-    prompt: "Vi kanske kan locka bort honom på något sätt. Men med vad?"
-    next: "1557b"
-    actions: ["show_inventory"]
-  "1557b":
-    prompt: "[Guybrush och Elaine tänker]"
-    next:
-      - node: "1557b"
-        description: "De köper veden"
-        actions: ["buy_ved"]
-      - node: "1557b"
-        description: "De köper burken"
-        actions: ["buy_surstromming"]
-      - node: "1559_sekvens_91"
-        description: "De försöker använda surströmmingen"
-        actions: ["hide_inventory"]
-      - node: "1524_sekvens_89"
-        description: "De frågar Stan om hans varor"
-        actions: ["hide_inventory"]
-      - node: "1579_sekvens_92"
-        description: "De kommer på något annat sätt"
-        actions: ["hide_inventory"]
-  "1559_sekvens_91":
-    prompt: "[Sekvens 91]"
-    next: "1562"
-  "1562":
-    prompt: "Kolla här, King Kong! Finfin mat!"
-    next: "1577"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1563. konservburk.wav"
-        params:
-          entityId: "konservburk"
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Surströmming"
-        params:
-          item: surstromming
-  "1577":
-    prompt: "...och det finns kvitto."
-    next: "1579_sekvens_92"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Guvernörsbälte"
-        params:
-          item: guvernorsbalte
-  "1579_sekvens_92":
-    prompt: "[Sekvens 92]"
-    next: "1581"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Guvernörsbälte"
-        params:
-          item: guvernorsbalte
-  "1581":
-    prompt: "Guvernörsämbetet på Hermanö tackar er ödmjukast. Här får ni er belöning. [Räcker över förstoringsglaset]"
-    next: "1583"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Förstoringsglas"
-        params:
-          item: forstoringsglas
-  "1583":
-    prompt: "Jag köpte den på Stans Glas och Glass imorse, jag."
-    next:
-      - node: "1587_sekvens_93"
-        description: "De har kommit på idén med elden"
-      - node: "1585a"
-        description: "De har inte kommit på idén med elden"
-  "1585a":
-    prompt: "Så vad gör vi nu?"
-    next: "1585b"
-    actions: ["show_inventory"]
-  "1585b":
-    prompt: "[De funderar]"
-    next:
-      - node: "1585b"
-        description: "De köper veden"
-        actions: ["buy_ved"]
-      - node: "1585b"
-        description: "De köper burken"
-        actions: ["buy_surstromming"]
-      - node: "1416_sekvens_83"
-        description: "De spanar efter skepp eller försöker tända en eld"
-        actions: ["hide_inventory"]
-      - node: "1524_sekvens_89"
-        description: "De frågar Stan om hans varor"
-        actions: ["hide_inventory"]
-  "1587_sekvens_93":
-    prompt: "[Sekvens 93]"
-    next:
-      - node: "1591"
-        description: "De har inte veden än"
-        actions: ["buy_ved"]
-      - node: "1591"
-        description: "De har redan veden"
-  "1591":
-    prompt: "Jag kan berätta sen. Fläkta på! [Guybrush fläktar lite]"
-    next: "1599"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "deserted_island"
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1593. Deserted island with fire.mp4"
-        params:
-          entityId: "fire"
-          layer: 1
-          visible: true
-  "1599":
-    prompt: "Ja. Och spanar. [Lägger planka i väskan]"
-    next: "1609"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Planka"
-        params:
-          item: planka
-  "1609":
-    prompt: "Välkomna till Stans Bitar av Båtar!"
-    next: "1612_sekvens_94"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "fire"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1610. Loading screen 3.mp4"
-        params:
-          entityId: "loading_screen"
-          layer: 1
-          visible: true
-          fadeIn:
-            time: 1
-            from: 0
-            to: 1
-  "1612_sekvens_94":
-    prompt: "[Sekvens 94]"
-    next: "1624"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading_screen"
-          stopOnDone: true
-          target: 0
-          time: 3
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1612. Piratskeppet 0.png"
-        params:
-          entityId: "piratskeppet_0"
-          visible: true
-  "1624":
-    prompt: "Och vem är du då, pojkvasker?"
-    next: "1646"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1625. Guybrushs piratsang repris.wav"
-        params:
-          entityId: "piratsång_repris"
-  "1646":
-    prompt: "Och vunnit? [Guybrush kastar medaljen till Lösskägg]"
-    next: "1657"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Medalj"
-        params:
-          item: medalj
-  "1657":
-    prompt: "Han stal den här - och det var inte lätt, för LeChuck var ute efter den också. [Kastar den till Rödskägg]"
-    next: "1674"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Avgudastaty"
-        params:
-          item: avgudastaty
-  "1674":
-    prompt: "När vi har räddat staden så får vita och gå på vår dejt. Blunda. [Elaine sätter hatten på Guybrush]"
-    next: "1699"
-    actions:
-      - target: inventory
-        cmd: add
-        desc: "Inventory: +Hatt"
-        params:
-          item: hatt
-  "1699":
-    prompt: "Åh, det är... [Plockar fram Murray]"
-    next: "1711"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Murray"
-        params:
-          item: skull
-  "1711":
-    prompt: "Hämta en gryta!"
-    next: "1717"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1712. Receptet 0.wav"
-        params:
-          entityId: "receptet"
-  "1717":
-    prompt: "En citron! Åh, det fick ju jag för längesen."
-    next: "1720"
-    actions:
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Citron"
-        params:
-          item: citron
-  "1720":
-    prompt: "En dublon!"
-    next: "1732a"
-    actions:
-      - target: inventory
-        cmd: change_money
-        desc: "Inventory: -1 dublon"
-        params:
-          amount: -1
-  "1732a":
-    prompt: "Nej, du. Jag hoppas ni vet vad ni gör..."
-    next: "1732b"
-    actions: ["show_inventory"]
-  "1732b":
-    prompt: "[Guybrush och Elaine funderar]"
-    next:
-      - node: "1740"
-        description: "De använder en vanlig blomma"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Blomma"
-            params:
-              item: blomma
-      - node: "1740"
-        description: "De använder en ros"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Ros"
-            params:
-              item: ros
-    actions: ["hide_inventory"]
-  "1740":
-    prompt: "Äsch! Börja om från början!"
-    next: "1747"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1740. Receptet 1 (efter blomman).wav"
-        params:
-          entityId: "receptet"
-  "1747":
-    prompt: "En färsk djävulsrot som har hela skalet kvar"
-    next: "1755"
-  "1748":
-    prompt: "Nånting som förvillar, som du hellre sluppit se"
-    next: "1769"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_0"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1763. Piratskeppet med LCs skepp 1.png"
-        params:
-          entityId: "piratskeppet_1"
-          visible: true
-  "1749":
-    prompt: "Nåt som är så starkt att du inte mäktar med"
-    next: "1781"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_1"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1774. Piratskeppet med LCs skepp 2.png"
-        params:
-          entityId: "piratskeppet_2"
-          visible: true
-  "1751":
-    prompt: "Nåt som är ett rent förräderi"
-    next: "1791"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_2"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1790. Piratskeppet med LCs skepp 3.png"
-        params:
-          entityId: "piratskeppet_3"
-          visible: true
-  "1752":
-    prompt: "Nånting du fick tag på allde's nyss"
-    next: "1804"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_3"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1801. Piratskeppet med LCs skepp 4.png"
-        params:
-          entityId: "piratskeppet_4"
-          visible: true
-  "1753":
-    prompt: "Och det älskande parets första kyss"
-    next: "1818"
-    actions:
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "piratskeppet_4"
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "1821. Piratskeppet med LCs skepp 5.png"
-        params:
-          entityId: "piratskeppet_5"
-          visible: true
-  "1755":
-    prompt: "[De funderar]"
-    next: "1762"
-    actions: ["show_inventory"]
-  "1762":
-    prompt: "Vad kommer sen? [Eller om de lägger i något annat än morot]"
-    next:
-      - node: "1748"
-        description: "[De kommer på djävulsroten]"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Djävulsrot"
-            params:
-              item: devils_root
-          - target: inventory
-            cmd: enable_achievement
-            desc: "Inventory: Achievement: Roten till allt ont"
-            params:
-              achievement: devils_root
-      - node: "1748"
-        description: "[De kommer på något som INTE är djävulsroten]"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1762. Receptet 2 (efter roten).wav"
-        params:
-          entityId: "receptet"
-      - "hide_inventory"
-  "1769":
-    prompt: "Något som förvillar, som du hellre sluppit se. [De funderar]"
-    next: "1773"
-    actions:
-      - "show_inventory"
-  "1773":
-    prompt: "Kompassen! Ja, den var ju inte bra till nånting, tack! [Eller om de kommer på något annat]"
-    next:
-      - node: "1749"
-        description: "[De kommer på kompassen]"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Kompass"
-            params:
-              item: kompass
-      - node: "1749"
-        description: "[De kommer på något som INTE är kompassen]"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1773. Receptet 3 (efter kompassen).wav"
-        params:
-          entityId: "receptet"
-      - "hide_inventory"
-  "1781":
-    prompt: "Jag vet inte! [De funderar]"
-    next: "1789"
-    actions: ["show_inventory"]
-  "1789":
-    prompt: "Jag såg till att ställa ner den väldigt försiktigt! [Eller om de kommer på något annat än grogg]"
-    next:
-      - node: "1751"
-        description: "[De kommer på groggen]"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Grogg"
-            params:
-              item: grogg
-      - node: "1751"
-        description: "[De kommer på något som INTE är groggen]"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1789. Receptet 4 (efter groggen).wav"
-        params:
-          entityId: "receptet"
-      - "hide_inventory"
-  "1791":
-    prompt: "Ett förräderi? Hur tusan lägger man det i en gryta?"
-    next: "1794a"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "1792-1. Kanon i vattnet.mp4"
-        params:
-          entityId: "kanoneld_1"
-          layer: 1
-          visible: true
-  "1794a":
-    prompt: "Okej, tänk!"
-    next: "1794b"
-    actions: ["show_inventory"]
-  "1794b":
-    prompt: "[Guybrush och Elaine tänker]"
-    next:
-      - node: "1800"
-        description: "[De kommer på plankan]"
-        actions:
-          - target: inventory
-            cmd: remove
-            desc: "Inventory: -Plankan"
-            params:
-              item: planka
-      - node: "1800"
-        description: "[De kommer på något som INTE är plankan]"
-  "1800":
-    prompt: "Jaha, den ja! [Eller om de kommer på något annat än plankan]"
-    next: "1752"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1800. Receptet 5 (efter plankan).wav"
-        params:
-          entityId: "receptet"
-      - "hide_inventory"
-  "1804":
-    prompt: "Nej, det är snart klart! Nånting du fick tag på allde's nyss!"
-    next: "1804b"
-    actions: ["show_inventory"]
-  "1804b":
-    prompt: "[Guybrush och Elaine tänker]"
-    next:
-      - node: "1811"
-        description: "De får ropet 'hatten', eller kommer inte på något"
-        actions:
-          - target: "video"
-            cmd: "create"
-            assets:
-              - path: "1806-1. Kanon mot skeppet.mp4"
-            params:
-              entityId: "kanoneld_2"
-              layer: 1
-              visible: true
-      - node: "1753"
-        description: "De kommer på något annat än hatten"
-        actions:
-          - target: "audio"
-            cmd: "create"
-            assets:
-              - path: "1811. Receptet 6 (efter hatten).wav"
-            params:
-              entityId: "receptet"
-    actions: ["hide_inventory"]
-  "1811":
-    prompt: "Hatten! [Tillräcklig paus för att fortsätta låten]"
-    next: "1753"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1811. Receptet 6 (efter hatten).wav"
-        params:
-          entityId: "receptet"
-      - target: inventory
-        cmd: remove
-        desc: "Inventory: -Hatt"
-        params:
-          item: hatt
-  "1818":
-    prompt: "Då är det ju inte vår första kyss!"
-    next: "1848"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "1820. Receptet final.wav"
-        params:
-          entityId: "receptet"
-  "1848":
-    prompt: "Och det älskande parets första kyss [Sången tar slut]"
-    next: "1851_sekvens_102"
-    actions:
-      - target: "image"
-        cmd: "fade"
-        params:
-          entityId: "piratskeppet_5"
           time: 1
-          target: 0
           stopOnDone: true
-  "1851_sekvens_102":
-    prompt: "[Skeppet har fadeat]"
-    next: "1858a"
+  "266a":
+    prompt: "Det borde inte vara så svårt [Zelda går av scen]"
+    next: "266b"
     actions:
-      - target: inventory
-        cmd: enable_achievement
-        desc: "Inventory: Achievement: Kärlekens kraft"
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0266-1 loading2a.mp4"
         params:
-          achievement: lechuck_final
-  "1858a":
-    prompt: "[Efter en liten stund]"
-    next: "1858b"
+          entityId: "loading2a"
+          layer: 6
+          visible: true
+          destroyOnEnd: false
+  "266b":
+    prompt: "[Lite omriggning]"
+    next: "266c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0266-2 loading2b.mp4"
+        params:
+          entityId: "loading2b"
+          layer: 7
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal"
+  "266c":
+    prompt: "[Lite omriggning till]"
+    next: "266d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0266-3 loading2c.mp4"
+        params:
+          entityId: "loading2c"
+          layer: 8
+          visible: true
+          destroyOnEnd: false
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading2a"
+  "266d":
+    prompt: "[Ännu mer omriggning]"
+    next: "266e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0266-4 loading2d.mp4"
+        params:
+          entityId: "loading2d"
+          layer: 10
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0267 Faronskogen.png"
+        params:
+          entityId: "faronskogen"
+          layer: 9
+          visible: true
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading2b"
+  "266e":
+    prompt: "[Skogen synlig, rensa lite]"
+    next: "278"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading2c"
+  "278":
+    prompt: "Om du inte vågar så fixar jag väl saken själv. [Vännen trampar på en kvist]"
+    next: "284"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0278 Monster_Fight.mp3"
+        params:
+          entityId: "monster_fight"
+  # TODO: GUI med hjärtan?
+  "284":
+    prompt: "... Farmor? [Farore visar sig]"
+    next: "314"
     actions:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "1851. Night sky.png"
+          - path: "0284 Faronskogen_gron.png"
         params:
-          entityId: "stjärnhimmel"
+          layer: 10
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
           visible: true
-  "1858b":
-    prompt: "[Nu är det slut]"
-    next: "1a"
+          entityId: "faronskogen_gron"
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0284 Mod.mp3"
+        params:
+          entityId: "mod"
+  "314":
+    prompt: "Vi syns! [Farore börjar gå av scen]"
+    next: "317"
     actions:
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "faronskogen_gron"
+          target: 0
+          time: 1
+          stopOnDone: true
+  "317":
+    prompt: "... Visst ja! [Farore visar sig igen]"
+    next: "322"
+    actions:
+      # TODO ljud när Farore uppenbarar sig
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0317 Faronskogen_gron.png"
+        params:
+          layer: 10
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+          visible: true
+          entityId: "faronskogen_gron"
+  "322":
+    prompt: "Lycka till! [Farore och Nayru går av scen]"
+    next: "333"
+    actions:
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "faronskogen_gron"
+          target: 0
+          time: 1
+          stopOnDone: true
+  "333":
+    prompt: "Kom, vi går tillbaka. [Link plockar upp nöten]"
+    next: "336a"
+    # TODO nytt föremål-ljud
+  "336a":
+    prompt: "Vi ska ju inte glömma nöten. [Link och vännen går av scen]"
+    next: "336b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0336-1 loading3a.mp4"
+        params:
+          entityId: "loading3a"
+          layer: 10
+          visible: true
+          destroyOnEnd: false
+  "336b":
+    prompt: "[Lite omriggning]"
+    next: "336c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0336-2 loading3b.mp4"
+        params:
+          entityId: "loading3b"
+          layer: 11
+          visible: true
+          destroyOnEnd: false
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "stjärnhimmel"
-action_templates:
-  "show_inventory":
-    target: inventory
-    cmd: set_items_visibility
-    desc: Visa inventory
-    params:
-      visible: true
-  "hide_inventory":
-    - target: inventory
-      cmd: clear_item_animations
-      desc: Rensa item animations
-    - target: inventory
-      cmd: set_items_visibility
-      desc: Dölj inventory
-      params:
-        visible: false
-  "buy_flower":
-    target: inventory
-    cmd: buy
-    desc: "Inventory: Köp blomman"
-    params:
-      item: blomma
-  "buy_ved":
-    target: inventory
-    cmd: buy
-    desc: "Inventory: Köp veden"
-    params:
-      item: ved
-  "buy_surstromming":
-    target: inventory
-    cmd: buy
-    desc: "Inventory: Köp surströmming"
-    params:
-      item: surstromming
+          entityId: "faronskogen"
+  "336c":
+    prompt: "[Lite omriggning till]"
+    next: "336d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0336-3 loading3c.mp4"
+        params:
+          entityId: "loading3c"
+          layer: 12
+          visible: true
+          destroyOnEnd: false
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading3a"
+  "336d":
+    prompt: "[Ännu mer omriggning]"
+    next: "336e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0336-4 loading3d.mp4"
+        params:
+          entityId: "loading3d"
+          layer: 13
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0337 Gerudo_talt.png"
+        params:
+          entityId: "gerudo_talt"
+          layer: 14
+          visible: true
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading3b"
+  "336e":
+    prompt: "[Öknen synlig, rensa lite]"
+    next: "342"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading3c"
+  "342":
+    prompt: "Om jag bara hade min mors styrka... [Diin visar sig för Ganon]"
+    next: "414a"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0342 Gerudo_talt_rod.png"
+        params:
+          layer: 15
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+          visible: true
+          entityId: "gerudo_rod"
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0342 Styrka.mp3"
+        params:
+          entityId: "stryka"
+  "414a":
+    prompt: "För Ganondorf! [Ganon går av scen]"
+    next: "414b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0414-1 loading4a.mp4"
+        params:
+          entityId: "loading4a"
+          layer: 16
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "gerudo_talt"
+  "414b":
+    prompt: "[Lite omriggning]"
+    next: "414c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0414-2 loading4b.mp4"
+        params:
+          entityId: "loading4b"
+          layer: 17
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "gerudo_rod"
+  "414c":
+    prompt: "[Lite omriggning till]"
+    next: "414d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0414-3 loading4c.mp4"
+        params:
+          entityId: "loading4c"
+          layer: 18
+          visible: true
+          destroyOnEnd: false
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading4a"
+  "414d":
+    prompt: "[Ännu mer omriggning]"
+    next: "414e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0414-4 loading4d.mp4"
+        params:
+          entityId: "loading4d"
+          layer: 20
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0440 Tronsal.png"
+        params:
+          entityId: "tronsal"
+          layer: 19
+          visible: true
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading4b"
+  "414e":
+    prompt: "[Tronsalen synlig, rensa lite]"
+    next: "472"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading4c"
+  "472":
+    prompt: "Link! [Link krossar krukor av scen]"
+    next: "478"
+    # TODO ljud krossa krukor
+  "478":
+    prompt: "Här, bara ta den! [Link håller upp kristallen]"
+    next: "491a"
+    # TODO film Link får Rupee
+  "491a":
+    prompt: "Nåväl. Jag ska lämna er två ifred."
+    next: "502"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0491 Tronsal_Zelda.png"
+        params:
+          entityId: "tronsal_zelda"
+          layer: 20
+          visible: true
+          fadeIn:
+            from: 0
+            time: 5
+            to: 1
+  "502":
+    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar lite med sitt svärd]"
+    next: "503"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0502 Tronsal_Zelda_bla_gron_rod.png"
+        params:
+          entityId: "tronsal_zelda_bla_gron_rod"
+          layer: 21
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal"
+  "503":
+    prompt: "[Gudinnorna visar sig]"
+    next: "537"
+    # TODO ljud gudinnorna visar sig
+  "537":
+    prompt: "Du ska ut på fler äventyr! [Link och Farore går av scen]"
+    next: "539"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0537 Tronsal_Zelda_bla_rod.png"
+        params:
+          entityId: "tronsal_zelda_bla_rod"
+          layer: 22
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda"
+  "539":
+    prompt: "Intressant. [Nayru avfärdar Fejk-Diin]"
+    next: "548a"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0539 Tronsal_Zelda_bla.png"
+        params:
+          entityId: "tronsal_zelda_bla"
+          layer: 23
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_bla_gron_rod"
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0539 dismiss fejkdiin.wav"
+        params:
+          entityId: "dismiss_fejkdiin"
+  "548a":
+    prompt: "Jag ska göra dig stolt [Nayru går av scen]"
+    next: "548b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0548-1 loading5a.mp4"
+        params:
+          entityId: "loading5a"
+          layer: 24
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_bla_rod"
+  "548b":
+    prompt: "[Lite omriggning]"
+    next: "548c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0548-2 loading5b.mp4"
+        params:
+          entityId: "loading5b"
+          layer: 25
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_bla"
+  "548c":
+    prompt: "[Lite omriggning till]"
+    next: "548d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0548-3 loading5c.mp4"
+        params:
+          entityId: "loading5c"
+          layer: 26
+          visible: true
+          destroyOnEnd: false
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading5a"
+  "548d":
+    prompt: "[Ännu mer omriggning]"
+    next: "548e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0554 loading5d_Krigsmontage part 1.mp4"
+        params:
+          entityId: "loading5d_kriget"
+          layer: 28
+          visible: true
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading5b"
+  "548e":
+    prompt: "[Låt startat, rensa lite]"
+    next: "699"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading5c"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0692 Tronsal_Zelda_kaos.png"
+        params:
+          entityId: "tronsal_zelda_kaos"
+          layer: 0
+          visible: true
+  "699":
+    prompt: "Min frys-besvärjelse håller inte för evigt. [Link går av scen]"
+    next: "733a"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0699 Krigsmontage part 2_loading6a.mp4"
+        params:
+          entityId: "kriget_loading6a"
+          layer: 1
+          visible: true
+          destroyOnEnd: false
+  "733a":
+    prompt: "[Lite omriggning]"
+    next: "733b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0733-1 loading6b.mp4"
+        params:
+          entityId: "loading6b"
+          layer: 2
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_kaos"
+  "733b":
+    prompt: "[Lite omriggning till]"
+    next: "733c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0733-2 loading6c.mp4"
+        params:
+          entityId: "loading6c"
+          layer: 3
+          visible: true
+          destroyOnEnd: false
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "kriget_loading6a"
+  "733c":
+    prompt: "[Ännu mer omriggning]"
+    next: "733d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0733-3 loading6d.mp4"
+        params:
+          entityId: "loading6d"
+          layer: 5
+          visible: true
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0734 Tronsal_Zelda_krig.png"
+        params:
+          entityId: "tronsal_zelda_krig"
+          layer: 4
+          visible: true
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading6b"
+  "733d":
+    prompt: "[Tronsal synlig, rensa lite]"
+    next: "742"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "loading6c"
+  "742":
+    prompt: "Den dåliga nyheten är att Ganondorfs styrkor också är här."
+    next: "756"
+    # TODO ljud stridstrumpeter
+  "756":
+    prompt: "Link, uppehåll honom!"
+    next: "783"
+    # TODO film första duellen
+  "783":
+    prompt: "Link!"
+    next: "806"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0783 Fairy revive.wav"
+    # TODO film
+  "806":
+    prompt: "Döda honom. Nu! [Ganon dödar kungen]"
+    next: "922"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0806 Aktfinal.mp4"
+        params:
+          entityId: "aktfinal"
+          layer: 5
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_krig"
+  "922":
+    prompt: "[Ridån är för]"
+    next: "961"
+    actions:
+      - target: "video"
+        cmd: "destroy"
+        params:
+          entityId: "aktfinal"
+  "961":
+    prompt: "[Redo för akt 2]"
+    next: "1"
+
+      
+action_templates: {}
 assets:
   "script":
-    path: "Apornas o 2021-11-22.pdf"
+    path: "Legenden_om_Zelda_2023_12_08.pdf"
 ui:
-  shortcuts:
-    - title: Starta inventory
-      hotkey:
-        key: i
-        modifiers:
-          - ctrl
-          - shift
-      actions:
-        - target: inventory
-          cmd: setup
-          desc: Starta inventory
-          assets:
-            - path: "inventory-data.zip"
-          params:
-            color: "#a51d16"
-        - target: inventory
-          cmd: change_money
-          desc: Sätt pengar till 2
-          params:
-            amount: 2
-    - title: Add inventory to screen
-      hotkey:
-        key: i
-        modifiers:
-          - ctrl
-      actions:
-        - target: web
-          cmd: create
-          assets:
-            - path: "http://localhost:4218"
-          params:
-            # Inventory size is set to 1400x720
-            entityId: inventory
-            displayName: "Inventory"
-            usePercentage: false
-            x: 260
-            y: 150
-            width: 1500
-            height: 930
-            visible: false
-            layer: 10000
-    - title: Tekniska problem
-      hotkey:
-        key: m
-        modifiers:
-          - ctrl
-          - shift
-      actions:
-        - target: inventory
-          cmd: enable_achievement
-          desc: "Achievement: Tekniska problem"
-          params:
-            achievement: unknown
+  shortcuts: []
