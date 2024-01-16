@@ -14,19 +14,19 @@ nodes:
           visible: true
   "1b":
     prompt: "[Ridån har gått upp]"
-    next: "36"
+    next: "30"
     actions:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "0001 Ouvertyr part1.webm"
+          - path: "0001 Ouvertyr_part1.webm"
         params:
           entityId: "ouvertyr"
           layer: 2
           visible: true
           looping: 0
-          seamless: true
-          mimeCodec: 'video/webm; codecs="vp9, opus"'
+          # seamless: true
+          # mimeCodec: 'video/webm; codecs="vp9, opus"'
       - target: "video"
         cmd: "set_volume"
         params:
@@ -35,13 +35,13 @@ nodes:
       - target: "video"
         cmd: "set_next_file"
         assets:
-          - path: "0020 Ouvertyr loop1.webm"
+          - path: "0001 Ouvertyr_part2.webm"
         params:
           entityId: "ouvertyr"
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "0001 Ouvertyr part1.wav"
+          - path: "0001 Ouvertyr_part1.wav"
         params:
           entityId: "ouvertyr_audio"
           looping: 0
@@ -49,81 +49,81 @@ nodes:
       - target: "audio"
         cmd: "set_next_file"
         assets:
-          - path: "0020 Ouvertyr loop1.wav"
+          - path: "0001 Ouvertyr_part2.wav"
         params:
           entityId: "ouvertyr_audio"
-  "36":
-    prompt: "Låt oss be till Nayru... [TODO: Mycket tidigare]"
-    next: "36b"
+  "30":
+    prompt: "Har prinsessan Zelda vad som krävs för att ta över?"
+    next: "36"
     actions:
       - target: "video"
         cmd: "set_next_file"
         assets:
-          - path: "0036 Ouvertyr part2.webm"
+          - path: "0001 Ouvertyr_part3.webm"
         params:
           entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
-          - path: "0036 Ouvertyr part2.wav"
+          - path: "0001 Ouvertyr_part3.wav"
         params:
           entityId: "ouvertyr_audio"
-  "36b":
+  "36":
     prompt: "[Vampen har slutat]"
+    next: "56"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0001 Ouvertyr_part4.webm"
+        params:
+          entityId: "ouvertyr"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0001 Ouvertyr_part4.wav"
+        params:
+          entityId: "ouvertyr_audio"
+  "56":
+    prompt: "Och han verkar ha fått ett farligt uppdrag"
     next: "61"
     actions:
       - target: "video"
         cmd: "set_next_file"
         assets:
-          - path: "0051 Ouvertyr loop2.webm"
+          - path: "0001 Ouvertyr_part5.webm"
         params:
           entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
-          - path: "0051 Ouvertyr loop2.wav"
+          - path: "0001 Ouvertyr_part5.wav"
         params:
           entityId: "ouvertyr_audio"
   "61":
-    prompt: "Och låt oss be till Farore... [TODO: Mycket tidigare]"
-    next: "61b"
-    actions:
-      - target: "video"
-        cmd: "set_next_file"
-        assets:
-          - path: "0061 Ouvertyr part3.webm"
-        params:
-          entityId: "ouvertyr"
-      - target: "audio"
-        cmd: "set_next_file"
-        assets:
-          - path: "0061 Ouvertyr part3.wav"
-        params:
-          entityId: "ouvertyr_audio"
-  "61b":
     prompt: "[Vampen har slutat]"
-    next: "90"
+    next: "80"
     actions:
       - target: "video"
         cmd: "set_next_file"
         assets:
-          - path: "0077 Ouvertyr loop3.webm"
+          - path: "0001 Ouvertyr_part6.webm"
         params:
           entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
-          - path: "0077 Ouvertyr loop3.wav"
+          - path: "0001 Ouvertyr_part6.wav"
         params:
           entityId: "ouvertyr_audio"
-  "90":
-    prompt: "Och låt Diin, styrkans gudinna... [TODO: Mycket tidigare]"
+  "80":
+    prompt: "Din mor..."
     next: "118"
     actions:
       - target: "video"
         cmd: "set_next_file"
         assets:
-          - path: "0090 Ouvertyr part4.webm"
+          - path: "0001 Ouvertyr_part7.webm"
         params:
           entityId: "ouvertyr"
       - target: "video"
@@ -134,7 +134,7 @@ nodes:
       - target: "audio"
         cmd: "set_next_file"
         assets:
-          - path: "0090 Ouvertyr part4.wav"
+          - path: "0001 Ouvertyr_part7.wav"
         params:
           entityId: "ouvertyr_audio"
       - target: "audio"
@@ -222,7 +222,7 @@ nodes:
         params:
           entityId: "startmeny_loading1a"
   "174d":
-    prompt: "[Ännu mer omriggning]"
+    prompt: "[Omriggning klar]"
     next: "174e"
     actions:
       - target: "video"
@@ -334,7 +334,7 @@ nodes:
         params:
           entityId: "loading2a"
   "266d":
-    prompt: "[Ännu mer omriggning]"
+    prompt: "[Omriggning klar]"
     next: "266e"
     actions:
       - target: "video"
@@ -359,14 +359,22 @@ nodes:
           entityId: "loading2b"
   "266e":
     prompt: "[Skogen synlig, rensa lite]"
-    next: "278"
+    next: "278a"
     actions:
       - target: "video"
         cmd: "destroy"
         params:
           entityId: "loading2c"
-  "278":
+  "278a":
     prompt: "Om du inte vågar så fixar jag väl saken själv. [Vännen trampar på en kvist]"
+    next: "278b"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0278 twig-snap.wav"
+  "278b":
+    prompt: "[Monstret upptäcker dem]"
     next: "284"
     actions:
       - target: "audio"
@@ -489,7 +497,7 @@ nodes:
         params:
           entityId: "loading3a"
   "336d":
-    prompt: "[Ännu mer omriggning]"
+    prompt: "[Omriggning klar]"
     next: "336e"
     actions:
       - target: "video"
@@ -522,7 +530,7 @@ nodes:
           entityId: "loading3c"
   "342":
     prompt: "Om jag bara hade min mors styrka... [Diin visar sig för Ganon]"
-    next: "414a"
+    next: "366"
     actions:
       - target: "image"
         cmd: "create"
@@ -535,15 +543,35 @@ nodes:
             time: 1
             to: 1
           visible: true
-          entityId: "gerudo_rod"
+          entityId: "gerudo_rod_talt"
       - target: "audio"
         cmd: "create"
         assets:
           - path: "0342 Styrka.mp3"
         params:
           entityId: "stryka"
+  "366":
+    prompt: "Är jag den störste, ja jag är stark [Går ut ur tältet]"
+    next: "414a"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0366 Gerudo_rod.png"
+        params:
+          layer: 16
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+          visible: true
+          entityId: "gerudo_rod"
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "gerudo_talt"
   "414a":
-    prompt: "För Ganondorf! [Ganon går av scen]"
+    prompt: "Mot Hyrulien! För Ganondorf! [Ganon går av scen]"
     next: "414b"
     actions:
       - target: "video"
@@ -552,13 +580,13 @@ nodes:
           - path: "0414-1 loading4a.mp4"
         params:
           entityId: "loading4a"
-          layer: 16
+          layer: 17
           visible: true
           destroyOnEnd: false
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "gerudo_talt"
+          entityId: "gerudo_rod_talt"
   "414b":
     prompt: "[Lite omriggning]"
     next: "414c"
@@ -569,7 +597,7 @@ nodes:
           - path: "0414-2 loading4b.mp4"
         params:
           entityId: "loading4b"
-          layer: 17
+          layer: 18
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -586,7 +614,7 @@ nodes:
           - path: "0414-3 loading4c.mp4"
         params:
           entityId: "loading4c"
-          layer: 18
+          layer: 19
           visible: true
           destroyOnEnd: false
       - target: "video"
@@ -594,7 +622,7 @@ nodes:
         params:
           entityId: "loading4a"
   "414d":
-    prompt: "[Ännu mer omriggning]"
+    prompt: "[Omriggning klar]"
     next: "414e"
     actions:
       - target: "video"
@@ -603,7 +631,7 @@ nodes:
           - path: "0414-4 loading4d.mp4"
         params:
           entityId: "loading4d"
-          layer: 20
+          layer: 21
           visible: true
       - target: "image"
         cmd: "create"
@@ -611,7 +639,7 @@ nodes:
           - path: "0440 Tronsal.png"
         params:
           entityId: "tronsal"
-          layer: 19
+          layer: 20
           visible: true
       - target: "video"
         cmd: "destroy"
@@ -627,8 +655,20 @@ nodes:
           entityId: "loading4c"
   "472":
     prompt: "Link! [Link krossar krukor av scen]"
+    next: "473"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0472 kruka1.wav"
+  "473":
+    prompt: "Nej!"
     next: "478"
-    # TODO ljud krossa krukor
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0472 kruka2.wav"
   "478":
     prompt: "Här, bara ta den! [Link håller upp kristallen]"
     next: "491a"
@@ -643,7 +683,7 @@ nodes:
           - path: "0491 Tronsal_Zelda.png"
         params:
           entityId: "tronsal_zelda"
-          layer: 20
+          layer: 21
           visible: true
           fadeIn:
             from: 0
@@ -659,7 +699,7 @@ nodes:
           - path: "0502 Tronsal_Zelda_bla_gron_rod.png"
         params:
           entityId: "tronsal_zelda_bla_gron_rod"
-          layer: 21
+          layer: 22
           visible: true
           fadeIn:
             from: 0
@@ -683,7 +723,7 @@ nodes:
           - path: "0537 Tronsal_Zelda_bla_rod.png"
         params:
           entityId: "tronsal_zelda_bla_rod"
-          layer: 22
+          layer: 23
           visible: true
           fadeIn:
             from: 0
@@ -703,7 +743,7 @@ nodes:
           - path: "0539 Tronsal_Zelda_bla.png"
         params:
           entityId: "tronsal_zelda_bla"
-          layer: 23
+          layer: 24
           visible: true
           fadeIn:
             from: 0
@@ -729,7 +769,7 @@ nodes:
           - path: "0548-1 loading5a.mp4"
         params:
           entityId: "loading5a"
-          layer: 24
+          layer: 25
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -746,7 +786,7 @@ nodes:
           - path: "0548-2 loading5b.mp4"
         params:
           entityId: "loading5b"
-          layer: 25
+          layer: 26
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -763,7 +803,7 @@ nodes:
           - path: "0548-3 loading5c.mp4"
         params:
           entityId: "loading5c"
-          layer: 26
+          layer: 27
           visible: true
           destroyOnEnd: false
       - target: "video"
@@ -771,29 +811,50 @@ nodes:
         params:
           entityId: "loading5a"
   "548d":
-    prompt: "[Ännu mer omriggning]"
-    next: "548e"
+    prompt: "[Omriggning klar]"
+    next: "556a"
     actions:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "0554 loading5d_Krigsmontage part 1.mp4"
+          - path: "0548-4 loading5d.mp4"
         params:
-          entityId: "loading5d_kriget"
-          layer: 28
+          entityId: "loading5d"
+          layer: 29
           visible: true
       - target: "video"
         cmd: "destroy"
         params:
           entityId: "loading5b"
-  "548e":
-    prompt: "[Låt startat, rensa lite]"
-    next: "699"
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "0551 i_slottet.png"
+        params:
+          entityId: i_slottet
+  "556a":
+    prompt: "Fort Hateno har fallit för Ganondorf"
+    next: "556b"
     actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "0556 Krigsmontage part1.mp4"
+        params:
+          entityId: "kriget_1"
+          visible: true
       - target: "video"
         cmd: "destroy"
         params:
           entityId: "loading5c"
+  "556b":
+    prompt: "[Låten har börjat, rensa lite]"
+    next: "699"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "i_slottet"
       - target: "image"
         cmd: "create"
         assets:
@@ -804,17 +865,91 @@ nodes:
           visible: true
   "699":
     prompt: "Min frys-besvärjelse håller inte för evigt. [Link går av scen]"
-    next: "733a"
+    next: "701a"
     actions:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "0699 Krigsmontage part 2_loading6a.mp4"
+          - path: "0699 Krigsmontage2_part1.webm"
         params:
-          entityId: "kriget_loading6a"
+          entityId: "krig2"
           layer: 1
           visible: true
+          looping: 0
           destroyOnEnd: false
+          # seamless: true
+          # mimeCodec: 'video/webm; codecs="vp9, opus"'
+      - target: "video"
+        cmd: "set_volume"
+        params:
+          entityId: "krig2"
+          volume: 0
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "0699 Krigsmontage2_part1.wav"
+        params:
+          entityId: "krig2_audio"
+          looping: 0
+          seamless: true
+  "701a":
+    prompt: "Det är dags att kriget får ett slut"
+    next: "701b"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0699 Krigsmontage2_part2.webm"
+        params:
+          entityId: "krig2"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0699 Krigsmontage2_part2.wav"
+        params:
+          entityId: "krig2_audio"
+  "701b":
+    prompt: "[Vampen slut]"
+    next: "710"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0699 Krigsmontage2_part3.webm"
+        params:
+          entityId: "krig2"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0699 Krigsmontage2_part3.wav"
+        params:
+          entityId: "krig2_audio"
+  "710":
+    prompt: "Vi måste lita på hennes plan"
+    next: "733a"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "0699 Krigsmontage2_part4.webm"
+        params:
+          entityId: "krig2"
+      - target: "video"
+        cmd: "set_loops"
+        params:
+          entityId: "krig2"
+          looping: 1
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "0699 Krigsmontage2_part4.wav"
+        params:
+          entityId: "krig2_audio"
+      - target: "audio"
+        cmd: "set_loops"
+        params:
+          entityId: "krig2_audio"
+          looping: 1
   "733a":
     prompt: "[Lite omriggning]"
     next: "733b"
@@ -850,7 +985,7 @@ nodes:
         params:
           entityId: "kriget_loading6a"
   "733c":
-    prompt: "[Ännu mer omriggning]"
+    prompt: "[Omriggning klar]"
     next: "733d"
     actions:
       - target: "video"
