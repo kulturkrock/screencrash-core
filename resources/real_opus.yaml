@@ -10,34 +10,11 @@ nodes:
           - path: "Till föreställningen/0000 Hyrulien.png"
         params:
           entityId: "hyrulien"
-          layer: 0
           visible: true
   "1b":
     prompt: "[Ridån har gått upp]"
     next: "20"
     actions:
-      # - target: "video"
-      #   cmd: "create"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part1.webm"
-      #   params:
-      #     entityId: "ouvertyr"
-      #     layer: 2
-      #     visible: true
-      #     looping: 0
-      #     seamless: true
-      #     mimeCodec: 'video/webm; codecs="vp9, opus"'
-      # - target: "video"
-      #   cmd: "set_volume"
-      #   params:
-      #     entityId: "ouvertyr"
-      #     volume: 0
-      # - target: "video"
-      #   cmd: "set_next_file"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part2.webm"
-      #   params:
-      #     entityId: "ouvertyr"
       - target: "audio"
         cmd: "create"
         assets:
@@ -71,12 +48,6 @@ nodes:
     prompt: "Har prinsessan Zelda vad som krävs för att ta över?"
     next: "39"
     actions:
-      # - target: "video"
-      #   cmd: "set_next_file"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part3.webm"
-      #   params:
-      #     entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
@@ -87,12 +58,6 @@ nodes:
     prompt: "Visa en väg som oss segern kan ge [Lagom till 'Hyrulien']"
     next: "51"
     actions:
-      # - target: "video"
-      #   cmd: "set_next_file"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part4.webm"
-      #   params:
-      #     entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
@@ -125,12 +90,6 @@ nodes:
     prompt: "Och han verkar ha fått ett farligt uppdrag"
     next: "67"
     actions:
-      # - target: "video"
-      #   cmd: "set_next_file"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part5.webm"
-      #   params:
-      #     entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
@@ -141,12 +100,6 @@ nodes:
     prompt: "Ge oss mod [Lagom till 'Hyrulien']"
     next: "77"
     actions:
-      # - target: "video"
-      #   cmd: "set_next_file"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part6.webm"
-      #   params:
-      #     entityId: "ouvertyr"
       - target: "audio"
         cmd: "set_next_file"
         assets:
@@ -179,17 +132,6 @@ nodes:
     prompt: "Din mor..."
     next: "96"
     actions:
-      # - target: "video"
-      #   cmd: "set_next_file"
-      #   assets:
-      #     - path: "Till föreställningen/0001 Ouvertyr_part7.webm"
-      #   params:
-      #     entityId: "ouvertyr"
-      # - target: "video"
-      #   cmd: "set_loops"
-      #   params:
-      #     entityId: "ouvertyr"
-      #     looping: 1
       - target: "audio"
         cmd: "set_next_file"
         assets:
@@ -201,18 +143,6 @@ nodes:
         params:
           entityId: "ouvertyr_audio"
           looping: 1
-      # - target: "image"
-      #   cmd: "create"
-      #   assets:
-      #     - path: "Till föreställningen/0107 Vardagsrum.png"
-      #   params:
-      #     entityId: "vardagsrum"
-      #     layer: 0
-      #     visible: true
-      # - target: "image"
-      #   cmd: "destroy"
-      #   params:
-      #     entityId: "hyrulien"
   "96":
     prompt: "Ja du är stark [Lagom till 'Hyrulien']"
     next: "105"
@@ -234,7 +164,6 @@ nodes:
           - path: "Till föreställningen/0107 Vardagsrum.png"
         params:
           entityId: "vardagsrum"
-          layer: 0
           visible: true
           fadeIn:
             from: 0
@@ -274,7 +203,6 @@ nodes:
           - path: "Till föreställningen/0174-1 startmeny_loading1a.mp4"
         params:
           entityId: "startmeny_loading1a"
-          layer: 1
           visible: true
           destroyOnEnd: false
   "174b":
@@ -287,7 +215,6 @@ nodes:
           - path: "Till föreställningen/0174-2 loading1b.mp4"
         params:
           entityId: "loading1b"
-          layer: 2
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -304,13 +231,8 @@ nodes:
           - path: "Till föreställningen/0174-3 loading1c.mp4"
         params:
           entityId: "loading1c"
-          layer: 3
           visible: true
           destroyOnEnd: false
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "startmeny_loading1a"
   "174d":
     prompt: "[Omriggning klar]"
     next: "174e"
@@ -321,28 +243,51 @@ nodes:
           - path: "Till föreställningen/0174-4 loading1d.mp4"
         params:
           entityId: "loading1d"
-          layer: 5
           visible: true
+          destroyOnEnd: false
+  "174e":
+    prompt: "[Laddbar full]"
+    next: "197"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/0175 Tronsal.png"
         params:
           entityId: "tronsal"
-          layer: 4
           visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
+        params:
+          entityId: "startmeny_loading1a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
         params:
           entityId: "loading1b"
-  "174e":
-    prompt: "[Tronsalen synlig, rensa lite]"
-    next: "197"
-    actions:
+          target: 0
+          time: 2
+          stopOnDone: true
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "loading1c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading1d"
+          target: 0
+          time: 2
+          stopOnDone: true
   "197":
     prompt: "... det är för svårt! [Nayru visar sig]"
     next: "263"
@@ -352,7 +297,6 @@ nodes:
         assets:
           - path: "Till föreställningen/0197 Tronsal_bla.png"
         params:
-          layer: 5
           fadeIn:
             from: 0
             time: 1
@@ -386,7 +330,6 @@ nodes:
           - path: "Till föreställningen/0266-1 loading2a.mp4"
         params:
           entityId: "loading2a"
-          layer: 6
           visible: true
           destroyOnEnd: false
   "266b":
@@ -399,7 +342,6 @@ nodes:
           - path: "Till föreställningen/0266-2 loading2b.mp4"
         params:
           entityId: "loading2b"
-          layer: 7
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -416,13 +358,8 @@ nodes:
           - path: "Till föreställningen/0266-3 loading2c.mp4"
         params:
           entityId: "loading2c"
-          layer: 8
           visible: true
           destroyOnEnd: false
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "loading2a"
   "266d":
     prompt: "[Omriggning klar]"
     next: "266e"
@@ -433,28 +370,51 @@ nodes:
           - path: "Till föreställningen/0266-4 loading2d.mp4"
         params:
           entityId: "loading2d"
-          layer: 10
           visible: true
+          destroyOnEnd: false
+  "266e":
+    prompt: "[Laddbar full]"
+    next: "278a"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/0267 faronskogen_base.png"
         params:
           entityId: "faronskogen"
-          layer: 9
           visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
+        params:
+          entityId: "loading2a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
         params:
           entityId: "loading2b"
-  "266e":
-    prompt: "[Skogen synlig, rensa lite]"
-    next: "278a"
-    actions:
+          target: 0
+          time: 2
+          stopOnDone: true
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "loading2c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading2d"
+          target: 0
+          time: 2
+          stopOnDone: true
   "278a":
     prompt: "Om du inte vågar så fixar jag väl saken själv. [Vännen trampar på en kvist]"
     next: "278b"
@@ -483,7 +443,6 @@ nodes:
         assets:
           - path: "Till föreställningen/0284 faronskogen_farore.png"
         params:
-          layer: 10
           fadeIn:
             from: 0
             time: 1
@@ -517,7 +476,6 @@ nodes:
         assets:
           - path: "Till föreställningen/0317-2 faronskogen_farore.png"
         params:
-          layer: 10
           fadeIn:
             from: 0
             time: 1
@@ -549,7 +507,6 @@ nodes:
           - path: "Till föreställningen/0336-1 loading3a.mp4"
         params:
           entityId: "loading3a"
-          layer: 10
           visible: true
           destroyOnEnd: false
   "336b":
@@ -562,7 +519,6 @@ nodes:
           - path: "Till föreställningen/0336-2 loading3b.mp4"
         params:
           entityId: "loading3b"
-          layer: 11
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -579,13 +535,8 @@ nodes:
           - path: "Till föreställningen/0336-3 loading3c.mp4"
         params:
           entityId: "loading3c"
-          layer: 12
           visible: true
           destroyOnEnd: false
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "loading3a"
   "336d":
     prompt: "[Omriggning klar]"
     next: "336e"
@@ -596,28 +547,51 @@ nodes:
           - path: "Till föreställningen/0336-4 loading3d.mp4"
         params:
           entityId: "loading3d"
-          layer: 13
           visible: true
+          destroyOnEnd: false
+  "336e":
+    prompt: "[Laddbar full]"
+    next: "342"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/0337 gerudo tent.png"
         params:
           entityId: "gerudo_talt"
-          layer: 14
           visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
+        params:
+          entityId: "loading3a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
         params:
           entityId: "loading3b"
-  "336e":
-    prompt: "[Öknen synlig, rensa lite]"
-    next: "342"
-    actions:
+          target: 0
+          time: 2
+          stopOnDone: true
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "loading3c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading3d"
+          target: 0
+          time: 2
+          stopOnDone: true
   "342":
     prompt: "Om jag bara hade min mors styrka... [Diin visar sig för Ganon] [TODO: Vilken av dem?]"
     next: "366"
@@ -627,7 +601,6 @@ nodes:
         assets:
           - path: "Till föreställningen/0342 gerudo_tent_diin_ph.png"
         params:
-          layer: 15
           fadeIn:
             from: 0
             time: 1
@@ -649,7 +622,6 @@ nodes:
         assets:
           - path: "Till föreställningen/0366 gerudo_diin_ph.png"
         params:
-          layer: 16
           fadeIn:
             from: 0
             time: 1
@@ -670,13 +642,8 @@ nodes:
           - path: "Till föreställningen/0414-1 loading4a.mp4"
         params:
           entityId: "loading4a"
-          layer: 17
           visible: true
           destroyOnEnd: false
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "gerudo_rod_talt"
   "414b":
     prompt: "[Lite omriggning]"
     next: "414c"
@@ -687,7 +654,6 @@ nodes:
           - path: "Till föreställningen/0414-2 loading4b.mp4"
         params:
           entityId: "loading4b"
-          layer: 18
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -704,13 +670,8 @@ nodes:
           - path: "Till föreställningen/0414-3 loading4c.mp4"
         params:
           entityId: "loading4c"
-          layer: 19
           visible: true
           destroyOnEnd: false
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "loading4a"
   "414d":
     prompt: "[Omriggning klar]"
     next: "414e"
@@ -721,28 +682,51 @@ nodes:
           - path: "Till föreställningen/0414-4 loading4d.mp4"
         params:
           entityId: "loading4d"
-          layer: 21
           visible: true
+          destroyOnEnd: false
+  "414e":
+    prompt: "[Laddbar full]"
+    next: "472"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/0440 Tronsal.png"
         params:
           entityId: "tronsal"
-          layer: 20
           visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
+        params:
+          entityId: "loading4a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
         params:
           entityId: "loading4b"
-  "414e":
-    prompt: "[Tronsalen synlig, rensa lite]"
-    next: "472"
-    actions:
+          target: 0
+          time: 2
+          stopOnDone: true
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "loading4c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading4d"
+          target: 0
+          time: 2
+          stopOnDone: true
   "472":
     prompt: "Link! [Link krossar krukor av scen]"
     next: "473"
@@ -773,7 +757,6 @@ nodes:
           - path: "Till föreställningen/0491 Tronsal_Zelda.png"
         params:
           entityId: "tronsal_zelda"
-          layer: 21
           visible: true
           fadeIn:
             from: 0
@@ -789,7 +772,6 @@ nodes:
           - path: "Till föreställningen/0502 Tronsal_Zelda_bla_gron_rod.png"
         params:
           entityId: "tronsal_zelda_bla_gron_rod"
-          layer: 22
           visible: true
           fadeIn:
             from: 0
@@ -813,7 +795,6 @@ nodes:
           - path: "Till föreställningen/0537 Tronsal_Zelda_bla_rod.png"
         params:
           entityId: "tronsal_zelda_bla_rod"
-          layer: 23
           visible: true
           fadeIn:
             from: 0
@@ -833,7 +814,6 @@ nodes:
           - path: "Till föreställningen/0539 Tronsal_Zelda_bla.png"
         params:
           entityId: "tronsal_zelda_bla"
-          layer: 24
           visible: true
           fadeIn:
             from: 0
@@ -859,13 +839,8 @@ nodes:
           - path: "Till föreställningen/0548-1 loading5a.mp4"
         params:
           entityId: "loading5a"
-          layer: 25
           visible: true
           destroyOnEnd: false
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "tronsal_zelda_bla_rod"
   "548b":
     prompt: "[Lite omriggning]"
     next: "548c"
@@ -876,13 +851,12 @@ nodes:
           - path: "Till föreställningen/0548-2 loading5b.mp4"
         params:
           entityId: "loading5b"
-          layer: 26
           visible: true
           destroyOnEnd: false
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "tronsal_zelda_bla"
+          entityId: "tronsal"
   "548c":
     prompt: "[Lite omriggning till]"
     next: "548d"
@@ -893,16 +867,11 @@ nodes:
           - path: "Till föreställningen/0548-3 loading5c.mp4"
         params:
           entityId: "loading5c"
-          layer: 27
           visible: true
           destroyOnEnd: false
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "loading5a"
   "548d":
     prompt: "[Omriggning klar]"
-    next: "556a"
+    next: "548e"
     actions:
       - target: "video"
         cmd: "create"
@@ -910,18 +879,51 @@ nodes:
           - path: "Till föreställningen/0548-4 loading5d.mp4"
         params:
           entityId: "loading5d"
-          layer: 29
           visible: true
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "loading5b"
+          destroyOnEnd: false
+  "548e":
+    prompt: "[Laddbar full]"
+    next: "556a"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/0551 i_slottet.png"
         params:
-          entityId: i_slottet
+          entityId: "i_slottet"
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading5a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading5b"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading5c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading5d"
+          target: 0
+          time: 2
+          stopOnDone: true
   "556a":
     prompt: "Fort Hateno har fallit för Ganondorf"
     next: "556b"
@@ -933,10 +935,6 @@ nodes:
         params:
           entityId: "kriget_1"
           visible: true
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "loading5c"
   "556b":
     prompt: "[Låten har börjat, rensa lite]"
     next: "699"
@@ -951,7 +949,6 @@ nodes:
           - path: "Till föreställningen/0692 Tronsal_Zelda_kaos.png"
         params:
           entityId: "tronsal_zelda_kaos"
-          layer: 0
           visible: true
   "699":
     prompt: "Min frys-besvärjelse håller inte för evigt. [Link går av scen]"
@@ -963,7 +960,6 @@ nodes:
           - path: "Till föreställningen/0699 Krigsmontage2_part1.webm"
         params:
           entityId: "krig2"
-          layer: 1
           visible: true
           looping: 0
           destroyOnEnd: false
@@ -1053,8 +1049,7 @@ nodes:
         assets:
           - path: "Till föreställningen/0733-1 loading6a.mp4"
         params:
-          entityId: "loading6b"
-          layer: 2
+          entityId: "loading6a"
           visible: true
           destroyOnEnd: false
   "733b":
@@ -1067,9 +1062,12 @@ nodes:
           - path: "Till föreställningen/0733-2 loading6b.mp4"
         params:
           entityId: "loading6b"
-          layer: 2
           visible: true
           destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_kaos"
   "733c":
     prompt: "[Lite omriggning till]"
     next: "733d"
@@ -1080,13 +1078,8 @@ nodes:
           - path: "Till föreställningen/0733-3 loading6c.mp4"
         params:
           entityId: "loading6c"
-          layer: 3
           visible: true
           destroyOnEnd: false
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "kriget_loading6a"
   "733d":
     prompt: "[Omriggning klar]"
     next: "733e"
@@ -1097,32 +1090,59 @@ nodes:
           - path: "Till föreställningen/0733-4 loading6d.mp4"
         params:
           entityId: "loading6d"
-          layer: 5
           visible: true
+          destroyOnEnd: false
+  "733e":
+    prompt: "[Laddbar full]"
+    next: "742"
+    actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/0734 Tronsal_Zelda_krig.png"
         params:
           entityId: "tronsal_zelda_krig"
-          layer: 4
           visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
+        params:
+          entityId: "loading6a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
         params:
           entityId: "loading6b"
-  "733e":
-    prompt: "[Tronsal synlig, rensa lite]"
-    next: "742"
-    actions:
+          target: 0
+          time: 2
+          stopOnDone: true
       - target: "video"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "loading6c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading6d"
+          target: 0
+          time: 2
+          stopOnDone: true
   "742":
     prompt: "Den dåliga nyheten är att Ganondorfs styrkor också är här."
     next: "756"
-    # TODO ljud stridstrumpeter
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0742 stridstrumpeter.mp3"
   "756":
     prompt: "Link, uppehåll honom!"
     next: "783"
@@ -1146,7 +1166,6 @@ nodes:
           - path: "Till föreställningen/0806 Aktfinal.mp4"
         params:
           entityId: "aktfinal"
-          layer: 5
           visible: true
           destroyOnEnd: false
       - target: "image"
@@ -1163,8 +1182,111 @@ nodes:
           entityId: "aktfinal"
   "961":
     prompt: "[Redo för akt 2]"
+    next: "988a"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0961 Vardagsrum.png"
+        params:
+          entityId: "vardagsrum"
+          layer: 0
+          visible: true
+  "988a":
+    prompt: "Lämna mig inte ensam, annars säger jag till mamma!"
+    next: "988b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0988-1 loading7a.mp4"
+        params:
+          entityId: "loading7a"
+          visible: true
+          destroyOnEnd: false
+  "988b":
+    prompt: "[Lite omriggning]"
+    next: "988c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0988-2 loading7b.mp4"
+        params:
+          entityId: "loading7b"
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "faronskogen"
+  "988c":
+    prompt: "[Lite omriggning till]"
+    next: "988d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0988-3 loading7c.mp4"
+        params:
+          entityId: "loading7c"
+          visible: true
+          destroyOnEnd: false
+  "988d":
+    prompt: "[Omriggning klar]"
+    next: "988e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0988-4 loading7d.mp4"
+        params:
+          entityId: "loading7d"
+          visible: true
+          destroyOnEnd: false
+  "988e":
+    prompt: "[Laddbar full]"
     next: "1"
-
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0989 kakariko_plundered.png"
+        params:
+          entityId: "kakariko"
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7b"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7d"
+          target: 0
+          time: 2
+          stopOnDone: true
       
 action_templates: {}
 assets:
