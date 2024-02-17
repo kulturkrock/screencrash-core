@@ -177,8 +177,6 @@ nodes:
         cmd: "create"
         assets:
           - path: "Till föreställningen/0118 summon fejkdiin.wav"
-        params:
-          entityId: "summon_fejkdiin"
       - target: "image"
         cmd: "destroy"
         params:
@@ -1246,7 +1244,7 @@ nodes:
           destroyOnEnd: false
   "988e":
     prompt: "[Laddbar full]"
-    next: "1"
+    next: "991"
     actions:
       - target: "image"
         cmd: "create"
@@ -1287,7 +1285,264 @@ nodes:
           target: 0
           time: 2
           stopOnDone: true
-      
+  "991":
+    prompt: "Hej! Lyssna!"
+    next: "1000"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0991 kakariko_plundered_farore.png"
+        params:
+          entityId: kakariko_plundered_farore
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+  "1000":
+    prompt: "Prisa gudinnorna, det är du! [Nu] Det är fruktansvärt..."
+    next: "1001"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1000.png"
+        params:
+          visible: true
+  "1001":
+    prompt: "Vi kan hoppa över, det är inte viktigt."
+    next: "1003"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1001 skip.mp4"
+        params:
+          visible: true
+  "1003":
+    prompt: "Hoppa över."
+    next: "1005"
+    # TODO: Dialog skip
+  "1005":
+    prompt: "Hoppa över."
+    next: "1021a"
+  "1021a":
+    prompt: "Det är hitåt! [Link och vännen går av scen]"
+    next: "1021b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1021-1 loading8a.mp4"
+        params:
+          entityId: "loading8a"
+          visible: true
+          destroyOnEnd: false
+  "1021b":
+    prompt: "[Lite omriggning]"
+    next: "1021c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1021-2 loading8b.mp4"
+        params:
+          entityId: "loading8b"
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kakariko"
+  "1021c":
+    prompt: "[Lite omriggning till]"
+    next: "1021d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1021-3 loading8c.mp4"
+        params:
+          entityId: "loading8c"
+          visible: true
+          destroyOnEnd: false
+  "1021d":
+    prompt: "[Omriggning klar]"
+    next: "1021e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1021-4 loading8d.mp4"
+        params:
+          entityId: "loading8d"
+          visible: true
+          destroyOnEnd: false
+  "1021e":
+    prompt: "[Laddbar full]"
+    next: "1025"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1022 dungeon.png"
+        params:
+          entityId: "dungeon"
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8b"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8d"
+          target: 0
+          time: 2
+          stopOnDone: true
+  "1025":
+    prompt: "[Ganon kommer in på scen]"
+    next: "1079a"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1025 Ganon_Zelda REPVERSION.mp3"
+  "1079a":
+    prompt: "[Ganon går av scen, ljuset dunklas]"
+    next: "1079b"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1034-1 loading9a.mp4"
+        params:
+          entityId: "loading9a"
+          visible: true
+          destroyOnEnd: false
+  "1079b":
+    prompt: "[Lite omriggning]"
+    next: "1079c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1034-2 loading9b.mp4"
+        params:
+          entityId: "loading9b"
+          visible: true
+          destroyOnEnd: false
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "kakariko"
+  "1079c":
+    prompt: "[Lite omriggning till]"
+    next: "1079d"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1034-3 loading9c.mp4"
+        params:
+          entityId: "loading9c"
+          visible: true
+          destroyOnEnd: false
+  "1079d":
+    prompt: "[Omriggning klar]"
+    next: "1079e"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1034-4 loading9d.mp4"
+        params:
+          entityId: "loading9d"
+          visible: true
+          destroyOnEnd: false
+  "1079e":
+    prompt: "[Laddbar full]"
+    next: "1134"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1130 dekutree_dark1 ph.png"
+        params:
+          entityId: "deku_dark"
+          visible: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8a"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8b"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8c"
+          target: 0
+          time: 2
+          stopOnDone: true
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8d"
+          target: 0
+          time: 2
+          stopOnDone: true
+  "1134":
+    prompt: "Hoppa över."
+    next: "1147"
+    # TODO: Dialog skip en massa här
+  "1147":
+    prompt: "Jag litar på dig med mitt liv."
+    next: "1"
+    # TODO: Film
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1147 Boss Fight v3.5 REPVERSION.mp3"
+
+
+  
+
+
 action_templates: {}
 assets:
   "script":
