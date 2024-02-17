@@ -48,3 +48,7 @@ You can configure Core with the following environment variables:
 | `src/`         | Source code.                                                                     |
 | `src/main.py`  | The main entry point of the project.                                             |
 | `resources`    | The location to place resources for use in development                           |
+
+TODO:
+- Dra ner volymen av dismiss fejkdiin (add feature?)
+- Fixa vampbugg

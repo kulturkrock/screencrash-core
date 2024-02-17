@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 watchdog = "==2.1.6"
+pyaudacity = "*"
 
 [packages]
 websockets = "==10.0"
@@ -14,4 +15,4 @@ pymupdf = "*"
 jsonpath_ng = "==1.5.3"
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"
