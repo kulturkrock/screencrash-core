@@ -169,6 +169,13 @@ nodes:
             from: 0
             time: 1
             to: 1
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "hyrulien"
+          target: 0
+          time: 1
+          stopOnDone: true
   "118":
     prompt: "Kan ni göra illusioner? [Nayru gör gester]"
     next: "144"
@@ -177,10 +184,6 @@ nodes:
         cmd: "create"
         assets:
           - path: "Till föreställningen/0118 summon fejkdiin.wav"
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "hyrulien"
   "144":
     prompt: "Det är inte som att det finns så mycket annat att göra. [Nayru avslutar förtrollningen]"
     next: "174a"
@@ -203,6 +206,10 @@ nodes:
           entityId: "startmeny_loading1a"
           visible: true
           destroyOnEnd: false
+          fadeIn:
+            from: 0
+            to: 1
+            time: 2
   "174b":
     prompt: "[Lite omriggning]"
     next: "174c"
@@ -215,6 +222,13 @@ nodes:
           entityId: "loading1b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "startmeny_loading1a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -231,6 +245,13 @@ nodes:
           entityId: "loading1c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading1b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "174d":
     prompt: "[Omriggning klar]"
     next: "174e"
@@ -243,6 +264,13 @@ nodes:
           entityId: "loading1d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading1c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "174e":
     prompt: "[Laddbar full]"
     next: "197"
@@ -261,29 +289,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "startmeny_loading1a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading1b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading1c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading1d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "197":
@@ -346,6 +353,13 @@ nodes:
           entityId: "loading2b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading2a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -362,6 +376,13 @@ nodes:
           entityId: "loading2c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading2b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "266d":
     prompt: "[Omriggning klar]"
     next: "266e"
@@ -374,6 +395,13 @@ nodes:
           entityId: "loading2d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading2c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "266e":
     prompt: "[Laddbar full]"
     next: "278a"
@@ -392,50 +420,21 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading2a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading2b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading2c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading2d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "278a":
     prompt: "Om du inte vågar så fixar jag väl saken själv. [Vännen trampar på en kvist]"
-    next: "278b"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/0278 twig-snap.wav"
-  "278b":
-    prompt: "[Monstret upptäcker dem]"
     next: "284"
     actions:
-      - target: "audio"
+      - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0278 Monster_Fight.mp3"
+          - path: "Till föreställningen/0278 WIP_MonsterFight.mp4"
         params:
           entityId: "monster_fight"
-  # TODO: GUI med hjärtan?
+          visible: true
   "284":
     prompt: "... Farmor? [Farore visar sig]"
     next: "314"
@@ -443,7 +442,7 @@ nodes:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0284 faronskogen_farore.png"
+          - path: "Till föreställningen/0311 faronskogen_farore.png"
         params:
           fadeIn:
             from: 0
@@ -451,12 +450,13 @@ nodes:
             to: 1
           visible: true
           entityId: "faronskogen_gron"
-      - target: "audio"
+      - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0284 Mod.mp3"
+          - path: "Till föreställningen/0284 WIP_Mod.mp4"
         params:
           entityId: "mod"
+          visible: true
   "314":
     prompt: "Vi syns! [Farore börjar gå av scen]"
     next: "317"
@@ -535,6 +535,13 @@ nodes:
           entityId: "loading3b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading3a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -551,6 +558,13 @@ nodes:
           entityId: "loading3c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading3b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "336d":
     prompt: "[Omriggning klar]"
     next: "336e"
@@ -563,6 +577,13 @@ nodes:
           entityId: "loading3d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading3c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "336e":
     prompt: "[Laddbar full]"
     next: "342"
@@ -581,29 +602,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading3a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading3b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading3c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading3d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "342":
@@ -615,12 +615,15 @@ nodes:
         assets:
           - path: "Till föreställningen/0342 Styrka.mp4"
         params:
-          fadeIn:
-            from: 0
-            time: 1
-            to: 1
           visible: true
           entityId: "styrka"
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "gerudo_talt"
+          target: 1
+          time: 1
+          stopOnDone: true
   "414a":
     prompt: "Mot Hyrulien! För Ganondorf! [Ganon går av scen]"
     next: "414b"
@@ -633,6 +636,10 @@ nodes:
           entityId: "loading4a"
           visible: true
           destroyOnEnd: false
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
   "414b":
     prompt: "[Lite omriggning]"
     next: "414c"
@@ -645,6 +652,13 @@ nodes:
           entityId: "loading4b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading4a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -661,10 +675,13 @@ nodes:
           entityId: "loading4c"
           visible: true
           destroyOnEnd: false
-          fadeIn:
-            from: 0
-            time: 1
-            to: 1
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading4b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "414d":
     prompt: "[Omriggning klar]"
     next: "414e"
@@ -677,6 +694,13 @@ nodes:
           entityId: "loading4d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading4c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "414e":
     prompt: "[Laddbar full]"
     next: "472"
@@ -695,29 +719,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading4a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading4b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading4c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading4d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "472":
@@ -739,7 +742,13 @@ nodes:
   "478":
     prompt: "Här, bara ta den! [Link håller upp kristallen]"
     next: "491a"
-    # TODO film Link får Rupee
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0478 WIP_LinkHittarLilaRupee.mp4"
+        params:
+          visible: true
   "491a":
     prompt: "Nåväl. Jag ska lämna er två ifred."
     next: "502"
@@ -757,6 +766,20 @@ nodes:
             to: 1
   "502":
     prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar lite med sitt svärd, gudinnorna visar sig]"
+    next: "502b"
+    actions:
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal"
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0502 gudinnornas entre.mp4"
+        params:
+          visible: true
+  "502b":
+    prompt: "[Filmen har börjat]"
     next: "537"
     actions:
       - target: "image"
@@ -766,18 +789,10 @@ nodes:
         params:
           entityId: "tronsal_zelda_bla_gron_rod"
           visible: true
-          fadeIn:
-            from: 0
-            time: 1
-            to: 1
       - target: "image"
         cmd: "destroy"
         params:
-          entityId: "tronsal"
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/0502 gudinnornas entre.mp4"
+          entityId: "tronsal_zelda"
   "537":
     prompt: "Du ska ut på fler äventyr! [Link och Farore går av scen]"
     next: "539"
@@ -793,10 +808,6 @@ nodes:
             from: 0
             time: 1
             to: 1
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "tronsal_zelda"
   "539":
     prompt: "Intressant. [Nayru avfärdar Fejk-Diin]"
     next: "548a"
@@ -850,6 +861,13 @@ nodes:
           entityId: "loading5b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading5a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -870,6 +888,13 @@ nodes:
           entityId: "loading5c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading5b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "548d":
     prompt: "[Omriggning klar]"
     next: "548e"
@@ -882,31 +907,17 @@ nodes:
           entityId: "loading5d"
           visible: true
           destroyOnEnd: false
-  "548e":
-    prompt: "[Laddbar full]"
-    next: "556a"
-    actions:
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading5a"
-          target: 0
-          time: 1
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading5b"
-          target: 0
-          time: 1
-          stopOnDone: true
       - target: "video"
         cmd: "fade"
         params:
           entityId: "loading5c"
-          target: 0
+          target: 1
           time: 1
           stopOnDone: true
+  "548e":
+    prompt: "[Laddbar full]"
+    next: "556a"
+    actions:
       - target: "video"
         cmd: "fade"
         params:
@@ -1038,6 +1049,10 @@ nodes:
           entityId: "loading6a"
           visible: true
           destroyOnEnd: false
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
   "733b":
     prompt: "[Lite omriggning]"
     next: "733c"
@@ -1050,6 +1065,13 @@ nodes:
           entityId: "loading6b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading6a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -1066,6 +1088,13 @@ nodes:
           entityId: "loading6c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading6b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "733d":
     prompt: "[Omriggning klar]"
     next: "733e"
@@ -1078,6 +1107,13 @@ nodes:
           entityId: "loading6d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading6c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "733e":
     prompt: "[Laddbar full]"
     next: "742"
@@ -1096,29 +1132,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading6a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading6b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading6c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading6d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "742":
@@ -1144,6 +1159,12 @@ nodes:
             from: 0
             time: 1
             to: 1
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0756 WIP_ForstaDuellen.mp4"
+        params:
+          visible: true
   "783":
     prompt: "Link!"
     next: "806"
@@ -1160,7 +1181,7 @@ nodes:
         cmd: "fade"
         params:
           entityId: "tomma_hjartan"
-          target: 0
+          target: 1
           time: 1
           stopOnDone: true
   "806":
@@ -1176,9 +1197,12 @@ nodes:
           visible: true
           destroyOnEnd: false
       - target: "image"
-        cmd: "destroy"
+        cmd: "fade"
         params:
           entityId: "tronsal_zelda_krig"
+          target: 1
+          time: 1
+          stopOnDone: true
   "922":
     prompt: "[Ridån är för]"
     next: "961"
