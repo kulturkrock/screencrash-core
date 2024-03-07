@@ -960,8 +960,8 @@ nodes:
           entityId: "krig2"
           visible: true
           looping: 0
-          # seamless: true
-          # mimeCodec: 'video/webm; codecs="vp9, opus"'
+          seamless: true
+          mimeCodec: 'video/webm; codecs="vp9, opus"'
       - target: "video"
         cmd: "set_volume"
         params:
