@@ -1233,6 +1233,10 @@ nodes:
         params:
           entityId: "loading7a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "988b":
     prompt: "[Lite omriggning]"
@@ -1246,6 +1250,13 @@ nodes:
           entityId: "loading7b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -1262,6 +1273,13 @@ nodes:
           entityId: "loading7c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "988d":
     prompt: "[Omriggning klar]"
     next: "988e"
@@ -1274,6 +1292,13 @@ nodes:
           entityId: "loading7d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading7c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "988e":
     prompt: "[Laddbar full]"
     next: "991"
@@ -1292,34 +1317,13 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading7a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading7b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading7c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading7d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "991":
     prompt: "Hej! Lyssna!"
-    next: "1000"
+    next: "997"
     actions:
       - target: "image"
         cmd: "create"
@@ -1332,8 +1336,34 @@ nodes:
             from: 0
             time: 1
             to: 1
+  "997":
+    prompt: "Nåd! Snälla herr rövare, vi har inga fler nötter! Vi har ingenting kvar!"
+    next: "999"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/997 Overlay.png"
+        params:
+          visible: true
+          entityId: "overlay997"
+  "999":
+    prompt: "Link! Prisa gudinnorna, det är du!"
+    next: "1000"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/999 Overlay.png"
+        params:
+          visible: true
+          entityId: "overlay999"
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "overlay997"
   "1000":
-    prompt: "Prisa gudinnorna, det är du! [Nu] Det är fruktansvärt..."
+    prompt: "Det är fruktansvärt..."
     next: "1001"
     actions:
       - target: "image"
@@ -1343,6 +1373,10 @@ nodes:
         params:
           visible: true
           entityId: "overlay"
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "overlay999"
   "1001":
     prompt: "Vi kan hoppa över, det är inte viktigt."
     next: "1002"
@@ -1357,7 +1391,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay"
           stopOnDone: true
   "1002":
@@ -1385,7 +1419,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay"
           stopOnDone: true
   "1004":
@@ -1413,7 +1447,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay"
           stopOnDone: true
   "1006":
@@ -1439,12 +1473,9 @@ nodes:
           visible: true
           entityId: "overlay1009"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1006"
-          stopOnDone: true
   "1011a":
     prompt: "\"Du är vårt enda hopp\"... \"Zelda\" [när?]"
     next: "1011b"
@@ -1457,12 +1488,9 @@ nodes:
           visible: true
           entityId: "overlay1011_1"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1009"
-          stopOnDone: true
   "1011b":
     prompt: "Har du fått ett uppdrag från prinsessan? Ska du rädda oss från Ganondorf i alla fall? [när?]"
     next: "1013"
@@ -1475,12 +1503,9 @@ nodes:
           visible: true
           entityId: "overlay1011_2"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1011_1"
-          stopOnDone: true
   "1013":
     prompt: "Och du behöver hjälp att läsa kartan? [när?]"
     next: "1015"
@@ -1493,12 +1518,9 @@ nodes:
           visible: true
           entityId: "overlay1013"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1011_2"
-          stopOnDone: true
   "1015":
     prompt: "Ja, okej... Men det är farligt där ute! Är du säker på att vi klarar det? [när?]"
     next: "1017"
@@ -1511,12 +1533,9 @@ nodes:
           visible: true
           entityId: "overlay1015"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1013"
-          stopOnDone: true
   "1017":
     prompt: "Ja men då så! Du verkar veta vad du gör. Vilken tur att jag sprang på någon så modig som du! [när?]"
     next: "1019"
@@ -1529,12 +1548,9 @@ nodes:
           visible: true
           entityId: "overlay1017"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1015"
-          stopOnDone: true
   "1019":
     prompt: "Det är hitåt! [när?]"
     next: "1021a"
@@ -1547,14 +1563,11 @@ nodes:
           visible: true
           entityId: "overlay1019"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1017"
-          stopOnDone: true
   "1021a":
-    prompt: "Det är hitåt! [Link och vännen går av scen]"
+    prompt: "[Link och vännen går av scen]"
     next: "1021b"
     actions:
       - target: "video"
@@ -1564,6 +1577,10 @@ nodes:
         params:
           entityId: "loading8a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "1021b":
     prompt: "[Lite omriggning]"
@@ -1577,6 +1594,13 @@ nodes:
           entityId: "loading8b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -1601,6 +1625,13 @@ nodes:
           entityId: "loading8c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1021d":
     prompt: "[Omriggning klar]"
     next: "1021e"
@@ -1613,6 +1644,13 @@ nodes:
           entityId: "loading8d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading8c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1021e":
     prompt: "[Laddbar full]"
     next: "1025"
@@ -1631,29 +1669,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading8a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading8b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading8c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading8d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "1025":
@@ -1675,6 +1692,10 @@ nodes:
         params:
           entityId: "loading9a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "1079b":
     prompt: "[Lite omriggning]"
@@ -1688,6 +1709,13 @@ nodes:
           entityId: "loading9b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading9a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -1704,6 +1732,13 @@ nodes:
           entityId: "loading9c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading9b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1079d":
     prompt: "[Omriggning klar]"
     next: "1079e"
@@ -1716,6 +1751,13 @@ nodes:
           entityId: "loading9d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading9c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1079e":
     prompt: "[Laddbar full]"
     next: "1133"
@@ -1734,29 +1776,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading9a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading9b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading9c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading9d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "1133":
@@ -1784,7 +1805,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay"
           stopOnDone: true
   "1135":
@@ -1812,7 +1833,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay"
           stopOnDone: true
   "1137":
@@ -1840,7 +1861,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay"
           stopOnDone: true
   "1139":
@@ -1864,14 +1885,11 @@ nodes:
           - path: "Till föreställningen/1141 Overlay.png"
         params:
           visible: true
-          entityId: "1141"
+          entityId: "overlay1141"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1139"
-          stopOnDone: true
   "1143":
     prompt: "Måste vi slåss mot den? Det är en sån farlig, med horn... [när?]"
     next: "1146"
@@ -1882,14 +1900,11 @@ nodes:
           - path: "Till föreställningen/1143 Overlay.png"
         params:
           visible: true
-          entityId: "1143"
+          entityId: "overlay1143"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1141"
-          stopOnDone: true
   "1146":
     prompt: "Okej. Om du säger att vi måste så måste vi. [när?]"
     next: "1147"
@@ -1900,14 +1915,11 @@ nodes:
           - path: "Till föreställningen/1146 Overlay.png"
         params:
           visible: true
-          entityId: "1146"
+          entityId: "overlay1146"
       - target: "image"
-        cmd: "fade"
+        cmd: "destroy"
         params:
-          time: 1
-          target: 0
           entityId: "overlay1143"
-          stopOnDone: true
   "1147":
     prompt: "Jag litar på dig med mitt liv."
     next: "1176a"
@@ -1924,40 +1936,61 @@ nodes:
           target: 0
           entityId: "overlay1146"
           stopOnDone: true
-  "1176a":
-    prompt: "Du får sörja honom när Ganondorf är besegrad."
-    next: "1178"
-    # TODO: Film med ljud
-  "1178":
-    prompt: "Vi kan hoppa över det här."
-    next: "1179"
-    # TODO: Kan inte hoppa över
-  "1179":
-    prompt: "[Strax efter]"
-    next: "1238a"
-    actions:
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/1178 Legenden PH 2024-02-28.mp4"
-        params:
-          visible: true
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/1227 dekutree_no_face.png"
-        params:
-          visible: true
-          fadeIn:
-            time: 1
-            to: 1
-            from: 0
       - target: "image"
         cmd: "fade"
         params:
           time: 1
           target: 0
-          entityId: "dekutree_dark"
+          entityId: "deku_dark"
+          stopOnDone: true
+  "1176a":
+    prompt: "Du får sörja honom när Ganondorf är besegrad."
+    next: "1178"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1176-2 Deku1 still.png"
+        params:
+          entityId: "deku1_still"
+          visible: true
+          fadeIn:
+            time: 1
+            to: 1
+            from: 0
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1176-1 replik Deku1.mp4"
+        params:
+          visible: true
+  "1178":
+    prompt: "Vi kan hoppa över det här."
+    next: "1238a"
+    actions:
+      - target: "image"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1227 dekutree_no_face.png"
+        params:
+          entityId: "dekutree_no_face"
+          visible: true
+          fadeIn:
+            time: 1
+            to: 1
+            from: 0
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1178 Legenden.mp4"
+        params:
+          visible: true
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "deku1_still"
+          target: 1
+          time: 1
           stopOnDone: true
   "1238a":
     prompt: "[Farore går av scen med en suck]"
@@ -1970,6 +2003,10 @@ nodes:
         params:
           entityId: "loading10a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "1238b":
     prompt: "[Lite omriggning]"
@@ -1983,6 +2020,13 @@ nodes:
           entityId: "loading10b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading10a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -1999,6 +2043,13 @@ nodes:
           entityId: "loading10c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading10b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1238d":
     prompt: "[Omriggning klar]"
     next: "1238e"
@@ -2011,6 +2062,13 @@ nodes:
           entityId: "loading10d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading10c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1238e":
     prompt: "[Laddbar full]"
     next: "1242"
@@ -2029,29 +2087,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading10a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading10b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading10c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading10d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "1242":
@@ -2063,7 +2100,12 @@ nodes:
         assets:
           - path: "Till föreställningen/1242-2 dungeon_nayru.png"
         params:
+          entityId: "dungeon_nayru"
           visible: true
+          fadeIn:
+            time: 1
+            to: 1
+            from: 0
       - target: "audio"
         cmd: "create"
         assets:
@@ -2079,6 +2121,10 @@ nodes:
         params:
           entityId: "loading11a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "1276b":
     prompt: "[Lite omriggning]"
@@ -2092,6 +2138,13 @@ nodes:
           entityId: "loading11b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading11a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -2112,6 +2165,13 @@ nodes:
           entityId: "loading11c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading11b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1276d":
     prompt: "[Omriggning klar]"
     next: "1276e"
@@ -2124,6 +2184,13 @@ nodes:
           entityId: "loading11d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading11c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1276e":
     prompt: "[Laddbar full]"
     next: "1286"
@@ -2142,29 +2209,8 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading11a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading11b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading11c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading11d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "1286":
@@ -2175,8 +2221,15 @@ nodes:
         cmd: "create"
         assets:
           - path: "Till föreställningen/1286 Duell2_11_29 REPVERSION.mp3"
+      - target: "image"
+        cmd: "fade"
+        params:
+          time: 1
+          target: 0
+          entityId: "tronsal_ganon_bleak"
+          stopOnDone: true
   "1309":
-    prompt: "[Efter låten, ska vara automatiskt]"
+    prompt: "[Efter låten]"
     next: "1319"
     actions:
       - target: "image"
@@ -2186,13 +2239,10 @@ nodes:
         params:
           entityId: "tronsal_ganon"
           visible: true
-      - target: "image"
-        cmd: "fade"
-        params:
-          time: 1
-          target: 0
-          entityId: "tronsal_ganon_bleak"
-          stopOnDone: true
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
   "1319":
     prompt: "Va? Vad sa du, din fegis?"
     next: "1384"
@@ -2201,6 +2251,13 @@ nodes:
         cmd: "create"
         assets:
           - path: "Till föreställningen/1319 Skymningsspegeln REPVERSION.mp3"
+      - target: "image"
+        cmd: "fade"
+        params:
+          time: 1
+          target: 0
+          entityId: "tronsal_ganon"
+          stopOnDone: true
   "1384":
     prompt: "Förlåt mig, Link. Du ger mig inget val."
     next: "1390"
@@ -2216,13 +2273,6 @@ nodes:
             from: 0
             time: 1
             to: 1
-      - target: "image"
-        cmd: "fade"
-        params:
-          time: 1
-          target: 0
-          entityId: "tronsal_ganon"
-          stopOnDone: true
   "1390":
     prompt: "Som ingen annan än du förstår. [Nayru går av scen]"
     next: "1402"
@@ -2242,7 +2292,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "tronsal_ganon_bla"
           stopOnDone: true
   "1402":
@@ -2264,12 +2314,12 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "tronsal_ganon"
           stopOnDone: true
   "1403":
-    prompt: "Gudinnornas spel..."
-    next: "1430a"
+    prompt: "[Kort därefter]"
+    next: "1419"
     actions:
       - target: "image"
         cmd: "create"
@@ -2289,6 +2339,22 @@ nodes:
           target: 0
           entityId: "victory"
           stopOnDone: true
+  "1419":
+    prompt: "Nähä. Okej. [Nayru trollar fram fejkdiin]"
+    next: "1425"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1419 summon fejkdiin.wav"
+  "1425":
+    prompt: "[Nayru trollar bort fejkdiin] [när?]"
+    next: "1430a"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1425 dismiss fejkdiin.wav"
   "1430a":
     prompt: "Jodå. Det blir alltid en nästa omgång."
     next: "1430b"
@@ -2300,6 +2366,10 @@ nodes:
         params:
           entityId: "loading12a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "1430b":
     prompt: "[Lite omriggning]"
@@ -2313,6 +2383,13 @@ nodes:
           entityId: "loading12b"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading12a"
+          target: 1
+          time: 1
+          stopOnDone: true
       - target: "image"
         cmd: "destroy"
         params:
@@ -2329,6 +2406,13 @@ nodes:
           entityId: "loading12c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading12b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1430d":
     prompt: "[Omriggning klar]"
     next: "1430e"
@@ -2341,6 +2425,13 @@ nodes:
           entityId: "loading12d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading12c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1430e":
     prompt: "[Laddbar full]"
     next: "1489a"
@@ -2353,32 +2444,19 @@ nodes:
           entityId: "skymningslandet"
           visible: true
           looping: 0
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading12a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading12b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading12c"
-          target: 0
-          time: 2
-          stopOnDone: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1431-2 Skymningslandet.wav"
       - target: "video"
         cmd: "fade"
         params:
           entityId: "loading12d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "1489a":
@@ -2392,6 +2470,10 @@ nodes:
         params:
           entityId: "loading13a"
           visible: true
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
           destroyOnEnd: false
   "1489b":
     prompt: "[Lite omriggning]"
@@ -2405,7 +2487,14 @@ nodes:
           entityId: "loading13b"
           visible: true
           destroyOnEnd: false
-      - target: "image"
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading13a"
+          target: 1
+          time: 1
+          stopOnDone: true
+      - target: "video"
         cmd: "destroy"
         params:
           entityId: "skymningslandet"
@@ -2421,6 +2510,13 @@ nodes:
           entityId: "loading13c"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading13b"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1489d":
     prompt: "[Omriggning klar]"
     next: "1489e"
@@ -2433,6 +2529,13 @@ nodes:
           entityId: "loading13d"
           visible: true
           destroyOnEnd: false
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "loading13c"
+          target: 1
+          time: 1
+          stopOnDone: true
   "1489e":
     prompt: "[Laddbar full]"
     next: "1494"
@@ -2447,40 +2550,20 @@ nodes:
       - target: "video"
         cmd: "fade"
         params:
-          entityId: "loading13a"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading13b"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
-          entityId: "loading13c"
-          target: 0
-          time: 2
-          stopOnDone: true
-      - target: "video"
-        cmd: "fade"
-        params:
           entityId: "loading13d"
-          target: 0
+          target: 1
           time: 2
           stopOnDone: true
   "1494":
     prompt: "Vad är det nu då. [Nayru visar sig]"
-    next: "1507"
+    next: "1498"
     actions:
       - target: "image"
         cmd: "create"
         assets:
           - path: "Till föreställningen/1494-2 Tronsal_Zelda_bla.png"
         params:
+          entityId: "tronsal_zelda_bla"
           visible: true
           fadeIn:
             from: 0
@@ -2490,13 +2573,17 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "tronsal_zelda"
           stopOnDone: true
       - target: "audio"
         cmd: "create"
         assets:
           - path: "Till föreställningen/1494-1 goddess reveal.wav"
+  "1498":
+    prompt: "Det är omöjligt! [Link och Ganon rusar in]"
+    next: "1507"
+    # TODO: Tredje duellen
   "1507":
     prompt: "Jag är också här!"
     next: "1518"
@@ -2508,11 +2595,15 @@ nodes:
         params:
           visible: true
           entityId: "tronsal_zelda_bla_gron_rod"
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
       - target: "image"
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "tronsal_zelda_bla"
           stopOnDone: true
       - target: "audio"
@@ -2542,7 +2633,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "tronsal_zelda_bla_gron_rod"
           stopOnDone: true
   "1637a":
@@ -2553,7 +2644,7 @@ nodes:
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "victory"
           stopOnDone: true
   "1637b":
