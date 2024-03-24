@@ -30,7 +30,7 @@ nodes:
         params:
           entityId: "ouvertyr_audio"
   "20":
-    prompt: "Och hålla huvudet kallt [Korokerna klär ut sig till hov]"
+    prompt: "Och hålla huvudet kallt [Musiken går du-duruu]"
     next: "30"
     actions:
       - target: "image"
@@ -72,7 +72,7 @@ nodes:
           time: 1
           stopOnDone: true
   "51":
-    prompt: "Krävs mod, ja en djärvhet så stor [Korokerna klär ut sig till bybor]"
+    prompt: "Krävs mod, ja en djärvhet så stor [Musiken går du-duruu]"
     next: "56"
     actions:
       - target: "image"
@@ -114,7 +114,7 @@ nodes:
           time: 1
           stopOnDone: true
   "77":
-    prompt: "Det är blott den starkes land [Korokerna klär ut sig till rövare]"
+    prompt: "Det är blott den starkes land [Musiken går du-duruu]"
     next: "80"
     actions:
       - target: "image"
@@ -431,12 +431,12 @@ nodes:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0278 WIP_MonsterFight.mp4"
+          - path: "Till föreställningen/0278 MonsterFight.mp4"
         params:
           entityId: "monster_fight"
           visible: true
   "284":
-    prompt: "... Farmor? [Farore visar sig]"
+    prompt: "... Farmor? [Farore tar av huvan]"
     next: "314"
     actions:
       - target: "image"
@@ -453,13 +453,13 @@ nodes:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0284 WIP_Mod.mp4"
+          - path: "Till föreställningen/0284 Mod.mp4"
         params:
           entityId: "mod"
           visible: true
   "314":
     prompt: "Vi syns! [Farore börjar gå av scen]"
-    next: "317"
+    next: "315"
     actions:
       - target: "image"
         cmd: "fade"
@@ -468,8 +468,8 @@ nodes:
           target: 0
           time: 1
           stopOnDone: true
-  "317":
-    prompt: "... Visst ja! [Farore visar sig igen]"
+  "315":
+    prompt: "Du glömde något! [Farore går tillbaka mot Link]"
     next: "322"
     actions:
       # TODO ljud när Farore uppenbarar sig
@@ -500,7 +500,7 @@ nodes:
           time: 1
           stopOnDone: true
   "333":
-    prompt: "Kom, vi går tillbaka. [Link plockar upp nöten]"
+    prompt: "Jag tror att du kommer ha mer användning av den än jag. [Link går mot nöten]"
     next: "336a"
     actions:  
       - target: "audio"
@@ -607,7 +607,7 @@ nodes:
           time: 2
           stopOnDone: true
   "342":
-    prompt: "Om jag bara hade min mors styrka... [Diin visar sig för Ganon] [TODO: Vilken av dem?]"
+    prompt: "Att jag inte kommer räcka till [på 'till']"
     next: "414a"
     actions:
       - target: "video"
@@ -724,7 +724,7 @@ nodes:
           time: 2
           stopOnDone: true
   "472":
-    prompt: "Link! [Link krossar krukor av scen]"
+    prompt: "Link! [Link går av scen]"
     next: "473"
     actions:
       - target: "audio"
@@ -765,23 +765,13 @@ nodes:
             time: 20
             to: 1
   "502":
-    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar lite med sitt svärd, gudinnorna visar sig]"
-    next: "502b"
+    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar med sitt svärd, sen kommer gudinnorna in på scen]"
+    next: "537"
     actions:
       - target: "image"
         cmd: "destroy"
         params:
           entityId: "tronsal"
-      - target: "video"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/0502 gudinnornas entre.mp4"
-        params:
-          visible: true
-  "502b":
-    prompt: "[Filmen har börjat]"
-    next: "537"
-    actions:
       - target: "image"
         cmd: "create"
         assets:
@@ -789,10 +779,16 @@ nodes:
         params:
           entityId: "tronsal_zelda_bla_gron_rod"
           visible: true
-      - target: "image"
-        cmd: "destroy"
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/0502 gudinnornas entre.mp4"
         params:
-          entityId: "tronsal_zelda"
+          visible: true
   "537":
     prompt: "Du ska ut på fler äventyr! [Link och Farore går av scen]"
     next: "539"
@@ -808,6 +804,10 @@ nodes:
             from: 0
             time: 1
             to: 1
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda"
   "539":
     prompt: "Intressant. [Nayru avfärdar Fejk-Diin]"
     next: "548a"
@@ -939,7 +939,7 @@ nodes:
           layer: 1
   "556b":
     prompt: "[Låten har börjat, rensa lite]"
-    next: "699"
+    next: "698"
     actions:
       - target: "image"
         cmd: "create"
@@ -948,8 +948,19 @@ nodes:
         params:
           entityId: "tronsal_zelda_kaos"
           visible: true
+  "698":
+    prompt: "[Link är av scen]"
+    next: "699"
+    actions:
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "tronsal_zelda_kaos"
+          target: 0
+          time: 1
+          stopOnDone: true
   "699":
-    prompt: "Min frys-besvärjelse håller inte för evigt. [Link går av scen]"
+    prompt: "[Ganon, Diin, kungen, rådgivaren är på plats]"
     next: "701a"
     actions:
       - target: "video"
@@ -1162,7 +1173,7 @@ nodes:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0756 WIP_ForstaDuellen.mp4"
+          - path: "Till föreställningen/0756 ForstaDuellen.mp4"
         params:
           visible: true
   "783":
@@ -1186,16 +1197,15 @@ nodes:
           stopOnDone: true
   "806":
     prompt: "Döda honom. Nu! [Ganon dödar kungen]"
-    next: "922"
+    next: "961"
     actions:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0806 Aktfinal_rep_240228_1.mp4"
+          - path: "Till föreställningen/0806 Aktfinal.mp4"
         params:
           entityId: "aktfinal"
           visible: true
-          destroyOnEnd: false
       - target: "image"
         cmd: "fade"
         params:
@@ -1203,14 +1213,6 @@ nodes:
           target: 1
           time: 1
           stopOnDone: true
-  "922":
-    prompt: "[Ridån är för]"
-    next: "961"
-    actions:
-      - target: "video"
-        cmd: "destroy"
-        params:
-          entityId: "aktfinal"
   "961":
     prompt: "[Redo för akt 2]"
     next: "988a"
@@ -1343,7 +1345,7 @@ nodes:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/997 Overlay.png"
+          - path: "Till föreställningen/0997 Overlay.png"
         params:
           visible: true
           entityId: "overlay997"
@@ -1354,7 +1356,7 @@ nodes:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/999 Overlay.png"
+          - path: "Till föreställningen/0999 Overlay.png"
         params:
           visible: true
           entityId: "overlay999"
@@ -1653,7 +1655,7 @@ nodes:
           stopOnDone: true
   "1021e":
     prompt: "[Laddbar full]"
-    next: "1025"
+    next: "1028"
     actions:
       - target: "image"
         cmd: "create"
@@ -1673,14 +1675,14 @@ nodes:
           target: 1
           time: 2
           stopOnDone: true
-  "1025":
-    prompt: "[Ganon kommer in på scen]"
+  "1028":
+    prompt: "Ganondorf. Du kommer ångra det här."
     next: "1079a"
     actions:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1025 Ganon_Zelda REPVERSION.mp3"
+          - path: "Till föreställningen/1028 Ganon_Zelda REPVERSION.mp3"
   "1079a":
     prompt: "[Ganon går av scen, ljuset dunklas]"
     next: "1079b"
@@ -1923,24 +1925,36 @@ nodes:
   "1147":
     prompt: "Jag litar på dig med mitt liv."
     next: "1176a"
-    # TODO: Film
     actions:
-      - target: "audio"
+      - target: "image"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1147 Boss Fight v3.5 REPVERSION.mp3"
+          - path: "Till föreställningen/1164 dekutree_no_face.png"
+        params:
+          visible: true
+          entityId: "deku_no_face1"
+          fadeIn:
+            from: 0
+            time: 1
+            to: 1
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1147 Boss_Fight.mp4"
+        params:
+          visible: true
       - target: "image"
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "overlay1146"
           stopOnDone: true
       - target: "image"
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "deku_dark"
           stopOnDone: true
   "1176a":
@@ -1958,6 +1972,13 @@ nodes:
             time: 1
             to: 1
             from: 0
+      - target: "image"
+        cmd: "fade"
+        params:
+          time: 1
+          target: 1
+          entityId: "deku_no_face1"
+          stopOnDone: true
       - target: "video"
         cmd: "create"
         assets:
@@ -2111,7 +2132,7 @@ nodes:
         assets:
           - path: "Till föreställningen/1242-1 goddess reveal.wav"
   "1276a":
-    prompt: "[Alla går av scen]"
+    prompt: "Min drottning. [Alla går av scen]"
     next: "1276b"
     actions:
       - target: "video"
@@ -2193,7 +2214,7 @@ nodes:
           stopOnDone: true
   "1276e":
     prompt: "[Laddbar full]"
-    next: "1286"
+    next: "1283"
     actions:
       - target: "image"
         cmd: "create"
@@ -2213,19 +2234,22 @@ nodes:
           target: 1
           time: 2
           stopOnDone: true
-  "1286":
-    prompt: "Jag begår inte samma misstag två gånger."
+  "1283":
+    prompt: "...bara är en rövare."
+    # TODO: Kolla på manuell fade in från alla cues-dokumentet
     next: "1309"
     actions:
-      - target: "audio"
+      - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1286 Duell2_11_29 REPVERSION.mp3"
+          - path: "Till föreställningen/1286 Andra_duellen.mp4"
+        params:
+          visible: true
       - target: "image"
         cmd: "fade"
         params:
           time: 1
-          target: 0
+          target: 1
           entityId: "tronsal_ganon_bleak"
           stopOnDone: true
   "1309":
@@ -2614,12 +2638,21 @@ nodes:
     prompt: "Redo. [Link nickar]"
     next: "1635"
     actions:
-      - target: "audio"
+      - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1518 Den Sista Striden v2 REPVERSION.mp3"
+          - path: "Till föreställningen/1518 Den Sista Striden.mp4"
+        params:
+          visible: true
+      - target: "image"
+        cmd: "fade"
+        params:
+          time: 1
+          target: 1
+          entityId: "tronsal_zelda_bla_gron_rod"
+          stopOnDone: true
   "1635":
-    prompt: "[Automatiskt efter låten]"
+    prompt: "[Efter låten, när det känns bra]"
     next: "1637a"
     actions:
       - target: "image"
@@ -2629,42 +2662,32 @@ nodes:
         params:
           entityId: "victory"
           visible: true
-      - target: "image"
-        cmd: "fade"
-        params:
-          time: 1
-          target: 1
-          entityId: "tronsal_zelda_bla_gron_rod"
-          stopOnDone: true
+          fadeIn:
+            time: 1
+            to: 1
+            from: 0
   "1637a":
-    prompt: "[Koroker har kommit in]"
-    next: "1637b"
+    prompt: "[När det känns bra, starta låt]"
+    next: "1718"
     actions:
       - target: "image"
         cmd: "fade"
         params:
-          time: 1
+          time: 2
           target: 1
           entityId: "victory"
           stopOnDone: true
-  "1637b":
-    prompt: "[När det känns bra, starta låt]"
-    next: "1637balt"
-    actions:
       - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1637 Epilog wip_240216_1.mp4"
+          - path: "Till föreställningen/1637 Epilog.mp4"
         params:
           visible: true
-  "1637balt":
-    prompt: "[Slutlåt för rep]"
-    next: "1718"
-    actions:
-      - target: "audio"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/1637 Epilog-instrumental REPVERSION.mp3"
+          fadeIn:
+            time: 1
+            to: 1
+            from: 0
+
   "1718":
     prompt: "[Nu är vi klara!]"
     next: "1"
