@@ -916,7 +916,7 @@ nodes:
           stopOnDone: true
   "548e":
     prompt: "[Laddbar full]"
-    next: "556a"
+    next: "556"
     actions:
       - target: "video"
         cmd: "fade"
@@ -925,9 +925,9 @@ nodes:
           target: 0
           time: 1
           stopOnDone: true
-  "556a":
+  "556":
     prompt: "Fort Hateno har fallit för Ganondorf"
-    next: "556b"
+    next: "698"
     actions:
       - target: "video"
         cmd: "create"
@@ -936,26 +936,15 @@ nodes:
         params:
           entityId: "kriget_1"
           visible: true
-          layer: 1
-  "556b":
-    prompt: "[Låten har börjat, rensa lite]"
-    next: "698"
-    actions:
-      - target: "image"
-        cmd: "create"
-        assets:
-          - path: "Till föreställningen/0692 Tronsal_Zelda_kaos.png"
-        params:
-          entityId: "tronsal_zelda_kaos"
-          visible: true
+          destroyOnEnd: false
   "698":
-    prompt: "[Link är av scen]"
+    prompt: "Min frysbesvärjelse håller inte för evigt! [Link går av scen]"
     next: "699"
     actions:
-      - target: "image"
+      - target: "video"
         cmd: "fade"
         params:
-          entityId: "tronsal_zelda_kaos"
+          entityId: "kriget_1"
           target: 0
           time: 1
           stopOnDone: true
@@ -2607,7 +2596,11 @@ nodes:
   "1498":
     prompt: "Det är omöjligt! [Link och Ganon rusar in]"
     next: "1507"
-    # TODO: Tredje duellen
+    # actions:
+    #   - target: "audio"
+    #     cmd: "create"
+    #     assets:
+    #       - path: "Till föreställningen/1498 Duell3.wav"
   "1507":
     prompt: "Jag är också här!"
     next: "1518"
