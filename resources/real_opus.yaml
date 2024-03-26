@@ -300,7 +300,7 @@ nodes:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0197 Tronsal_bla.png"
+          - path: "Till föreställningen/0197-2 Tronsal_bla.png"
         params:
           fadeIn:
             from: 0
@@ -311,7 +311,7 @@ nodes:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0197 Vishet.mp3"
+          - path: "Till föreställningen/0197-1 Vishet.wav"
         params:
           entityId: "vishet"
   "263":
@@ -1143,7 +1143,7 @@ nodes:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0742 stridstrumpeter.mp3"
+          - path: "Till föreställningen/0742 stridstrumpeter.wav"
   "756":
     prompt: "Link, uppehåll honom!"
     next: "783"
