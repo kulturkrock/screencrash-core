@@ -962,6 +962,15 @@ nodes:
           looping: 0
           seamless: true
           mimeCodec: 'video/webm; codecs="vp9, opus"'
+          fadeIn:
+            time: 1
+            to: 1
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "Till föreställningen/0699 Krigsmontage2_part2.webm"
+        params:
+          entityId: "krig2"
       - target: "video"
         cmd: "set_volume"
         params:
@@ -975,29 +984,15 @@ nodes:
           entityId: "krig2_audio"
           looping: 0
           seamless: true
-  "701a":
-    prompt: "Det är dags att kriget får ett slut"
-    next: "701b"
-    actions:
-      - target: "video"
-        cmd: "set_next_file"
-        assets:
-          - path: "Till föreställningen/0699 Krigsmontage2_part2.webm"
-        params:
-          entityId: "krig2"
       - target: "audio"
         cmd: "set_next_file"
         assets:
           - path: "Till föreställningen/0699 Krigsmontage2_part2.wav"
         params:
           entityId: "krig2_audio"
-      - target: "image"
-        cmd: "destroy"
-        params:
-          entityId: "tronsal_zelda_kaos"
-  "701b":
-    prompt: "[Vampen slut]"
-    next: "710"
+  "701a":
+    prompt: "Det är dags att kriget får ett slut"
+    next: "701b"
     actions:
       - target: "video"
         cmd: "set_next_file"
@@ -1011,6 +1006,26 @@ nodes:
           - path: "Till föreställningen/0699 Krigsmontage2_part3.wav"
         params:
           entityId: "krig2_audio"
+      - target: "image"
+        cmd: "destroy"
+        params:
+          entityId: "tronsal_zelda_kaos"
+  "701b":
+    prompt: "[Vampen slut, nästan direkt]"
+    next: "710"
+    actions:
+      - target: "video"
+        cmd: "set_next_file"
+        assets:
+          - path: "Till föreställningen/0699 Krigsmontage2_part4.webm"
+        params:
+          entityId: "krig2"
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "Till föreställningen/0699 Krigsmontage2_part4.wav"
+        params:
+          entityId: "krig2_audio"
   "710":
     prompt: "Vi måste lita på hennes plan"
     next: "733a"
@@ -1018,7 +1033,7 @@ nodes:
       - target: "video"
         cmd: "set_next_file"
         assets:
-          - path: "Till föreställningen/0699 Krigsmontage2_part4.webm"
+          - path: "Till föreställningen/0699 Krigsmontage2_part5.webm"
         params:
           entityId: "krig2"
       - target: "video"
@@ -1029,7 +1044,7 @@ nodes:
       - target: "audio"
         cmd: "set_next_file"
         assets:
-          - path: "Till föreställningen/0699 Krigsmontage2_part4.wav"
+          - path: "Till föreställningen/0699 Krigsmontage2_part5.wav"
         params:
           entityId: "krig2_audio"
       - target: "audio"
@@ -2596,14 +2611,24 @@ nodes:
   "1498":
     prompt: "Det är omöjligt! [Link och Ganon rusar in]"
     next: "1507"
-    # actions:
-    #   - target: "audio"
-    #     cmd: "create"
-    #     assets:
-    #       - path: "Till föreställningen/1498 Duell3.wav"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1498 Duell3_part1.wav"
+        params:
+          entityId: duell3
+          looping: 0
+          seamless: true
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "Till föreställningen/1498 Duell3_part2.wav"
+        params:
+          entityId: "duell3"
   "1507":
-    prompt: "Jag är också här!"
-    next: "1518"
+    prompt: "Jag är också här! [Diin och Farore kommer in och nickar åt varandra]"
+    next: "1512"
     actions:
       - target: "image"
         cmd: "create"
@@ -2627,6 +2652,18 @@ nodes:
         cmd: "create"
         assets:
           - path: "Till föreställningen/1507-1 goddess reveal.wav"
+  "1512":
+    prompt: "Vad har ni gjort? [Gudinnorna har en huddle]"
+    next: "1518"
+    actions:
+      - target: "audio"
+        cmd: "destroy"
+        # cmd: "fade"
+        params:
+          entityId: duell3
+          # time: 0.5
+          # target: 0
+          # stopOnDone: true
   "1518":
     prompt: "Redo. [Link nickar]"
     next: "1635"
