@@ -607,7 +607,7 @@ nodes:
           time: 2
           stopOnDone: true
   "342":
-    prompt: "Att jag inte kommer räcka till [på 'till']"
+    prompt: "Att jag inte kommer räcka till. Om jag bara hade min mors styrka... [på 'bara']"
     next: "414a"
     actions:
       - target: "video"
@@ -1686,7 +1686,7 @@ nodes:
       - target: "audio"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1028 Ganon_Zelda REPVERSION.mp3"
+          - path: "Till föreställningen/1028 Ganon_Zelda-AB.wav"
   "1079a":
     prompt: "[Ganon går av scen, ljuset dunklas]"
     next: "1079b"
@@ -1787,7 +1787,7 @@ nodes:
           time: 2
           stopOnDone: true
   "1133":
-    prompt: "Här ska det vara... Men det är nåt med den här platsen... [när?]"
+    prompt: "[Suck] Här ska det vara... Men det är nåt med den här platsen..."
     next: "1134"
     actions:
       - target: "image"
@@ -1962,7 +1962,7 @@ nodes:
           entityId: "deku_dark"
           stopOnDone: true
   "1176a":
-    prompt: "Du får sörja honom när Ganondorf är besegrad."
+    prompt: "Du får sörja honom när du räddat världen. [Link stoppar undan mössan och går fram mot spegeln]"
     next: "1178"
     actions:
       - target: "image"
@@ -1990,7 +1990,7 @@ nodes:
         params:
           visible: true
   "1178":
-    prompt: "Vi kan hoppa över det här."
+    prompt: "Vi kan hoppa över det här. [Lite innan Farore trycker på knappen]"
     next: "1238a"
     actions:
       - target: "image"
@@ -2239,7 +2239,7 @@ nodes:
           time: 2
           stopOnDone: true
   "1283":
-    prompt: "...bara är en rövare."
+    prompt: "...bara är en rövare. [på 'rövare']"
     # TODO: Kolla på manuell fade in från alla cues-dokumentet
     next: "1309"
     actions:
@@ -2653,7 +2653,7 @@ nodes:
         assets:
           - path: "Till föreställningen/1507-1 goddess reveal.wav"
   "1512":
-    prompt: "Vad har ni gjort? [Gudinnorna har en huddle]"
+    prompt: "Vad har ni gjort? [Farore lägger armarna runt sina systrar]"
     next: "1518"
     actions:
       - target: "audio"
