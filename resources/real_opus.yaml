@@ -1328,7 +1328,7 @@ nodes:
           time: 2
           stopOnDone: true
   "991":
-    prompt: "Hej! Lyssna!"
+    prompt: "Hej! Lyssna! [Pass på!]"
     next: "997"
     actions:
       - target: "image"
@@ -1927,7 +1927,7 @@ nodes:
         params:
           entityId: "overlay1143"
   "1147":
-    prompt: "Jag litar på dig med mitt liv."
+    prompt: "Jag litar på dig med mitt liv. [Låt, inte dialogbox]"
     next: "1176a"
     actions:
       - target: "image"
@@ -2018,7 +2018,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1238a":
-    prompt: "[Farore går av scen med en suck]"
+    prompt: "[Farore går av scen med en suck, Nayru står kvar och pratar]"
     next: "1238b"
     actions:
       - target: "video"
@@ -2095,7 +2095,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1238e":
-    prompt: "[Laddbar full]"
+    prompt: "[Laddbar full, god tid innan 'steget före' nedan]"
     next: "1242"
     actions:
       - target: "image"
@@ -2275,10 +2275,12 @@ nodes:
     prompt: "Va? Vad sa du, din fegis?"
     next: "1384"
     actions:
-      - target: "audio"
+      - target: "video"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/1319 Skymningsspegeln REPVERSION.mp3"
+          - path: "Till föreställningen/1319 skymningsspegeln.mp4"
+        params:
+          visible: true
       - target: "image"
         cmd: "fade"
         params:
@@ -2302,7 +2304,7 @@ nodes:
             time: 1
             to: 1
   "1390":
-    prompt: "Som ingen annan än du förstår. [Nayru går av scen]"
+    prompt: "Som ingen annan än du förstår. Bra gjort. [Nayru går av scen]"
     next: "1402"
     actions:
       - target: "image"
@@ -2346,7 +2348,7 @@ nodes:
           entityId: "tronsal_ganon"
           stopOnDone: true
   "1403":
-    prompt: "[Kort därefter]"
+    prompt: "[Fåtölj ute, Nayru sitter i]"
     next: "1419"
     actions:
       - target: "image"
@@ -2697,7 +2699,7 @@ nodes:
             to: 1
             from: 0
   "1637a":
-    prompt: "[När det känns bra, starta låt]"
+    prompt: "[Bord ute, ingn på scen]"
     next: "1718"
     actions:
       - target: "image"
