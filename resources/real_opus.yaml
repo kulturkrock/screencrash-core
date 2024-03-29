@@ -12,7 +12,7 @@ nodes:
           entityId: "hyrulien"
           visible: true
   "1b":
-    prompt: "[Ridån har gått upp]"
+    prompt: "[Ridån går upp]"
     next: "20"
     actions:
       - target: "audio"
@@ -42,7 +42,7 @@ nodes:
           visible: true
           fadeIn:
             from: 0
-            time: 1
+            time: 2
             to: 1
   "30":
     prompt: "Har prinsessan Zelda vad som krävs för att ta över?"
@@ -84,7 +84,7 @@ nodes:
           visible: true
           fadeIn:
             from: 0
-            time: 1
+            time: 2
             to: 1
   "56":
     prompt: "Och han verkar ha fått ett farligt uppdrag"
@@ -126,7 +126,7 @@ nodes:
           visible: true
           fadeIn:
             from: 0
-            time: 1
+            time: 2
             to: 1
   "80":
     prompt: "Din mor..."
@@ -294,7 +294,7 @@ nodes:
           time: 2
           stopOnDone: true
   "197":
-    prompt: "... det är för svårt! [Nayru visar sig]"
+    prompt: "... det är för svårt!"
     next: "263"
     actions:
       - target: "image"
@@ -765,7 +765,7 @@ nodes:
             time: 20
             to: 1
   "502":
-    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar med sitt svärd, sen kommer gudinnorna in på scen]"
+    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar lite med sitt svärd, synka med ljuspersonen]"
     next: "537"
     actions:
       - target: "image"
@@ -1200,7 +1200,7 @@ nodes:
           time: 1
           stopOnDone: true
   "806":
-    prompt: "Döda honom. Nu! [Ganon dödar kungen]"
+    prompt: "Döda honom. Nu! [Ganon sticker svärdet i kungen]"
     next: "961"
     actions:
       - target: "video"
@@ -2715,10 +2715,6 @@ nodes:
           - path: "Till föreställningen/1637 Epilog.mp4"
         params:
           visible: true
-          fadeIn:
-            time: 1
-            to: 1
-            from: 0
 
   "1718":
     prompt: "[Nu är vi klara!]"
