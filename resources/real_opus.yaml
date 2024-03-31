@@ -12,7 +12,7 @@ nodes:
           entityId: "hyrulien"
           visible: true
   "1b":
-    prompt: "[Ridån går upp]"
+    prompt: "[Presentations-korok av scen]"
     next: "20"
     actions:
       - target: "audio"
@@ -31,7 +31,7 @@ nodes:
           entityId: "ouvertyr_audio"
   "20":
     prompt: "Och hålla huvudet kallt [Musiken går du-duruu]"
-    next: "30"
+    next: "33"
     actions:
       - target: "image"
         cmd: "create"
@@ -44,8 +44,8 @@ nodes:
             from: 0
             time: 2
             to: 1
-  "30":
-    prompt: "Har prinsessan Zelda vad som krävs för att ta över?"
+  "33":
+    prompt: "Va? Är sanden borta [typ]"
     next: "39"
     actions:
       - target: "audio"
@@ -129,7 +129,7 @@ nodes:
             time: 2
             to: 1
   "80":
-    prompt: "Din mor..."
+    prompt: "Din mor... [Men inte precis innan loop]"
     next: "96"
     actions:
       - target: "audio"
@@ -138,14 +138,9 @@ nodes:
           - path: "Till föreställningen/0001 Ouvertyr_part7.wav"
         params:
           entityId: "ouvertyr_audio"
-      - target: "audio"
-        cmd: "set_loops"
-        params:
-          entityId: "ouvertyr_audio"
-          looping: 1
   "96":
     prompt: "Ja du är stark [Lagom till 'Hyrulien']"
-    next: "105"
+    next: "105a"
     actions:
       - target: "image"
         cmd: "fade"
@@ -154,9 +149,15 @@ nodes:
           target: 0
           time: 1
           stopOnDone: true
-  "105":
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "Till föreställningen/0001 Ouvertyr_part8.wav"
+        params:
+          entityId: "ouvertyr_audio"
+  "105a":
     prompt: "Hyrulien i harmoni [andra gången]"
-    next: "118"
+    next: "105b"
     actions:
       - target: "image"
         cmd: "create"
@@ -176,6 +177,21 @@ nodes:
           target: 0
           time: 1
           stopOnDone: true
+  "105b":
+    prompt: "[Färdigriggat, gudinnor i poser]"
+    next: "118"
+    actions:
+      - target: "audio"
+        cmd: "set_next_file"
+        assets:
+          - path: "Till föreställningen/0001 Ouvertyr_part9.wav"
+        params:
+          entityId: "ouvertyr_audio"
+      - target: "audio"
+        cmd: "set_loops"
+        params:
+          entityId: "ouvertyr_audio"
+          looping: 1
   "118":
     prompt: "Kan ni göra illusioner? [Nayru gör gester]"
     next: "144"
@@ -926,7 +942,7 @@ nodes:
           time: 1
           stopOnDone: true
   "556":
-    prompt: "Fort Hateno har fallit för Ganondorf"
+    prompt: "[Kort därefter]"
     next: "698"
     actions:
       - target: "video"
@@ -1027,7 +1043,7 @@ nodes:
         params:
           entityId: "krig2_audio"
   "710":
-    prompt: "Vi måste lita på hennes plan"
+    prompt: "Men hon är som besatt av sina magiska artefakter."
     next: "733a"
     actions:
       - target: "video"
@@ -2095,7 +2111,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1238e":
-    prompt: "[Laddbar full, god tid innan 'steget före' nedan]"
+    prompt: "Två och två i tid"
     next: "1242"
     actions:
       - target: "image"
@@ -2272,7 +2288,7 @@ nodes:
             time: 1
             to: 1
   "1319":
-    prompt: "Va? Vad sa du, din fegis?"
+    prompt: "Va? Vad sa du, din fegis? [Farore går av]"
     next: "1384"
     actions:
       - target: "video"
@@ -2289,7 +2305,7 @@ nodes:
           entityId: "tronsal_ganon"
           stopOnDone: true
   "1384":
-    prompt: "Förlåt mig, Link. Du ger mig inget val."
+    prompt: "[Låt slut]"
     next: "1390"
     actions:
       - target: "image"
@@ -2301,7 +2317,7 @@ nodes:
           visible: true
           fadeIn:
             from: 0
-            time: 1
+            time: 3
             to: 1
   "1390":
     prompt: "Som ingen annan än du förstår. Bra gjort. [Nayru går av scen]"
@@ -2326,7 +2342,7 @@ nodes:
           entityId: "tronsal_ganon_bla"
           stopOnDone: true
   "1402":
-    prompt: "Gudinnornas spel..."
+    prompt: "[Zelda tar på kronan] Gudinnornas spel..."
     next: "1403"
     actions:
       - target: "image"
@@ -2378,7 +2394,7 @@ nodes:
         assets:
           - path: "Till föreställningen/1419 summon fejkdiin.wav"
   "1425":
-    prompt: "[Nayru trollar bort fejkdiin] [när?]"
+    prompt: "[Nayru gör gest och trollar bort fejk-Diin, håll utkik]"
     next: "1430a"
     actions:
       - target: "audio"
@@ -2694,19 +2710,20 @@ nodes:
         params:
           entityId: "victory"
           visible: true
+          layer: 1
           fadeIn:
-            time: 1
+            time: 3
             to: 1
             from: 0
   "1637a":
-    prompt: "[Bord ute, ingn på scen]"
+    prompt: "[Bord på scen, person som bar in det av scen]"
     next: "1718"
     actions:
       - target: "image"
         cmd: "fade"
         params:
-          time: 2
-          target: 1
+          time: 3
+          target: 0
           entityId: "victory"
           stopOnDone: true
       - target: "video"
