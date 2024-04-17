@@ -166,6 +166,7 @@ nodes:
         params:
           entityId: "vardagsrum"
           visible: true
+          layer: 1
           fadeIn:
             from: 0
             time: 1
@@ -222,10 +223,13 @@ nodes:
           entityId: "startmeny_loading1a"
           visible: true
           destroyOnEnd: false
-          fadeIn:
-            from: 0
-            to: 1
-            time: 2
+      - target: "image"
+        cmd: "fade"
+        params:
+          entityId: "vardagsrum"
+          target: 0
+          time: 0.25
+          stopOnDone: true
   "174b":
     prompt: "[Lite omriggning]"
     next: "174c"
