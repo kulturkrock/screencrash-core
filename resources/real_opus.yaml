@@ -1,6 +1,9 @@
 startNode: "1"
 nodes:
   "1":
+    prompt: "[Innan första akt, starta om ljudkomponenten]"
+    next: "1a"
+  "1a":
     prompt: "[Redo att börja]"
     next: "1b"
     actions:
@@ -273,7 +276,7 @@ nodes:
           time: 1
           stopOnDone: true
   "174d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Fåtöljen förvandlad till tron, bordet flyttat och scenbyteskorokerna har gått av scen]"
     next: "174e"
     actions:
       - target: "video"
@@ -404,7 +407,7 @@ nodes:
           time: 1
           stopOnDone: true
   "266d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Monstret och nöten det enda på scen]"
     next: "266e"
     actions:
       - target: "video"
@@ -586,7 +589,7 @@ nodes:
           time: 1
           stopOnDone: true
   "336d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Tältet är upphissat och Ganon sitter ned]"
     next: "336e"
     actions:
       - target: "video"
@@ -703,7 +706,7 @@ nodes:
           time: 1
           stopOnDone: true
   "414d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Zelda och kungen samt tronen och bordet är på plats]"
     next: "414e"
     actions:
       - target: "video"
@@ -785,8 +788,8 @@ nodes:
             time: 20
             to: 1
   "502":
-    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar lite med sitt svärd, synka med ljuspersonen]"
-    next: "537"
+    prompt: "Och du har hittat ett nytt svärd också. Fint. [Link övar lite med sitt svärd, vänta, synka med ljuspersonen]"
+    next: "502b"
     actions:
       - target: "image"
         cmd: "destroy"
@@ -809,6 +812,9 @@ nodes:
           - path: "Till föreställningen/0502 gudinnornas entre.mp4"
         params:
           visible: true
+  "502b":
+    prompt: "[Starta om ljudkomponenten när ljudet är klart]"
+    next: "537"
   "537":
     prompt: "Du ska ut på fler äventyr! [Link och Farore går av scen]"
     next: "539"
@@ -916,7 +922,7 @@ nodes:
           time: 1
           stopOnDone: true
   "548d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Rådgivare och Zelda på scen]"
     next: "548e"
     actions:
       - target: "video"
@@ -1131,7 +1137,7 @@ nodes:
           time: 1
           stopOnDone: true
   "733d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Zelda är ensam på scen]"
     next: "733e"
     actions:
       - target: "video"
@@ -1238,13 +1244,16 @@ nodes:
           time: 1
           stopOnDone: true
   "961":
+    prompt: "[Innan andra akt, stara om ljudkomponenten]"
+    next: "961b"
+  "961b":
     prompt: "[Redo för akt 2]"
     next: "988a"
     actions:
       - target: "image"
         cmd: "create"
         assets:
-          - path: "Till föreställningen/0961 Vardagsrum.png"
+          - path: "Till föreställningen/0107 Vardagsrum.png"
         params:
           entityId: "vardagsrum"
           visible: true
@@ -1307,7 +1316,7 @@ nodes:
           time: 1
           stopOnDone: true
   "988d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Vännen är på plats, fåtöljen är borta]"
     next: "988e"
     actions:
       - target: "video"
@@ -1659,7 +1668,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1021d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Zelda är ensam och stilla på scen]"
     next: "1021e"
     actions:
       - target: "video"
@@ -1766,7 +1775,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1079d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Altaret och monstret är på plats]"
     next: "1079e"
     actions:
       - target: "video"
@@ -1948,7 +1957,7 @@ nodes:
           entityId: "overlay1143"
   "1147":
     prompt: "Jag litar på dig med mitt liv. [Låt, inte dialogbox]"
-    next: "1176a"
+    next: "1147b"
     actions:
       - target: "image"
         cmd: "create"
@@ -1981,6 +1990,9 @@ nodes:
           target: 1
           entityId: "deku_dark"
           stopOnDone: true
+  "1147b":
+    prompt: "[När ljudperson har fadeat ner manuellt, stäng av låt och säg till]"
+    next: "1176a"
   "1176a":
     prompt: "Du får sörja honom när du räddat världen. [Link stoppar undan mössan och går fram mot spegeln]"
     next: "1178"
@@ -2096,7 +2108,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1238d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Ännu mer omriggning]"
     next: "1238e"
     actions:
       - target: "video"
@@ -2218,7 +2230,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1276d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Ganon har satt sig på sin tron och är ensam på scen]"
     next: "1276e"
     actions:
       - target: "video"
@@ -2464,7 +2476,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1430d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Scenen är tom]"
     next: "1430e"
     actions:
       - target: "video"
@@ -2568,7 +2580,7 @@ nodes:
           time: 1
           stopOnDone: true
   "1489d":
-    prompt: "[Omriggning klar]"
+    prompt: "[Zelda är på plats, ensam på knä]"
     next: "1489e"
     actions:
       - target: "video"
@@ -2721,7 +2733,7 @@ nodes:
             from: 0
   "1637a":
     prompt: "[Bord på scen, person som bar in det av scen]"
-    next: "1718"
+    next: "1718a"
     actions:
       - target: "image"
         cmd: "fade"
@@ -2736,8 +2748,42 @@ nodes:
           - path: "Till föreställningen/1637 Epilog.mp4"
         params:
           visible: true
-
-  "1718":
+  "1718a":
+    prompt: "[Applådtack]"
+    next: "1718b"
+    actions:
+      - target: "audio"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1718 Appladtack.wav"
+  "1718b":
+    prompt: "[Appllådtack klart]"
+    next: "1718c"
+    actions:
+      - target: "video"
+        cmd: "create"
+        assets:
+          - path: "Till föreställningen/1431-1 skymningslandet_videoloop.mp4"
+        params:
+          entityId: "skymningslandet"
+          visible: true
+          looping: 0
+          fadeIn:
+            from: 0
+            to: 1
+            time: 1
+  "1718c":
+    prompt: "Vad hände med \"Det blir alltid en nästa omgång\"?"
+    next: "1718d"
+    actions:
+      - target: "video"
+        cmd: "fade"
+        params:
+          entityId: "skymningslandet"
+          target: 0
+          time: 2
+          stopOnDone: true
+  "1718d":
     prompt: "[Nu är vi klara!]"
     next: "1"
 
@@ -2751,4 +2797,112 @@ assets:
     path: "Legenden_om_Zelda_2023_12_08.pdf"
     #path: "Zelda_manus_2024_02_13.pdf"
 ui:
-  shortcuts: []
+  shortcuts:
+    - title: Agnes mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Agnes
+    - title: Agnes mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Agnes
+    - title: Ankas mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Anka
+    - title: Ankas mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Anka
+    - title: Arvids mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Arvid
+    - title: Arvids mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Arvid
+    - title: Idas mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Ida
+    - title: Idas mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Ida
+    - title: Jessicas mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Jessica
+    - title: Jessicas mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Jessica
+    - title: Mattes mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Matte
+    - title: Mattes mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Matte
+    - title: Rins mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Rin
+    - title: Rins mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Rin
+    - title: Signes mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Signe
+    - title: Signes mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Signe
+    - title: Tejps mygga trasig
+      actions:
+        - target: myggcheck
+          cmd: broken
+          params:
+            name: Tejp
+    - title: Tejps mygga fixad
+      actions:
+        - target: myggcheck
+          cmd: fixed
+          params:
+            name: Tejp
