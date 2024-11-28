@@ -52,6 +52,7 @@ class MediaPeer(ComponentPeer):
             "channel": 1,
             "type": target_type,
             "asset": assets[0].path if assets else None,
+            "assets": list(map(lambda a: a.path, assets)) if assets else None
         }
         data.update(params)
         self.send_command(data)
